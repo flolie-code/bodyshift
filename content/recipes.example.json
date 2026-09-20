@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "skyr-bowl-beeren",
+    "title": "Skyr-Bowl mit Beeren & Haferflocken",
+    "category": "Frühstück",
+    "minutes": 5,
+    "kcal": 340,
+    "protein_g": 32,
+    "carbs_g": 38,
+    "fat_g": 4,
+    "servings": 1,
+    "tags": ["eiweißreich", "schnell", "frühstück"],
+    "ingredients": [
+      { "name": "Skyr Natur", "amount": 200, "unit": "g" },
+      { "name": "Haferflocken zart", "amount": 30, "unit": "g" },
+      { "name": "Blaubeeren frisch", "amount": 50, "unit": "g" },
+      { "name": "Himbeeren frisch", "amount": 30, "unit": "g" },
+      { "name": "Honig", "amount": 1, "unit": "TL" },
+      { "name": "Chia-Samen", "amount": 1, "unit": "TL" }
+    ],
+    "steps": [
+      "Skyr in eine Schüssel geben und mit dem Honig glatt rühren.",
+      "Haferflocken darüberstreuen, mit Beeren und Chia-Samen belegen.",
+      "Genießen — optional 5 Min ziehen lassen, dann werden die Haferflocken cremiger."
+    ]
+  }
+]

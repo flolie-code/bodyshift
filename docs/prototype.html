@@ -1,0 +1,2972 @@
+<title>BodyShift Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #EFEAE1;
+    --stage: #E7E0D3;
+    --surface: #FFFFFF;
+    --surface-alt: #F5F0E7;
+    --surface-deep: #E3DBC9;
+    --ink: #14211F;
+    --ink-soft: #4C5A57;
+    --ink-mute: #8A928E;
+    --line: #DDD5C4;
+    --line-soft: #EAE3D3;
+    --brand: #143A3F;
+    --brand-2: #2C6E70;
+    --brand-ink: #F7F3EA;
+    --accent: #D96A3B;
+    --accent-soft: #F4CEB8;
+    --protein: #B84A3E;
+    --carbs:   #D89A3A;
+    --fat:     #6E8E5F;
+    --success: #4E8A5E;
+    --track:   #E6DEC9;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+    --serif: 'Fraunces', ui-serif, Georgia, serif;
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 22px;
+    --r-xl: 28px;
+    --shadow-card: 0 1px 2px rgba(20,58,63,.05), 0 8px 24px rgba(20,58,63,.06);
+    --shadow-phone: 0 30px 80px -20px rgba(20,33,31,.35), 0 10px 30px -10px rgba(20,33,31,.25);
+    color-scheme: light;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --bg: #0E1817;
+      --stage: #14201E;
+      --surface: #1B2826;
+      --surface-alt: #22302E;
+      --surface-deep: #0F1B1A;
+      --ink: #EFEBE0;
+      --ink-soft: #B7BFBC;
+      --ink-mute: #7A8683;
+      --line: #2B3A38;
+      --line-soft: #22302E;
+      --brand: #4FA5A8;
+      --brand-2: #7BC4C6;
+      --brand-ink: #0E1817;
+      --accent: #E88A5F;
+      --accent-soft: #6B3B23;
+      --protein: #E56A5D;
+      --carbs:   #E9B95E;
+      --fat:     #9AB988;
+      --success: #7BC48A;
+      --track:   #2B3A38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0E1817;
+    --stage: #14201E;
+    --surface: #1B2826;
+    --surface-alt: #22302E;
+    --surface-deep: #0F1B1A;
+    --ink: #EFEBE0;
+    --ink-soft: #B7BFBC;
+    --ink-mute: #7A8683;
+    --line: #2B3A38;
+    --line-soft: #22302E;
+    --brand: #4FA5A8;
+    --brand-2: #7BC4C6;
+    --brand-ink: #0E1817;
+    --accent: #E88A5F;
+    --accent-soft: #6B3B23;
+    --protein: #E56A5D;
+    --carbs:   #E9B95E;
+    --fat:     #9AB988;
+    --success: #7BC48A;
+    --track:   #2B3A38;
+  }
+
+  body {
+    background: var(--stage);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
+  html, body { height: 100%; }
+  * { box-sizing: border-box; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  input, select { font: inherit; color: inherit; }
+  h1, h2, h3, h4 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; margin: 0; }
+  p { margin: 0; }
+
+  /* ===== Stage layout ===== */
+  .stage {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr) 320px;
+    gap: 28px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px 48px;
+    align-items: start;
+  }
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: 260px minmax(0, 1fr); }
+    .notes-panel { display: none; }
+  }
+  @media (max-width: 780px) {
+    .stage { grid-template-columns: minmax(0, 1fr); padding: 16px; gap: 16px; }
+    .nav-panel { position: sticky; top: 8px; z-index: 10; }
+    .phone { transform: scale(0.92); transform-origin: top center; }
+  }
+
+  /* ===== Nav panel ===== */
+  .nav-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 22px 18px;
+    box-shadow: var(--shadow-card);
+  }
+  .brand-lock {
+    display: flex; align-items: baseline; gap: 6px;
+    font-family: var(--serif); font-weight: 600; font-size: 22px;
+    letter-spacing: -0.02em; color: var(--brand);
+  }
+  .brand-lock span { color: var(--accent); font-style: italic; }
+  .nav-panel .kicker {
+    text-transform: uppercase; letter-spacing: 0.14em;
+    font-size: 11px; color: var(--ink-mute); font-weight: 600;
+    margin-top: 4px;
+  }
+  .nav-panel h2 {
+    font-size: 20px; margin-top: 14px; color: var(--ink);
+  }
+  .nav-panel > p.lead {
+    color: var(--ink-soft); font-size: 13.5px; margin-top: 8px;
+  }
+  .screen-nav {
+    display: flex; flex-direction: column; gap: 2px;
+    margin-top: 18px;
+  }
+  .screen-nav button {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 12px; border-radius: 10px;
+    text-align: left; color: var(--ink-soft);
+    font-size: 13.5px; font-weight: 500;
+    transition: background .15s, color .15s;
+  }
+  .screen-nav button .num {
+    font-family: var(--serif); font-size: 12px;
+    color: var(--ink-mute); font-variant-numeric: tabular-nums;
+    width: 20px;
+  }
+  .screen-nav button:hover { background: var(--surface-alt); color: var(--ink); }
+  .screen-nav button.active {
+    background: var(--brand); color: var(--brand-ink);
+  }
+  .screen-nav button.active .num { color: var(--brand-ink); opacity: .6; }
+  .theme-toggle {
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--ink-mute);
+  }
+  .theme-toggle button {
+    padding: 6px 12px; border-radius: 100px; border: 1px solid var(--line);
+    font-size: 12px; font-weight: 500; color: var(--ink-soft);
+  }
+
+  /* ===== Phone ===== */
+  .phone-wrap {
+    display: flex; justify-content: center; align-items: flex-start;
+    min-height: 780px;
+  }
+  .phone {
+    width: 390px;
+    height: 780px;
+    background: var(--brand);
+    border-radius: 52px;
+    padding: 12px;
+    position: relative;
+    box-shadow: var(--shadow-phone);
+    flex-shrink: 0;
+  }
+  .phone::before {
+    content: ""; position: absolute; inset: 3px;
+    border-radius: 49px;
+    border: 1.5px solid rgba(255,255,255,.06);
+    pointer-events: none;
+  }
+  .viewport {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    isolation: isolate;
+  }
+  .notch {
+    position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+    width: 110px; height: 32px; border-radius: 20px;
+    background: #000; z-index: 40;
+  }
+  .home-indicator {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    width: 130px; height: 5px; border-radius: 3px;
+    background: rgba(0,0,0,.35); z-index: 40;
+  }
+  :root[data-theme="dark"] .home-indicator,
+  :root:not([data-theme="light"]) .home-indicator {
+    background: rgba(255,255,255,.4);
+  }
+
+  /* ===== Status bar (fake iOS) ===== */
+  .statusbar {
+    position: absolute; top: 0; left: 0; right: 0; height: 54px;
+    padding: 18px 32px 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 15px; font-weight: 600; color: var(--ink);
+    z-index: 30; pointer-events: none;
+  }
+  .statusbar .icons { display: flex; gap: 6px; align-items: center; }
+  .statusbar svg { width: 16px; height: 16px; }
+
+  /* ===== Screens ===== */
+  .screen {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .screen.active { display: flex; }
+  .scroll {
+    flex: 1; overflow-y: auto;
+    padding: 60px 20px 100px;
+    scrollbar-width: none;
+  }
+  .scroll::-webkit-scrollbar { display: none; }
+
+  /* ===== Tab bar ===== */
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 82px; padding: 8px 12px 30px;
+    display: flex; justify-content: space-around;
+    background: color-mix(in oklab, var(--surface) 92%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--line-soft);
+    z-index: 20;
+  }
+  .tabbar button {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: var(--ink-mute); font-size: 10.5px; font-weight: 500;
+    padding: 6px 4px;
+  }
+  .tabbar button svg { width: 22px; height: 22px; }
+  .tabbar button.active { color: var(--brand); }
+  :root[data-theme="dark"] .tabbar button.active,
+  :root:not([data-theme="light"]) .tabbar button.active { color: var(--brand-2); }
+
+  /* ===== Common components ===== */
+  .card {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    padding: 18px;
+    box-shadow: var(--shadow-card);
+  }
+  .card + .card { margin-top: 14px; }
+  .row { display: flex; align-items: center; gap: 12px; }
+  .row-between { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .kicker {
+    text-transform: uppercase; letter-spacing: 0.14em;
+    font-size: 10.5px; color: var(--ink-mute); font-weight: 600;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 10px; border-radius: 100px;
+    background: var(--surface-alt); color: var(--ink-soft);
+    font-size: 11.5px; font-weight: 500;
+  }
+  .pill.accent { background: var(--accent-soft); color: var(--accent); }
+  .pill.success { background: color-mix(in oklab, var(--success) 18%, transparent); color: var(--success); }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 20px; border-radius: 100px;
+    background: var(--brand); color: var(--brand-ink);
+    font-weight: 600; font-size: 15px;
+    width: 100%;
+    transition: transform .1s;
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn.secondary { background: var(--surface-alt); color: var(--ink); }
+  .btn.ghost { background: transparent; color: var(--brand); }
+  .btn.accent { background: var(--accent); color: #fff; }
+  :root[data-theme="dark"] .btn.accent,
+  :root:not([data-theme="light"]) .btn.accent { color: var(--brand-ink); }
+
+  h1.screen-title { font-size: 30px; font-family: var(--serif); font-weight: 500; }
+  h2.section-title { font-size: 18px; font-family: var(--serif); font-weight: 500; margin: 22px 0 10px; }
+  h2.section-title .link { float: right; font-family: var(--sans); font-size: 12.5px; color: var(--brand); font-weight: 500; }
+
+  /* ===== 1. LOGIN ===== */
+  .login-hero {
+    background: var(--brand);
+    color: var(--brand-ink);
+    height: 100%; padding: 70px 32px 34px;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    text-align: center;
+  }
+  .login-hero .login-brand { margin-top: 26%; }
+  .login-hero .tagline-block { margin-top: auto; margin-bottom: 28px; }
+  .login-hero .cta-stack { margin-top: 0; }
+  .login-hero::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 80% 90%, color-mix(in oklab, var(--accent) 35%, transparent), transparent 55%),
+      radial-gradient(circle at 15% 12%, color-mix(in oklab, var(--brand-2) 55%, transparent), transparent 50%);
+    pointer-events: none;
+  }
+  .login-brand {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column; align-items: center;
+    padding-top: 20px;
+  }
+  .logo-lockup {
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .logo-word {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 38px; letter-spacing: 0.18em;
+    color: var(--brand-ink);
+    line-height: 1;
+  }
+  .logo-word .shift {
+    color: var(--accent);
+  }
+  .logo-sub {
+    font-family: var(--sans); font-size: 11.5px;
+    letter-spacing: 0.36em; text-transform: uppercase;
+    color: color-mix(in oklab, var(--brand-ink) 70%, transparent);
+    margin-top: 18px; font-weight: 400;
+  }
+  .login-hero .tagline-block { position: relative; z-index: 1; }
+  .login-hero .tagline {
+    font-family: var(--serif); font-size: 22px; font-weight: 400;
+    line-height: 1.25;
+    color: color-mix(in oklab, var(--brand-ink) 90%, transparent);
+    text-wrap: balance;
+  }
+  .login-hero .tagline em { font-style: italic; color: var(--accent); font-weight: 500; }
+  .login-hero .cta-stack { display: flex; flex-direction: column; gap: 10px; position: relative; z-index: 1; }
+  .login-hero .btn { background: var(--brand-ink); color: var(--brand); }
+  .login-hero .btn.ghost { background: transparent; color: var(--brand-ink); border: 1px solid rgba(255,255,255,.25); }
+  .login-hero .foot { font-size: 11.5px; color: rgba(255,255,255,.6); text-align: center; margin-top: 6px; position: relative; z-index: 1; }
+  .login-hero .foot u { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+
+  /* ===== 2. ONBOARDING ===== */
+  .onboarding-header { display: flex; align-items: center; justify-content: space-between; padding: 60px 20px 8px; }
+  .onboarding-header .step { font-size: 12px; color: var(--ink-mute); font-weight: 500; }
+  .progress-bar { height: 4px; background: var(--line-soft); border-radius: 2px; margin: 0 20px; overflow: hidden; }
+  .progress-bar div { height: 100%; background: var(--brand); border-radius: 2px; width: 60%; }
+  .onboarding-body { padding: 24px 20px 20px; flex: 1; overflow-y: auto; scrollbar-width: none; }
+  .onboarding-body h1 { font-family: var(--serif); font-size: 28px; font-weight: 500; margin-bottom: 8px; }
+  .onboarding-body p.sub { color: var(--ink-soft); font-size: 14px; margin-bottom: 24px; }
+
+  .weight-picker {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 24px; margin-bottom: 16px;
+    display: flex; flex-direction: column; align-items: center;
+    box-shadow: var(--shadow-card);
+  }
+  .weight-picker .value {
+    font-family: var(--serif); font-size: 64px; font-weight: 500;
+    color: var(--brand); line-height: 1; letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+  .weight-picker .value small {
+    font-family: var(--sans); font-size: 18px; color: var(--ink-mute);
+    font-weight: 500; margin-left: 4px;
+  }
+  .weight-picker .label { color: var(--ink-mute); font-size: 12px; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; }
+  .ruler {
+    width: 100%; height: 50px; margin-top: 20px;
+    background:
+      repeating-linear-gradient(to right,
+        var(--line) 0 1px,
+        transparent 1px 20px),
+      repeating-linear-gradient(to right,
+        var(--brand) 0 2px,
+        transparent 2px 100px);
+    background-size: 20px 100%, 100px 100%;
+    background-position: center 12px, center 8px;
+    background-repeat: repeat-x;
+    position: relative;
+  }
+  .ruler::after {
+    content: ""; position: absolute; top: 4px; left: 50%; transform: translateX(-50%);
+    width: 3px; height: 32px; background: var(--accent); border-radius: 2px;
+  }
+  .goal-diff {
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: var(--r-lg); padding: 14px 16px;
+    text-align: center; font-size: 13px; font-weight: 500;
+    margin-bottom: 16px;
+  }
+  .goal-diff strong { font-family: var(--serif); font-weight: 600; }
+  .onboarding-foot { padding: 12px 20px 34px; }
+
+  /* ===== 3. DASHBOARD ===== */
+  .dash-header { padding: 60px 20px 12px; display: flex; align-items: center; justify-content: space-between; }
+  .dash-header .greet { font-family: var(--serif); font-size: 22px; font-weight: 500; }
+  .dash-header .greet small { display: block; font-family: var(--sans); font-size: 12.5px; color: var(--ink-mute); font-weight: 400; margin-top: 2px; }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 100px;
+    background: linear-gradient(135deg, var(--brand-2), var(--brand));
+    color: var(--brand-ink); display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 16px;
+  }
+
+  .calorie-hero {
+    background: var(--surface);
+    border-radius: var(--r-xl);
+    padding: 22px; margin: 8px 0 4px;
+    box-shadow: var(--shadow-card);
+    position: relative; overflow: hidden;
+  }
+  .calorie-hero::before {
+    content: ""; position: absolute; top: 0; right: 0; bottom: 0;
+    width: 40%;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--accent) 6%, transparent), transparent);
+    pointer-events: none;
+  }
+  .cal-ring-wrap { display: flex; align-items: center; gap: 20px; position: relative; }
+  .cal-ring { width: 130px; height: 130px; flex-shrink: 0; }
+  .cal-ring circle { fill: none; stroke-linecap: round; transform-origin: center; transform: rotate(-90deg); }
+  .cal-ring .track { stroke: var(--track); stroke-width: 12; }
+  .cal-ring .value { stroke: var(--accent); stroke-width: 12; }
+  .cal-ring text {
+    font-family: var(--serif); font-weight: 500; fill: var(--ink);
+    text-anchor: middle; dominant-baseline: middle;
+  }
+  .cal-stats { flex: 1; }
+  .cal-stats .big {
+    font-family: var(--serif); font-size: 32px; font-weight: 500;
+    color: var(--ink); line-height: 1; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .cal-stats .big small { font-family: var(--sans); font-size: 13px; color: var(--ink-mute); font-weight: 500; margin-left: 4px; }
+  .cal-stats .label { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 600; margin-bottom: 2px; }
+  .cal-stats .remaining { color: var(--success); font-size: 13px; margin-top: 8px; font-weight: 500; }
+
+  .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line-soft); }
+  .macro { display: flex; flex-direction: column; gap: 6px; }
+  .macro .head { display: flex; align-items: baseline; justify-content: space-between; gap: 4px; }
+  .macro .name { font-size: 11px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+  .macro .val { font-size: 12.5px; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .macro .val em { color: var(--ink-mute); font-style: normal; font-weight: 500; }
+  .macro-bar { height: 6px; background: var(--track); border-radius: 3px; overflow: hidden; }
+  .macro-bar div { height: 100%; border-radius: 3px; }
+  .macro.protein .macro-bar div { background: var(--protein); width: 68%; }
+  .macro.carbs   .macro-bar div { background: var(--carbs);   width: 54%; }
+  .macro.fat     .macro-bar div { background: var(--fat);     width: 42%; }
+
+  .streak-strip {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    margin-top: 14px;
+  }
+  .mini-card {
+    background: var(--surface); border-radius: var(--r-md);
+    padding: 14px; box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .mini-card .icon {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 6px;
+  }
+  .mini-card .icon.brand { background: color-mix(in oklab, var(--brand) 14%, transparent); color: var(--brand); }
+  :root[data-theme="dark"] .mini-card .icon.brand,
+  :root:not([data-theme="light"]) .mini-card .icon.brand { color: var(--brand-2); }
+  .mini-card .num { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--ink); line-height: 1; }
+  .mini-card .lbl { font-size: 11.5px; color: var(--ink-mute); }
+
+  /* ===== Recipe of the day ===== */
+  .todays-recipe {
+    background: var(--surface); border-radius: var(--r-lg);
+    overflow: hidden; margin-top: 14px; box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column;
+  }
+  .todays-recipe .hero-img {
+    height: 130px;
+    background:
+      linear-gradient(180deg, transparent 55%, rgba(0,0,0,.35)),
+      linear-gradient(135deg, #C67A50, #E4A87A);
+    position: relative;
+  }
+  .todays-recipe .hero-img .tag {
+    position: absolute; top: 12px; left: 12px;
+    background: rgba(255,255,255,.9); color: var(--brand);
+    padding: 4px 10px; border-radius: 100px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .todays-recipe .body { padding: 14px 16px 16px; }
+  .todays-recipe h3 { font-family: var(--serif); font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+  .todays-recipe .meta { color: var(--ink-mute); font-size: 12px; display: flex; gap: 12px; }
+  .todays-recipe .meta span::before { content: "·  "; color: var(--ink-mute); margin-right: 4px; }
+  .todays-recipe .meta span:first-child::before { content: ""; margin: 0; }
+
+  /* ===== 4. TRACKER ===== */
+  .tracker-head {
+    padding: 60px 20px 12px;
+  }
+  .date-strip {
+    display: flex; gap: 6px; overflow-x: auto; padding: 12px 0;
+    scrollbar-width: none;
+  }
+  .date-strip::-webkit-scrollbar { display: none; }
+  .date-strip .day {
+    flex-shrink: 0; width: 44px; padding: 8px 0;
+    border-radius: 12px; text-align: center;
+    background: var(--surface); border: 1px solid transparent;
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .date-strip .day .wd { font-size: 10.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .date-strip .day .num { font-family: var(--serif); font-size: 17px; font-weight: 500; color: var(--ink); }
+  .date-strip .day.active { background: var(--brand); }
+  .date-strip .day.active .wd { color: rgba(255,255,255,.7); }
+  .date-strip .day.active .num { color: var(--brand-ink); }
+
+  .meal-block {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 14px 16px; margin-bottom: 12px; box-shadow: var(--shadow-card);
+  }
+  .meal-block .meal-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .meal-block h4 { font-family: var(--serif); font-size: 16px; font-weight: 500; }
+  .meal-block .kcal-sum {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    color: var(--brand); font-variant-numeric: tabular-nums;
+  }
+  .meal-block .kcal-sum small { font-family: var(--sans); font-size: 11px; color: var(--ink-mute); font-weight: 500; margin-left: 2px; }
+  .food-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-top: 1px solid var(--line-soft);
+  }
+  .food-item:first-of-type { border-top: 0; padding-top: 4px; }
+  .food-thumb {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--surface-alt); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .food-item .info { flex: 1; min-width: 0; }
+  .food-item .name { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .food-item .amount { font-size: 11.5px; color: var(--ink-mute); }
+  .food-item .kcal { font-size: 13px; color: var(--ink-soft); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .add-food-btn {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 12px; border-radius: 10px;
+    background: var(--surface-alt); color: var(--brand);
+    font-size: 13px; font-weight: 500; width: 100%;
+    margin-top: 4px;
+  }
+  :root[data-theme="dark"] .add-food-btn,
+  :root:not([data-theme="light"]) .add-food-btn { color: var(--brand-2); }
+
+  /* ===== 5. ADD FOOD ===== */
+  .modal-head {
+    padding: 60px 20px 8px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-head .close { color: var(--ink-mute); font-size: 15px; font-weight: 500; }
+  .modal-head h2 { font-family: var(--serif); font-size: 17px; font-weight: 600; }
+  .search-bar {
+    margin: 12px 20px; padding: 12px 14px;
+    background: var(--surface); border-radius: 12px;
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: var(--shadow-card);
+  }
+  .search-bar input {
+    flex: 1; border: 0; background: transparent; outline: none;
+    font-size: 14px;
+  }
+  .search-bar .scan-btn {
+    background: var(--accent); color: #fff;
+    padding: 8px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .quick-tabs { display: flex; gap: 8px; padding: 0 20px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+  .quick-tabs::-webkit-scrollbar { display: none; }
+  .quick-tabs button {
+    flex-shrink: 0; padding: 6px 14px;
+    border-radius: 100px; font-size: 12.5px; font-weight: 500;
+    background: var(--surface); color: var(--ink-soft);
+    border: 1px solid var(--line);
+  }
+  .quick-tabs button.active { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+
+  .food-result {
+    background: var(--surface); border-radius: 12px;
+    padding: 12px 14px; margin: 0 20px 8px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-card);
+  }
+  .food-result .info { flex: 1; }
+  .food-result .name { font-size: 14px; font-weight: 500; }
+  .food-result .macros-mini {
+    font-size: 11.5px; color: var(--ink-mute);
+    display: flex; gap: 10px; margin-top: 2px;
+  }
+  .food-result .macros-mini b { color: var(--ink-soft); font-weight: 500; font-variant-numeric: tabular-nums; }
+  .food-result .kcal-lg { font-family: var(--serif); font-size: 18px; color: var(--brand); font-weight: 500; }
+  .food-result .kcal-lg small { font-family: var(--sans); font-size: 10.5px; color: var(--ink-mute); }
+
+  /* ===== Week Account (Dashboard-Card & Screen) ===== */
+  .week-card {
+    background: var(--surface);
+    border-radius: var(--r-lg);
+    padding: 16px 18px;
+    margin-top: 12px;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+  }
+  .week-card .head-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .week-card .title {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .week-card .title .kicker-inline {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-mute); font-family: var(--sans); font-weight: 600;
+  }
+  .week-card .remain {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    color: var(--brand); font-variant-numeric: tabular-nums;
+  }
+  .week-card .remain small { font-family: var(--sans); font-size: 11px; color: var(--ink-mute); font-weight: 500; margin-left: 2px; }
+  .week-rings {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px;
+    padding: 4px 0;
+  }
+  .wr-day-ring {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .wr-day-ring svg { width: 100%; max-width: 40px; aspect-ratio: 1 / 1; }
+  .wr-day-ring svg circle { fill: none; stroke-linecap: round; transform-origin: center; transform: rotate(-90deg); }
+  .wr-day-ring svg .track { stroke: var(--track); stroke-width: 5; }
+  .wr-day-ring svg .value { stroke: var(--brand); stroke-width: 5; }
+  .wr-day-ring svg .value.today { stroke: var(--accent); }
+  .wr-day-ring svg .value.treat { stroke: var(--carbs); }
+  .wr-day-ring svg text {
+    font-family: var(--sans); font-size: 9px; font-weight: 600;
+    fill: var(--ink); text-anchor: middle; dominant-baseline: middle;
+    transform: none;
+  }
+  .wr-day-ring .lbl {
+    font-size: 9.5px; color: var(--ink-mute); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; line-height: 1;
+  }
+  .wr-day-ring.today-cell .lbl { color: var(--accent); }
+  .wr-day-ring.treat-cell .lbl::after { content: " 🎉"; font-size: 8px; }
+
+  .week-feedback {
+    margin-top: 10px;
+    font-size: 12.5px; color: var(--ink-soft);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .week-feedback .icon-check {
+    color: var(--success);
+  }
+
+  /* Week Account Screen (Detail) */
+  .wa-hero {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: var(--brand-ink);
+    padding: 60px 20px 24px;
+    position: relative; overflow: hidden;
+  }
+  .wa-hero::after {
+    content: ""; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 100%;
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 45%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+  .wa-hero .kicker { color: rgba(255,255,255,.7); position: relative; z-index: 1; }
+  .wa-hero .headline {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+    margin: 6px 0 4px; position: relative; z-index: 1;
+    color: var(--brand-ink); line-height: 1.15; text-wrap: balance;
+  }
+  .wa-hero .sub { font-size: 12.5px; color: rgba(255,255,255,.8); position: relative; z-index: 1; }
+  .wa-hero .stat-row {
+    display: flex; gap: 24px; margin-top: 18px;
+    position: relative; z-index: 1;
+  }
+  .wa-hero .stat .n {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+    color: var(--brand-ink); font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .wa-hero .stat .l {
+    font-size: 10px; color: rgba(255,255,255,.65);
+    text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600;
+    margin-top: 4px;
+  }
+
+  .wa-bigbar {
+    height: 12px; background: rgba(255,255,255,.2);
+    border-radius: 6px; overflow: hidden;
+    margin-top: 16px; position: relative; z-index: 1;
+  }
+  .wa-bigbar .fill {
+    height: 100%; width: 68%;
+    background: var(--brand-ink); border-radius: 6px;
+    box-shadow: 0 0 20px color-mix(in oklab, var(--brand-ink) 40%, transparent);
+  }
+
+  .wa-days { padding: 4px 20px 12px; }
+  .wa-day-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; background: var(--surface);
+    border-radius: 14px; margin-top: 8px;
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+  }
+  .wa-day-row .day-lbl {
+    font-family: var(--serif); font-size: 14px; font-weight: 500;
+    width: 42px; color: var(--ink);
+  }
+  .wa-day-row .day-lbl small { display: block; font-family: var(--sans); font-size: 10px; color: var(--ink-mute); font-weight: 500; margin-top: 1px; }
+  .wa-day-row .day-bar {
+    flex: 1; height: 6px; background: var(--track);
+    border-radius: 3px; overflow: hidden;
+  }
+  .wa-day-row .day-bar .df { height: 100%; background: var(--brand); border-radius: 3px; }
+  .wa-day-row .day-bar .df.today { background: var(--accent); }
+  .wa-day-row .day-bar .df.treat { background: var(--carbs); }
+  .wa-day-row .day-kcal {
+    font-family: var(--serif); font-size: 13px; color: var(--ink);
+    font-variant-numeric: tabular-nums; font-weight: 500;
+    width: 90px; text-align: right;
+  }
+  .wa-day-row .day-kcal small { color: var(--ink-mute); font-weight: 400; }
+  .wa-day-row.today-row { border: 1.5px solid var(--accent); }
+  .wa-day-row.treat-row {
+    background: color-mix(in oklab, var(--carbs) 12%, var(--surface));
+  }
+  .wa-day-row.treat-row .badge-treat {
+    padding: 2px 8px; border-radius: 100px;
+    background: var(--carbs); color: #fff;
+    font-size: 10px; font-weight: 600;
+    margin-left: 4px;
+  }
+
+  /* Ring-Grid für Wochen-Übersicht */
+  .wa-ring-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 16px 12px; box-shadow: var(--shadow-card);
+  }
+  .wa-ring-cell {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 8px 4px; border-radius: 12px;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .wa-ring-cell:hover, .wa-ring-cell:active { background: var(--surface-alt); }
+  .wa-ring-cell svg { width: 100%; max-width: 62px; aspect-ratio: 1 / 1; }
+  .wa-ring-cell .wa-ring-lbl {
+    font-size: 11px; color: var(--ink-mute);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    font-weight: 600; margin-top: 2px;
+  }
+  .wa-ring-cell .wa-ring-kcal {
+    font-size: 10.5px; color: var(--ink); font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .wa-ring-cell.today-cell { background: color-mix(in oklab, var(--accent) 12%, transparent); }
+  .wa-ring-cell.today-cell .wa-ring-lbl { color: var(--accent); }
+  .wa-ring-cell.treat-cell { background: color-mix(in oklab, var(--carbs) 12%, transparent); }
+  .wa-ring-cell.treat-cell .wa-ring-lbl { color: var(--carbs); }
+
+  .wa-actions {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    padding: 12px 20px 0;
+  }
+  .wa-actions button {
+    padding: 12px 14px; border-radius: 12px;
+    background: var(--surface); box-shadow: var(--shadow-card);
+    font-size: 13px; font-weight: 600; color: var(--brand);
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  :root[data-theme="dark"] .wa-actions button,
+  :root:not([data-theme="light"]) .wa-actions button { color: var(--brand-2); }
+
+  /* Tages-Budget (Slider-Screen) */
+  .db-head {
+    padding: 60px 20px 16px;
+  }
+  .db-head .day-title {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+  }
+  .db-head .day-title small { display: block; font-family: var(--sans); font-size: 13px; color: var(--ink-mute); font-weight: 400; margin-top: 3px; }
+
+  .db-donut {
+    display: flex; justify-content: center; margin: 8px 0 16px;
+  }
+  .db-donut svg { width: 200px; height: 200px; }
+  .db-donut circle { fill: none; stroke-linecap: round; transform-origin: center; transform: rotate(-90deg); }
+  .db-donut .track { stroke: var(--track); stroke-width: 14; }
+  .db-donut .value { stroke: var(--brand); stroke-width: 14; transition: stroke-dashoffset .3s; }
+  .db-donut text.big {
+    font-family: var(--serif); font-size: 34px; font-weight: 500; fill: var(--ink);
+    text-anchor: middle; dominant-baseline: middle;
+    font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
+  }
+  .db-donut text.lbl {
+    font-family: var(--sans); font-size: 10px; fill: var(--ink-mute);
+    text-anchor: middle; dominant-baseline: middle;
+    font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  .db-numbers {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;
+    padding: 0 20px 12px;
+  }
+  .db-numbers .n-item {
+    background: var(--surface); border-radius: 14px;
+    padding: 10px 8px; text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .db-numbers .n-item .n { font-family: var(--serif); font-size: 17px; font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1; }
+  .db-numbers .n-item .l { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-top: 4px; }
+  .db-numbers .n-item.eaten .n { color: var(--brand); }
+  .db-numbers .n-item.left .n { color: var(--success); }
+  .db-numbers .n-item.adj .n { color: var(--accent); }
+
+  .db-slider-card {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 18px 20px; margin: 4px 20px 0;
+    box-shadow: var(--shadow-card);
+  }
+  .db-slider-card h4 { font-family: var(--serif); font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .db-slider-card .helper { font-size: 12px; color: var(--ink-mute); margin-bottom: 14px; }
+
+  .slider-value {
+    display: flex; align-items: baseline; justify-content: center;
+    gap: 6px; margin-bottom: 12px;
+  }
+  .slider-value .num {
+    font-family: var(--serif); font-size: 34px; font-weight: 500;
+    color: var(--accent); font-variant-numeric: tabular-nums; line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .slider-value .u { font-size: 13px; color: var(--ink-mute); }
+
+  .kcal-slider {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 6px; border-radius: 3px;
+    background: linear-gradient(90deg,
+      var(--protein) 0%, var(--protein) 20%,
+      var(--track) 20%, var(--track) 50%,
+      var(--brand) 50%, var(--brand) 80%,
+      var(--track) 80%);
+    outline: none;
+  }
+  .kcal-slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 26px; height: 26px; border-radius: 100px;
+    background: var(--accent);
+    border: 3px solid var(--surface);
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    cursor: pointer;
+  }
+  .kcal-slider::-moz-range-thumb {
+    width: 26px; height: 26px; border-radius: 100px;
+    background: var(--accent); border: 3px solid var(--surface);
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+    cursor: pointer;
+  }
+  .slider-range {
+    display: flex; justify-content: space-between;
+    font-size: 10.5px; color: var(--ink-mute); font-variant-numeric: tabular-nums;
+    margin-top: 8px; font-weight: 500;
+  }
+  .slider-hint {
+    background: var(--surface-alt); border-radius: 10px;
+    padding: 10px 12px; margin-top: 14px;
+    font-size: 12px; color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .slider-hint b { color: var(--brand); }
+  :root[data-theme="dark"] .slider-hint b,
+  :root:not([data-theme="light"]) .slider-hint b { color: var(--brand-2); }
+
+  .redist-preview {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--line-soft);
+  }
+  .redist-preview .day {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .redist-preview .day .lbl {
+    font-size: 9px; color: var(--ink-mute); font-weight: 600; text-transform: uppercase;
+  }
+  .redist-preview .day .delta {
+    font-size: 10.5px; font-weight: 600; font-variant-numeric: tabular-nums;
+    color: var(--ink-mute);
+  }
+  .redist-preview .day .delta.plus { color: var(--accent); }
+  .redist-preview .day .delta.minus { color: var(--protein); }
+  .redist-preview .day .delta.zero { color: var(--ink-mute); opacity: 0.5; }
+
+  /* Wochenrückblick */
+  .wr-hero {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: var(--brand-ink);
+    padding: 70px 24px 28px;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .wr-hero::after {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, color-mix(in oklab, var(--accent) 30%, transparent), transparent 55%),
+      radial-gradient(circle at 80% 70%, color-mix(in oklab, var(--brand-ink) 15%, transparent), transparent 45%);
+    pointer-events: none;
+  }
+  .wr-hero .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 100px;
+    background: rgba(255,255,255,.18); color: var(--brand-ink);
+    font-size: 11px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+    position: relative; z-index: 1;
+  }
+  .wr-hero h1 {
+    font-family: var(--serif); font-size: 32px; font-weight: 500;
+    margin: 14px 0 6px; color: var(--brand-ink); line-height: 1.15;
+    text-wrap: balance; position: relative; z-index: 1;
+  }
+  .wr-hero .sub {
+    font-size: 14px; color: rgba(255,255,255,.85);
+    position: relative; z-index: 1; line-height: 1.4;
+  }
+  .wr-body { padding: 18px 20px 100px; flex: 1; overflow-y: auto; scrollbar-width: none; }
+  .wr-body::-webkit-scrollbar { display: none; }
+
+  .wr-metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .wr-metric {
+    background: var(--surface); border-radius: 16px;
+    padding: 16px; box-shadow: var(--shadow-card);
+  }
+  .wr-metric .head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .wr-metric .ico {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--accent-soft); color: var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 15px;
+  }
+  .wr-metric .ico.b { background: color-mix(in oklab, var(--brand) 14%, transparent); color: var(--brand); }
+  :root[data-theme="dark"] .wr-metric .ico.b,
+  :root:not([data-theme="light"]) .wr-metric .ico.b { color: var(--brand-2); }
+  .wr-metric .n {
+    font-family: var(--serif); font-size: 24px; font-weight: 500;
+    color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; line-height: 1;
+  }
+  .wr-metric .l { font-size: 11px; color: var(--ink-mute); margin-top: 4px; }
+
+  .wr-week-chart {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 18px 18px 16px; box-shadow: var(--shadow-card);
+    margin-bottom: 16px;
+  }
+  .wr-week-chart h4 { font-family: var(--serif); font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .wr-week-chart .helper { font-size: 12px; color: var(--ink-mute); margin-bottom: 14px; }
+  .wr-week-chart .bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; height: 110px; }
+  .wr-week-chart .bar-col { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+  .wr-week-chart .bar-col .bar {
+    width: 100%; background: var(--brand); border-radius: 6px 6px 0 0;
+    min-height: 6px; position: relative;
+  }
+  .wr-week-chart .bar-col .bar.treat { background: var(--carbs); }
+  .wr-week-chart .bar-col .lbl { font-size: 10px; color: var(--ink-mute); font-weight: 600; text-transform: uppercase; }
+  .wr-week-chart .goal-line {
+    position: relative; margin-top: -60px; margin-bottom: 0;
+    border-top: 1px dashed var(--accent);
+    text-align: right; padding-right: 4px;
+    font-size: 10px; color: var(--accent); font-weight: 600;
+  }
+
+  .wr-message {
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: var(--r-lg); padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .wr-message h4 { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+  .wr-message p { font-size: 12.5px; color: color-mix(in oklab, var(--accent) 85%, var(--ink) 15%); line-height: 1.5; }
+
+  /* Input-Methoden im Essen-Hinzufügen */
+  .input-method {
+    display: flex; align-items: center; gap: 14px;
+    width: 100%; padding: 14px 16px; border-radius: 16px;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  .input-method.primary-method {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: var(--brand-ink);
+  }
+  .im-ico {
+    width: 42px; height: 42px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .im-ico.brand-grad { background: rgba(255,255,255,.18); }
+  .im-text { flex: 1; min-width: 0; }
+  .im-title { font-family: var(--serif); font-size: 15px; font-weight: 500; }
+  .im-sub { font-size: 11.5px; opacity: .8; margin-top: 2px; }
+
+  .input-method-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+  }
+  .input-method-tile {
+    background: var(--surface); border-radius: 14px;
+    padding: 14px 12px; box-shadow: var(--shadow-card);
+    text-align: left; color: var(--ink);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .im-ico-sm {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: color-mix(in oklab, var(--brand) 12%, transparent);
+    color: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 6px;
+  }
+  :root[data-theme="dark"] .im-ico-sm,
+  :root:not([data-theme="light"]) .im-ico-sm { color: var(--brand-2); }
+  .im-title-sm { font-family: var(--serif); font-size: 14px; font-weight: 500; }
+  .im-sub-sm { font-size: 11px; color: var(--ink-mute); line-height: 1.35; }
+
+  /* ===== 5b. AI SCAN ===== */
+  .ai-camera {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 40%, #3a2b1e, #0a0705 70%);
+    display: flex; flex-direction: column;
+    color: #F0EBE0;
+    overflow: hidden;
+  }
+  .ai-cam-head {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 60px 20px 12px;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 10;
+    background: linear-gradient(180deg, rgba(0,0,0,.55), transparent);
+  }
+  .ai-cam-head button { color: #fff; }
+  .ai-cam-head .close {
+    width: 34px; height: 34px; border-radius: 100px;
+    background: rgba(0,0,0,.45); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .ai-cam-head .title {
+    font-family: var(--serif); font-size: 15px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ai-cam-head .flash {
+    width: 34px; height: 34px; border-radius: 100px;
+    background: rgba(0,0,0,.45); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ai-viewfinder {
+    position: absolute; top: 130px; left: 24px; right: 24px; bottom: 380px;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+  .ai-food-photo {
+    width: 100%; height: 100%;
+    border-radius: 22px;
+    background:
+      radial-gradient(circle at 30% 40%, #a37a4e, transparent 40%),
+      radial-gradient(circle at 65% 55%, #7a5a3a, transparent 45%),
+      radial-gradient(circle at 45% 75%, #4a6b3e, transparent 35%),
+      radial-gradient(circle at 70% 30%, #d09268, transparent 30%),
+      linear-gradient(135deg, #2a1e14, #4a3428);
+    position: relative; overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,.7);
+  }
+  .ai-food-photo::before,
+  .ai-food-photo::after {
+    content: ""; position: absolute; width: 24px; height: 24px;
+    border: 2px solid #fff; border-radius: 4px;
+  }
+  .ai-food-photo::before { top: 12px; left: 12px; border-right: 0; border-bottom: 0; }
+  .ai-food-photo::after { bottom: 12px; right: 12px; border-left: 0; border-top: 0; }
+  .ai-scan-line {
+    position: absolute; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    top: 50%;
+    animation: scan 2s ease-in-out infinite alternate;
+    box-shadow: 0 0 20px var(--accent);
+  }
+  @keyframes scan {
+    from { top: 8%; } to { top: 92%; }
+  }
+  .ai-status-badge {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    padding: 6px 14px; border-radius: 100px;
+    background: rgba(0,0,0,.55); backdrop-filter: blur(10px);
+    color: #fff; font-size: 12px; font-weight: 500;
+    display: flex; align-items: center; gap: 6px;
+    z-index: 3;
+  }
+  .ai-status-badge .dot {
+    width: 6px; height: 6px; border-radius: 100px; background: var(--accent);
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.4); }
+  }
+
+  .ai-result-sheet {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    background: var(--surface);
+    border-radius: 28px 28px 0 0;
+    padding: 14px 20px 30px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,.35);
+    z-index: 5;
+    max-height: 60%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .ai-result-sheet::-webkit-scrollbar { display: none; }
+  .ai-result-sheet .handle {
+    width: 40px; height: 4px; border-radius: 2px;
+    background: var(--line);
+    margin: 0 auto 14px;
+  }
+  .ai-result-sheet .head-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .ai-result-sheet .head-row h3 { font-family: var(--serif); font-size: 18px; font-weight: 500; color: var(--ink); }
+  .ai-result-sheet .kcal-total { font-family: var(--serif); font-size: 22px; font-weight: 500; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .ai-result-sheet .kcal-total small { font-family: var(--sans); font-size: 11px; color: var(--ink-mute); font-weight: 500; margin-left: 2px; }
+  .ai-result-sheet .sub {
+    color: var(--ink-mute); font-size: 12px;
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 12px;
+  }
+  .ai-result-sheet .sub .confidence {
+    color: var(--success); font-weight: 600;
+  }
+
+  .ai-detected-list {
+    background: var(--surface-alt); border-radius: 12px;
+    padding: 8px 12px; margin-bottom: 10px;
+  }
+  .ai-detected-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; border-top: 1px solid var(--line-soft);
+    font-size: 13.5px;
+  }
+  .ai-detected-item:first-child { border-top: 0; }
+  .ai-detected-item .check {
+    width: 20px; height: 20px; border-radius: 6px;
+    background: var(--brand); color: var(--brand-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; flex-shrink: 0;
+  }
+  .ai-detected-item .name { flex: 1; font-weight: 500; }
+  .ai-detected-item .amt { color: var(--ink-mute); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .ai-detected-item .conf {
+    font-size: 10.5px; color: var(--success); font-weight: 600;
+    padding: 2px 6px; border-radius: 100px;
+    background: color-mix(in oklab, var(--success) 14%, transparent);
+    font-variant-numeric: tabular-nums;
+  }
+  .ai-detected-item .conf.mid { color: var(--carbs); background: color-mix(in oklab, var(--carbs) 14%, transparent); }
+
+  .ai-macros-mini {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    margin-bottom: 12px;
+  }
+  .ai-macros-mini .m {
+    background: var(--surface-alt); border-radius: 10px;
+    padding: 8px; text-align: center;
+  }
+  .ai-macros-mini .m .n { font-family: var(--serif); font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ai-macros-mini .m .l { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-top: 2px; }
+  .ai-macros-mini .m.protein .n { color: var(--protein); }
+  .ai-macros-mini .m.carbs .n { color: var(--carbs); }
+  .ai-macros-mini .m.fat .n { color: var(--fat); }
+
+  .ai-actions { display: flex; gap: 8px; }
+  .ai-actions .btn { flex: 1; }
+
+  .ai-shutter-hint {
+    position: absolute; bottom: 40%; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,.7); font-size: 11px; text-align: center;
+    z-index: 4; letter-spacing: 0.08em; text-transform: uppercase;
+  }
+
+  /* ===== 6. RECIPES ===== */
+  .recipes-head { padding: 60px 20px 12px; }
+  .category-strip {
+    display: flex; gap: 8px; padding: 12px 20px; overflow-x: auto; scrollbar-width: none;
+    margin: 0 -20px;
+  }
+  .category-strip::-webkit-scrollbar { display: none; }
+  .category-strip button {
+    flex-shrink: 0; padding: 8px 16px; border-radius: 100px;
+    background: var(--surface); color: var(--ink-soft);
+    font-size: 12.5px; font-weight: 500; border: 1px solid var(--line);
+  }
+  .category-strip button.active {
+    background: var(--brand); color: var(--brand-ink); border-color: var(--brand);
+  }
+  .recipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 4px 20px; }
+  .recipe-card {
+    background: var(--surface); border-radius: var(--r-md);
+    overflow: hidden; box-shadow: var(--shadow-card);
+  }
+  .recipe-card .img {
+    height: 120px; position: relative;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .recipe-card .img::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,.35), transparent 55%),
+                radial-gradient(ellipse at 70% 85%, rgba(0,0,0,.15), transparent 55%);
+    pointer-events: none; z-index: 1;
+  }
+  .recipe-card .img .food-emoji {
+    font-size: 56px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,.25));
+    position: relative;
+    line-height: 1;
+    transform: rotate(-6deg);
+  }
+  .recipe-card .img .badge {
+    position: absolute; top: 8px; right: 8px;
+    padding: 4px 9px; border-radius: 100px;
+    background: rgba(255,255,255,.95); color: var(--brand);
+    font-size: 10px; font-weight: 600; font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    z-index: 2;
+  }
+  .recipe-card .img .heart {
+    position: absolute; top: 8px; left: 8px;
+    width: 26px; height: 26px; border-radius: 100px;
+    background: rgba(255,255,255,.95);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    z-index: 2;
+  }
+  .recipe-card .body { padding: 10px 12px 12px; }
+  .recipe-card h4 { font-family: var(--serif); font-size: 14px; font-weight: 500; line-height: 1.2; margin-bottom: 4px; }
+  .recipe-card .meta { font-size: 11px; color: var(--ink-mute); }
+
+  /* ===== 7. RECIPE DETAIL ===== */
+  .recipe-hero {
+    height: 300px;
+    position: relative;
+    background:
+      linear-gradient(180deg, transparent 40%, rgba(0,0,0,.55)),
+      linear-gradient(135deg, #A55E3E, #D89373);
+  }
+  .recipe-hero .back {
+    position: absolute; top: 60px; left: 20px;
+    width: 38px; height: 38px; border-radius: 100px;
+    background: rgba(255,255,255,.9); color: var(--brand);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .recipe-hero .fav {
+    position: absolute; top: 60px; right: 20px;
+    width: 38px; height: 38px; border-radius: 100px;
+    background: rgba(255,255,255,.9); color: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .recipe-hero .title-block {
+    position: absolute; bottom: 20px; left: 20px; right: 20px;
+    color: #fff;
+  }
+  .recipe-hero h1 {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+    color: #fff; margin-bottom: 6px; text-wrap: balance;
+  }
+  .recipe-hero .tags { display: flex; gap: 6px; }
+  .recipe-hero .tag {
+    padding: 3px 10px; border-radius: 100px;
+    background: rgba(255,255,255,.2); backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-size: 11px; font-weight: 500;
+  }
+  .recipe-detail-body { flex: 1; overflow-y: auto; padding: 20px 20px 100px; scrollbar-width: none; background: var(--bg); position: relative; z-index: 2; margin-top: -20px; border-radius: 24px 24px 0 0; }
+  .recipe-detail-body::-webkit-scrollbar { display: none; }
+
+  .nutrition-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 20px; }
+  .nutrition-strip .stat {
+    background: var(--surface); border-radius: 12px;
+    padding: 10px 8px; text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .nutrition-strip .stat .n { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--brand); font-variant-numeric: tabular-nums; }
+  .nutrition-strip .stat .l { font-size: 10px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-top: 2px; }
+  .nutrition-strip .stat.protein .n { color: var(--protein); }
+  .nutrition-strip .stat.carbs .n { color: var(--carbs); }
+  .nutrition-strip .stat.fat .n { color: var(--fat); }
+
+  .ingredients-list { list-style: none; padding: 0; margin: 0; }
+  .ingredients-list li {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 0; border-bottom: 1px solid var(--line-soft);
+    font-size: 14px;
+  }
+  .ingredients-list li:last-child { border-bottom: 0; }
+  .ingredients-list li .amt { color: var(--ink-mute); font-size: 13px; font-variant-numeric: tabular-nums; }
+
+  /* ===== 8. WORKOUTS ===== */
+  .workout-head { padding: 60px 20px 12px; }
+  .workout-hero {
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    color: var(--brand-ink);
+    border-radius: var(--r-xl); padding: 22px;
+    position: relative; overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .workout-hero::after {
+    content: ""; position: absolute; top: -30px; right: -30px;
+    width: 180px; height: 180px; border-radius: 100%;
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 50%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+  .workout-hero .kicker { color: rgba(255,255,255,.7); }
+  .workout-hero h3 { font-family: var(--serif); font-size: 22px; font-weight: 500; margin: 6px 0 4px; color: var(--brand-ink); position: relative; z-index: 1; }
+  .workout-hero .meta { font-size: 12.5px; color: rgba(255,255,255,.75); margin-bottom: 14px; }
+  .workout-hero .play-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 18px; border-radius: 100px;
+    background: var(--brand-ink); color: var(--brand);
+    font-weight: 600; font-size: 13.5px;
+    position: relative; z-index: 1;
+  }
+
+  .workout-list .item {
+    background: var(--surface); border-radius: var(--r-md);
+    padding: 12px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-card);
+  }
+  .workout-list .thumb {
+    width: 60px; height: 60px; border-radius: 10px;
+    background: var(--surface-alt); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+  }
+  .workout-list .info { flex: 1; min-width: 0; }
+  .workout-list .info h4 { font-family: var(--serif); font-size: 15px; font-weight: 500; margin-bottom: 3px; }
+  .workout-list .meta-row { font-size: 11.5px; color: var(--ink-mute); display: flex; gap: 8px; align-items: center; }
+  .workout-list .meta-row .dot { width: 3px; height: 3px; background: var(--ink-mute); border-radius: 100px; }
+  .workout-list .go { color: var(--brand); }
+  :root[data-theme="dark"] .workout-list .go,
+  :root:not([data-theme="light"]) .workout-list .go { color: var(--brand-2); }
+
+  .hack-card {
+    background: var(--accent-soft); color: var(--accent);
+    border-radius: var(--r-lg); padding: 16px;
+    display: flex; gap: 14px; align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .hack-card .num {
+    font-family: var(--serif); font-size: 26px; font-weight: 500;
+    color: var(--accent); flex-shrink: 0; line-height: 1;
+  }
+  .hack-card h4 { font-family: var(--serif); font-size: 15px; font-weight: 600; color: var(--accent); margin-bottom: 4px; }
+  .hack-card p { font-size: 12.5px; color: color-mix(in oklab, var(--accent) 85%, var(--ink) 15%); line-height: 1.4; }
+
+  /* ===== 9. PROGRESS ===== */
+  .progress-head { padding: 60px 20px 8px; }
+  .progress-tabs { display: flex; gap: 4px; padding: 4px; background: var(--surface-alt); border-radius: 100px; margin: 14px 20px; }
+  .progress-tabs button { flex: 1; padding: 8px; border-radius: 100px; font-size: 12.5px; font-weight: 500; color: var(--ink-mute); }
+  .progress-tabs button.active { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+
+  .weight-card {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 20px; margin: 4px 20px 14px; box-shadow: var(--shadow-card);
+  }
+  .weight-card .row-between { margin-bottom: 14px; }
+  .weight-card .big {
+    font-family: var(--serif); font-size: 36px; font-weight: 500;
+    color: var(--ink); line-height: 1; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+  .weight-card .big small { font-family: var(--sans); font-size: 14px; color: var(--ink-mute); font-weight: 500; margin-left: 3px; }
+  .weight-card .delta {
+    display: inline-flex; align-items: center; gap: 3px;
+    padding: 4px 10px; border-radius: 100px;
+    background: color-mix(in oklab, var(--success) 15%, transparent); color: var(--success);
+    font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+  .weight-chart { width: 100%; height: 140px; }
+  .weight-chart .grid line { stroke: var(--line-soft); stroke-width: 1; }
+  .weight-chart .goal-line { stroke: var(--accent); stroke-width: 1; stroke-dasharray: 4 4; }
+  .weight-chart .area { fill: url(#areaGrad); }
+  .weight-chart .line { stroke: var(--brand); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .weight-chart .dot { fill: var(--brand); }
+  .weight-chart .dot.end { fill: var(--accent); r: 5; }
+  .weight-chart .axis text { font-family: var(--sans); font-size: 10px; fill: var(--ink-mute); font-variant-numeric: tabular-nums; }
+
+  .goal-progress-card { background: var(--surface); border-radius: var(--r-lg); padding: 18px 20px; margin: 0 20px 14px; box-shadow: var(--shadow-card); }
+  .goal-progress-card h4 { font-family: var(--serif); font-size: 16px; font-weight: 500; margin-bottom: 12px; }
+  .goal-bar-wrap { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-mute); margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .goal-bar-wrap b { color: var(--ink); font-weight: 600; }
+  .goal-bar { height: 10px; background: var(--track); border-radius: 5px; overflow: hidden; position: relative; }
+  .goal-bar .fill { height: 100%; background: linear-gradient(90deg, var(--brand), var(--brand-2)); border-radius: 5px; width: 62%; }
+  .goal-bar .marker { position: absolute; top: -3px; height: 16px; width: 2px; background: var(--accent); left: 62%; border-radius: 2px; }
+
+  .photo-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 20px 12px; }
+  .photo-strip .ph {
+    aspect-ratio: 3/4; border-radius: 12px;
+    background: linear-gradient(135deg, var(--surface-deep), var(--surface-alt));
+    position: relative; display: flex; align-items: flex-end; padding: 10px;
+    overflow: hidden;
+  }
+  .photo-strip .ph::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.4));
+  }
+  .photo-strip .ph span { position: relative; z-index: 1; color: #fff; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
+
+  /* ===== 10. PROFILE ===== */
+  .profile-head { padding: 60px 20px 20px; text-align: center; }
+  .profile-head .avatar-lg {
+    width: 84px; height: 84px; border-radius: 100px;
+    background: linear-gradient(135deg, var(--brand-2), var(--brand));
+    color: var(--brand-ink); display: flex; align-items: center; justify-content: center;
+    font-family: var(--serif); font-weight: 600; font-size: 32px;
+    margin: 0 auto 10px;
+  }
+  .profile-head h2 { font-family: var(--serif); font-size: 22px; font-weight: 500; }
+  .profile-head .sub { color: var(--ink-mute); font-size: 13px; margin-top: 2px; }
+  .profile-head .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 10px; padding: 6px 12px; border-radius: 100px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 600;
+  }
+
+  .stat-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 14px 8px; margin: 0 20px 16px;
+    box-shadow: var(--shadow-card);
+  }
+  .stat-strip .item { text-align: center; padding: 0 6px; position: relative; }
+  .stat-strip .item + .item::before {
+    content: ""; position: absolute; left: 0; top: 20%; bottom: 20%; width: 1px; background: var(--line-soft);
+  }
+  .stat-strip .n { font-family: var(--serif); font-size: 20px; font-weight: 500; color: var(--ink); font-variant-numeric: tabular-nums; line-height: 1; }
+  .stat-strip .l { font-size: 10.5px; color: var(--ink-mute); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; margin-top: 4px; }
+
+  .menu-list { background: var(--surface); border-radius: var(--r-lg); margin: 0 20px 12px; overflow: hidden; box-shadow: var(--shadow-card); }
+  .menu-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-top: 1px solid var(--line-soft); font-size: 14px; }
+  .menu-item:first-child { border-top: 0; }
+  .menu-item .ico { width: 32px; height: 32px; border-radius: 8px; background: var(--surface-alt); color: var(--brand); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  :root[data-theme="dark"] .menu-item .ico,
+  :root:not([data-theme="light"]) .menu-item .ico { color: var(--brand-2); }
+  .menu-item .lbl { flex: 1; font-weight: 500; }
+  .menu-item .val { font-size: 12.5px; color: var(--ink-mute); }
+  .menu-item .chev { color: var(--ink-mute); }
+
+  .appointment-card {
+    background: var(--brand); color: var(--brand-ink);
+    border-radius: var(--r-lg); padding: 18px 20px; margin: 0 20px 14px;
+    position: relative; overflow: hidden;
+  }
+  .appointment-card::after {
+    content: ""; position: absolute; top: -20px; right: -20px;
+    width: 120px; height: 120px; border-radius: 100%;
+    background: radial-gradient(circle, color-mix(in oklab, var(--accent) 45%, transparent), transparent 70%);
+  }
+  .appointment-card .kicker { color: rgba(255,255,255,.7); position: relative; z-index: 1; }
+  .appointment-card .date {
+    font-family: var(--serif); font-size: 20px; font-weight: 500;
+    margin: 6px 0 3px; position: relative; z-index: 1;
+  }
+  .appointment-card .studio { font-size: 12.5px; color: rgba(255,255,255,.75); position: relative; z-index: 1; }
+  .appointment-card .cta {
+    margin-top: 12px; padding: 8px 14px; border-radius: 100px;
+    background: rgba(255,255,255,.15); color: var(--brand-ink);
+    font-size: 12px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px;
+    position: relative; z-index: 1;
+  }
+
+  /* ===== Notes panel ===== */
+  .notes-panel {
+    background: var(--surface); border-radius: var(--r-lg);
+    padding: 22px 20px; border: 1px solid var(--line);
+    box-shadow: var(--shadow-card);
+    position: sticky; top: 32px;
+  }
+  .notes-panel .kicker { color: var(--accent); }
+  .notes-panel h3 { font-family: var(--serif); font-size: 18px; font-weight: 500; margin-top: 6px; }
+  .notes-panel .note { color: var(--ink-soft); font-size: 13.5px; line-height: 1.55; margin-top: 12px; }
+  .notes-panel ul { color: var(--ink-soft); font-size: 13px; line-height: 1.55; margin-top: 10px; padding-left: 18px; }
+  .notes-panel li { margin-bottom: 4px; }
+
+  /* icons helpers */
+  .ic { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ic-sm { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+
+<div class="stage">
+  <aside class="nav-panel">
+    <div class="brand-lock">Body<span>Shift</span></div>
+    <div class="kicker" style="margin-top:6px">Companion App · Prototyp</div>
+    <h2>Klick durch die App.</h2>
+    <p class="lead">11 Screens, iPhone-Frame, echte Interaktionen. So könnte deine Kunden-App aussehen — bevor wir eine Zeile Produktionscode schreiben.</p>
+
+    <div class="screen-nav" id="screenNav">
+      <button data-screen="login" class="active"><span class="num">01</span> Login / Splash</button>
+      <button data-screen="onboarding"><span class="num">02</span> Ziel setzen</button>
+      <button data-screen="home"><span class="num">03</span> Dashboard</button>
+      <button data-screen="tracker"><span class="num">04</span> Kalorien-Tracker</button>
+      <button data-screen="addfood"><span class="num">05</span> Essen hinzufügen</button>
+      <button data-screen="aiscan"><span class="num">06</span> KI Foto-Scan ✨</button>
+      <button data-screen="recipes"><span class="num">07</span> Rezepte</button>
+      <button data-screen="recipedetail"><span class="num">08</span> Rezept-Detail</button>
+      <button data-screen="workouts"><span class="num">09</span> Workouts &amp; Hacks</button>
+      <button data-screen="progress"><span class="num">10</span> Fortschritt</button>
+      <button data-screen="profile"><span class="num">11</span> Profil &amp; Behandlung</button>
+      <button data-screen="weekacc"><span class="num">12</span> Wochenkonto 🆕</button>
+      <button data-screen="daybudget"><span class="num">13</span> Tages-Budget &amp; Slider</button>
+      <button data-screen="weekreview"><span class="num">14</span> Wochenrückblick</button>
+    </div>
+
+    <div class="theme-toggle">
+      <span>Theme</span>
+      <button id="themeBtn">Auto</button>
+    </div>
+  </aside>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="viewport">
+        <div class="notch"></div>
+        <div class="statusbar">
+          <span>9:41</span>
+          <div class="icons">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 20l4-8 6 4 10-14v22H2z" opacity=".9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="8" width="18" height="10" rx="2"/><path d="M22 12v2"/></svg>
+          </div>
+        </div>
+
+        <!-- ===== 1. LOGIN ===== -->
+        <section class="screen active" data-scr="login">
+          <div class="login-hero">
+            <div class="login-brand">
+              <div class="logo-lockup">
+                <div class="logo-word">BODY<span class="shift">SHIFT</span></div>
+                <div class="logo-sub">Körper neu denken</div>
+              </div>
+            </div>
+
+            <div class="tagline-block">
+              <div class="tagline">Dein Weg zum <em>Wunschgewicht</em> —<br>wissenschaftlich, alltagstauglich.</div>
+            </div>
+
+            <div class="cta-stack">
+              <button class="btn" onclick="goto('home')">Einloggen</button>
+              <button class="btn ghost">Konto aktivieren mit Code</button>
+              <div class="foot">Nur für BodyShift-Kunden. Noch keinen Termin? <u>Termin buchen</u></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 2. ONBOARDING ===== -->
+        <section class="screen" data-scr="onboarding">
+          <div class="onboarding-header">
+            <button style="color:var(--ink-mute)">← Zurück</button>
+            <span class="step">Schritt 3 von 5</span>
+            <span></span>
+          </div>
+          <div class="progress-bar"><div></div></div>
+
+          <div class="onboarding-body">
+            <h1>Was ist dein Wunschgewicht?</h1>
+            <p class="sub">Wir berechnen daraus dein tägliches Kalorien-Ziel und die Verteilung der Makronährstoffe.</p>
+
+            <div class="weight-picker">
+              <div class="label">Wunschgewicht</div>
+              <div class="value">72,5<small>kg</small></div>
+              <div class="ruler"></div>
+            </div>
+
+            <div class="goal-diff">
+              Ziel: <strong>−6,3 kg</strong> in ca. <strong>10 Wochen</strong> — realistisch &amp; nachhaltig.
+            </div>
+
+            <div class="card" style="padding:16px">
+              <div class="row-between" style="margin-bottom:10px">
+                <div>
+                  <div class="kicker" style="margin-bottom:2px">Dein tägliches Ziel</div>
+                  <div style="font-family:var(--serif); font-size:26px; font-weight:500; color:var(--brand);">1.680 kcal</div>
+                </div>
+                <span class="pill accent">Sanft &amp; sicher</span>
+              </div>
+              <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:10px; padding-top:10px; border-top:1px solid var(--line-soft);">
+                <div><div class="kicker">Protein</div><div style="font-weight:600; font-family:var(--serif); font-size:16px; color:var(--protein);">140g</div></div>
+                <div><div class="kicker">Carbs</div><div style="font-weight:600; font-family:var(--serif); font-size:16px; color:var(--carbs);">170g</div></div>
+                <div><div class="kicker">Fett</div><div style="font-weight:600; font-family:var(--serif); font-size:16px; color:var(--fat);">55g</div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="onboarding-foot">
+            <button class="btn" onclick="goto('home')">Weiter</button>
+          </div>
+        </section>
+
+        <!-- ===== 3. DASHBOARD ===== -->
+        <section class="screen" data-scr="home">
+          <div class="scroll">
+            <div class="dash-header" style="padding:0 0 12px">
+              <div class="greet">Guten Morgen, Florian<small>Tag 23 · Streak: 12 🔥</small></div>
+              <div class="avatar">FL</div>
+            </div>
+
+            <div class="calorie-hero">
+              <div class="cal-ring-wrap">
+                <svg class="cal-ring" viewBox="0 0 130 130">
+                  <circle class="track" cx="65" cy="65" r="55"></circle>
+                  <circle class="value" cx="65" cy="65" r="55"
+                    stroke-dasharray="345.6" stroke-dashoffset="118"></circle>
+                  <text x="65" y="60" font-size="24" style="letter-spacing:-0.02em">1.140</text>
+                  <text x="65" y="80" font-size="10" fill="var(--ink-mute)" style="font-family:var(--sans); font-weight:500; letter-spacing:0.1em; text-transform:uppercase">kcal · heute</text>
+                </svg>
+                <div class="cal-stats">
+                  <div class="label">Verbleibend</div>
+                  <div class="big">540<small>kcal</small></div>
+                  <div class="remaining">✓ Gut im Plan · Ziel 1.680 kcal</div>
+                </div>
+              </div>
+
+              <div class="macros">
+                <div class="macro protein">
+                  <div class="head"><span class="name">Protein</span><span class="val">95<em>/140g</em></span></div>
+                  <div class="macro-bar"><div></div></div>
+                </div>
+                <div class="macro carbs">
+                  <div class="head"><span class="name">Carbs</span><span class="val">92<em>/170g</em></span></div>
+                  <div class="macro-bar"><div></div></div>
+                </div>
+                <div class="macro fat">
+                  <div class="head"><span class="name">Fett</span><span class="val">23<em>/55g</em></span></div>
+                  <div class="macro-bar"><div></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="week-card" onclick="goto('weekacc')">
+              <div class="head-row">
+                <div class="title">
+                  <span>Woche</span>
+                  <span class="kicker-inline">Mo – So · KW 38</span>
+                </div>
+                <div class="remain">3.240<small>kcal übrig</small></div>
+              </div>
+              <div class="week-rings">
+                <div class="wr-day-ring">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="18"></circle>
+                  </svg>
+                  <div class="lbl">Mo</div>
+                </div>
+                <div class="wr-day-ring">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="24"></circle>
+                  </svg>
+                  <div class="lbl">Di</div>
+                </div>
+                <div class="wr-day-ring">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="10"></circle>
+                  </svg>
+                  <div class="lbl">Mi</div>
+                </div>
+                <div class="wr-day-ring">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="12"></circle>
+                  </svg>
+                  <div class="lbl">Do</div>
+                </div>
+                <div class="wr-day-ring">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="30"></circle>
+                  </svg>
+                  <div class="lbl">Fr</div>
+                </div>
+                <div class="wr-day-ring treat-cell">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value treat" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="100"></circle>
+                  </svg>
+                  <div class="lbl">Sa</div>
+                </div>
+                <div class="wr-day-ring today-cell">
+                  <svg viewBox="0 0 40 40">
+                    <circle class="track" cx="20" cy="20" r="16"></circle>
+                    <circle class="value today" cx="20" cy="20" r="16" stroke-dasharray="100.5" stroke-dashoffset="32"></circle>
+                  </svg>
+                  <div class="lbl">So</div>
+                </div>
+              </div>
+              <div class="week-feedback">
+                <span class="icon-check">✓</span>
+                <span>Sauber unterwegs — noch <b style="color:var(--accent);">Puffer für Sa</b> (Gönn-Tag)</span>
+              </div>
+            </div>
+
+            <div class="streak-strip">
+              <div class="mini-card">
+                <div class="icon brand"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></div>
+                <div class="num">6.240</div>
+                <div class="lbl">Schritte heute</div>
+              </div>
+              <div class="mini-card">
+                <div class="icon"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5c0 3-5 8-5 15 0-7-5-12-5-15a5 5 0 015-5z"/></svg></div>
+                <div class="num">1,4L</div>
+                <div class="lbl">Wasser · Ziel 2,5L</div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Rezept des Tages<span class="link">Alle ansehen →</span></h2>
+            <div class="todays-recipe" onclick="goto('recipedetail')">
+              <div class="hero-img">
+                <span class="tag">Eiweiß-Booster</span>
+              </div>
+              <div class="body">
+                <h3>Skyr-Bowl mit Beeren &amp; Haferflocken</h3>
+                <div class="meta">
+                  <span>340 kcal</span><span>32g Protein</span><span>5 Min</span>
+                </div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Alltags-Hack<span class="link">Alle Hacks →</span></h2>
+            <div class="hack-card">
+              <div class="num">01</div>
+              <div>
+                <h4>Nach jedem Kaffee 30 Kniebeugen</h4>
+                <p>Aktiviert Glukose-Transport in die Muskeln — verbrennt bis zu 40 kcal extra pro Runde und stabilisiert den Blutzucker.</p>
+              </div>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button class="active" onclick="goto('home')">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>
+              Home
+            </button>
+            <button onclick="goto('tracker')">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+              Tracker
+            </button>
+            <button onclick="goto('recipes')">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>
+              Rezepte
+            </button>
+            <button onclick="goto('workouts')">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>
+              Workouts
+            </button>
+            <button onclick="goto('profile')">
+              <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+              Profil
+            </button>
+          </nav>
+        </section>
+
+        <!-- ===== 4. TRACKER ===== -->
+        <section class="screen" data-scr="tracker">
+          <div class="scroll" style="padding-top:0">
+            <div class="tracker-head">
+              <div class="row-between">
+                <h1 class="screen-title">Heute</h1>
+                <button style="color:var(--brand); font-size:13px; font-weight:600;">Verlauf →</button>
+              </div>
+              <div class="date-strip">
+                <div class="day"><span class="wd">Mo</span><span class="num">14</span></div>
+                <div class="day"><span class="wd">Di</span><span class="num">15</span></div>
+                <div class="day"><span class="wd">Mi</span><span class="num">16</span></div>
+                <div class="day"><span class="wd">Do</span><span class="num">17</span></div>
+                <div class="day"><span class="wd">Fr</span><span class="num">18</span></div>
+                <div class="day"><span class="wd">Sa</span><span class="num">19</span></div>
+                <div class="day active"><span class="wd">So</span><span class="num">20</span></div>
+              </div>
+            </div>
+
+            <div class="meal-block">
+              <div class="meal-head">
+                <h4>🌅 Frühstück</h4>
+                <div class="kcal-sum">340<small>kcal</small></div>
+              </div>
+              <div class="food-item">
+                <div class="food-thumb">🥣</div>
+                <div class="info">
+                  <div class="name">Skyr mit Beeren &amp; Haferflocken</div>
+                  <div class="amount">1 Portion · 250g</div>
+                </div>
+                <div class="kcal">340 kcal</div>
+              </div>
+              <button class="add-food-btn" onclick="goto('addfood')">＋ Hinzufügen</button>
+            </div>
+
+            <div class="meal-block">
+              <div class="meal-head">
+                <h4>☀️ Mittagessen</h4>
+                <div class="kcal-sum">620<small>kcal</small></div>
+              </div>
+              <div class="food-item">
+                <div class="food-thumb">🥗</div>
+                <div class="info">
+                  <div class="name">Hähnchen-Bowl mit Quinoa</div>
+                  <div class="amount">1 Schüssel · 380g</div>
+                </div>
+                <div class="kcal">520 kcal</div>
+              </div>
+              <div class="food-item">
+                <div class="food-thumb">🍎</div>
+                <div class="info">
+                  <div class="name">Apfel</div>
+                  <div class="amount">1 mittel · 180g</div>
+                </div>
+                <div class="kcal">100 kcal</div>
+              </div>
+              <button class="add-food-btn" onclick="goto('addfood')">＋ Hinzufügen</button>
+            </div>
+
+            <div class="meal-block">
+              <div class="meal-head">
+                <h4>🌙 Abendessen</h4>
+                <div class="kcal-sum" style="color:var(--ink-mute)">180<small>kcal</small></div>
+              </div>
+              <div class="food-item">
+                <div class="food-thumb">🥒</div>
+                <div class="info">
+                  <div class="name">Gurken-Feta-Snack</div>
+                  <div class="amount">1 Portion · 150g</div>
+                </div>
+                <div class="kcal">180 kcal</div>
+              </div>
+              <button class="add-food-btn" onclick="goto('addfood')">＋ Hinzufügen</button>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button onclick="goto('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Home</button>
+            <button class="active"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tracker</button>
+            <button onclick="goto('recipes')"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>Rezepte</button>
+            <button onclick="goto('workouts')"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>Workouts</button>
+            <button onclick="goto('profile')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Profil</button>
+          </nav>
+        </section>
+
+        <!-- ===== 5. ADD FOOD ===== -->
+        <section class="screen" data-scr="addfood">
+          <div class="modal-head">
+            <button class="close" onclick="goto('tracker')">Abbrechen</button>
+            <h2>Essen hinzufügen</h2>
+            <span style="width:60px"></span>
+          </div>
+          <div style="padding: 0 20px 8px;">
+            <div class="kicker" style="margin-bottom:10px; padding-left: 4px;">So kannst du erfassen</div>
+
+            <button onclick="goto('aiscan')" class="input-method primary-method">
+              <div class="im-ico brand-grad">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M23 19V8a2 2 0 00-2-2h-3l-2-2H8L6 6H3a2 2 0 00-2 2v11a2 2 0 002 2h18a2 2 0 002-2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </div>
+              <div class="im-text">
+                <div class="im-title">Foto der Mahlzeit ✨</div>
+                <div class="im-sub">KI erkennt Kalorien &amp; Makros in Sekunden</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:.7;"><path d="M9 6l6 6-6 6"/></svg>
+            </button>
+
+            <div class="input-method-grid">
+              <button class="input-method-tile">
+                <div class="im-ico-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5v14M8 5v14M13 5v14M18 5v14M21 5v14"/></svg></div>
+                <div class="im-title-sm">Barcode</div>
+                <div class="im-sub-sm">Verpackung scannen</div>
+              </button>
+
+              <button class="input-method-tile">
+                <div class="im-ico-sm"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a3 3 0 013 3v6a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10v1a7 7 0 01-14 0v-1M12 18v4M8 22h8"/></svg></div>
+                <div class="im-title-sm">Sprache</div>
+                <div class="im-sub-sm">„Ein Apfel und ein Kaffee"</div>
+              </button>
+            </div>
+          </div>
+
+          <div style="padding: 6px 20px 4px;">
+            <div class="kicker" style="margin-bottom:8px; padding-left: 4px;">Oder manuell suchen</div>
+          </div>
+          <div class="search-bar">
+            <svg class="ic" viewBox="0 0 24 24" style="color:var(--ink-mute)"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+            <input placeholder="Suche z. B. „Skyr“ oder „Apfel“" value="Skyr">
+          </div>
+          <div class="quick-tabs">
+            <button class="active">Suche</button>
+            <button>Favoriten</button>
+            <button>Zuletzt</button>
+            <button>Meine Rezepte</button>
+          </div>
+
+          <div class="food-result">
+            <div class="food-thumb" style="width:44px;height:44px">🥛</div>
+            <div class="info">
+              <div class="name">Skyr Natur, 0,2% Fett</div>
+              <div class="macros-mini">
+                <span>P <b>11g</b></span><span>C <b>4g</b></span><span>F <b>0g</b></span>
+              </div>
+            </div>
+            <div class="kcal-lg">61<small>/100g</small></div>
+          </div>
+          <div class="food-result">
+            <div class="food-thumb" style="width:44px;height:44px">🥣</div>
+            <div class="info">
+              <div class="name">Skyr mit Vanille (Milbona)</div>
+              <div class="macros-mini">
+                <span>P <b>10g</b></span><span>C <b>8g</b></span><span>F <b>0g</b></span>
+              </div>
+            </div>
+            <div class="kcal-lg">75<small>/100g</small></div>
+          </div>
+          <div class="food-result">
+            <div class="food-thumb" style="width:44px;height:44px">🍶</div>
+            <div class="info">
+              <div class="name">Skyr Erdbeere (Lidl)</div>
+              <div class="macros-mini">
+                <span>P <b>9g</b></span><span>C <b>10g</b></span><span>F <b>0g</b></span>
+              </div>
+            </div>
+            <div class="kcal-lg">80<small>/100g</small></div>
+          </div>
+          <div class="food-result">
+            <div class="food-thumb" style="width:44px;height:44px">🥄</div>
+            <div class="info">
+              <div class="name">Skyr Bowl (aus deiner Rezept-Bibliothek)</div>
+              <div class="macros-mini">
+                <span>P <b>32g</b></span><span>C <b>38g</b></span><span>F <b>4g</b></span>
+              </div>
+            </div>
+            <div class="kcal-lg">340<small>/Port.</small></div>
+          </div>
+        </section>
+
+        <!-- ===== 5b. AI SCAN ===== -->
+        <section class="screen" data-scr="aiscan">
+          <div class="ai-camera">
+            <div class="ai-cam-head">
+              <button class="close" onclick="goto('addfood')">✕</button>
+              <div class="title">✨ KI-Mahlzeit-Analyse</div>
+              <button class="flash">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+              </button>
+            </div>
+
+            <div class="ai-viewfinder">
+              <div class="ai-status-badge">
+                <span class="dot"></span>
+                Analysiere Mahlzeit …
+              </div>
+              <div class="ai-food-photo">
+                <div class="ai-scan-line"></div>
+              </div>
+            </div>
+
+            <div class="ai-shutter-hint">Bild aufgenommen · Ergebnis wird geprüft</div>
+
+            <div class="ai-result-sheet">
+              <div class="handle"></div>
+              <div class="head-row">
+                <h3>Erkannte Mahlzeit</h3>
+                <div class="kcal-total">520<small>kcal</small></div>
+              </div>
+              <div class="sub">
+                <span class="confidence">✓ 92% Zuverlässigkeit</span>
+                <span>·</span><span>Passe Portionen an wenn nötig</span>
+              </div>
+
+              <div class="ai-detected-list">
+                <div class="ai-detected-item">
+                  <div class="check">✓</div>
+                  <div class="name">Hähnchenbrust gegrillt</div>
+                  <div class="amt">150 g</div>
+                  <div class="conf">96%</div>
+                </div>
+                <div class="ai-detected-item">
+                  <div class="check">✓</div>
+                  <div class="name">Basmatireis</div>
+                  <div class="amt">120 g</div>
+                  <div class="conf">94%</div>
+                </div>
+                <div class="ai-detected-item">
+                  <div class="check">✓</div>
+                  <div class="name">Brokkoli, gedämpft</div>
+                  <div class="amt">80 g</div>
+                  <div class="conf">89%</div>
+                </div>
+                <div class="ai-detected-item">
+                  <div class="check" style="background:var(--surface); border:1.5px solid var(--line); color:var(--ink-mute);">?</div>
+                  <div class="name">Soße (Erdnuss?)</div>
+                  <div class="amt">~30 g</div>
+                  <div class="conf mid">68%</div>
+                </div>
+              </div>
+
+              <div class="ai-macros-mini">
+                <div class="m protein"><div class="n">42g</div><div class="l">Protein</div></div>
+                <div class="m carbs"><div class="n">54g</div><div class="l">Carbs</div></div>
+                <div class="m fat"><div class="n">14g</div><div class="l">Fett</div></div>
+              </div>
+
+              <div class="ai-actions">
+                <button class="btn secondary" onclick="goto('aiscan')" style="flex:0 0 40%;">Neu scannen</button>
+                <button class="btn accent" onclick="goto('tracker')">Zum Mittagessen tracken →</button>
+              </div>
+              <div style="text-align:center; font-size:11px; color:var(--ink-mute); margin-top:10px;">
+                Analyse mit Claude Vision · Alle Fotos werden verschlüsselt und nur du kannst sie sehen
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 6. RECIPES ===== -->
+        <section class="screen" data-scr="recipes">
+          <div class="scroll" style="padding:0 0 100px">
+            <div class="recipes-head">
+              <div class="row-between">
+                <h1 class="screen-title">Rezepte</h1>
+                <button style="color:var(--brand);"><svg class="ic" viewBox="0 0 24 24" style="color:currentColor"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg></button>
+              </div>
+              <div class="category-strip">
+                <button class="active">Alle</button>
+                <button>🥩 Eiweißreich</button>
+                <button>⚡ Schnell (≤15 Min)</button>
+                <button>🌱 Vegetarisch</button>
+                <button>🥗 Low Carb</button>
+                <button>🍰 Süß &amp; leicht</button>
+              </div>
+            </div>
+
+            <div class="recipe-grid">
+              <div class="recipe-card" onclick="goto('recipedetail')">
+                <div class="img" style="background: radial-gradient(circle at 35% 30%, #E8D4B8, #B8886A 70%, #8E6549);">
+                  <span class="heart">🤍</span>
+                  <span class="food-emoji">🥣</span>
+                  <span class="badge">340 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Skyr-Bowl mit Beeren</h4>
+                  <div class="meta">32g Protein · 5 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 40% 35%, #C8DFB0, #7A9E6B 70%, #556F4A);">
+                  <span class="heart">💚</span>
+                  <span class="food-emoji">🥗</span>
+                  <span class="badge">420 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Hähnchen-Quinoa-Bowl</h4>
+                  <div class="meta">38g Protein · 15 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 40% 35%, #F0B8AC, #C56656 70%, #8A3F32);">
+                  <span class="heart">🤍</span>
+                  <span class="food-emoji">🐟</span>
+                  <span class="badge">380 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Lachs mit Ofengemüse</h4>
+                  <div class="meta">34g Protein · 25 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 35% 30%, #F5D48F, #D89A3A 70%, #9C6E20);">
+                  <span class="heart">🤍</span>
+                  <span class="food-emoji">🍳</span>
+                  <span class="badge">290 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Rührei mit Avocado</h4>
+                  <div class="meta">22g Protein · 8 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 40% 35%, #C0D6A0, #7DA35A 70%, #4F6B36);">
+                  <span class="heart">💚</span>
+                  <span class="food-emoji">🍛</span>
+                  <span class="badge">310 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Linsen-Curry mit Spinat</h4>
+                  <div class="meta">24g Protein · 20 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 35% 30%, #E8C79A, #B88558 70%, #825A34);">
+                  <span class="heart">🤍</span>
+                  <span class="food-emoji">🥞</span>
+                  <span class="badge">210 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Protein-Pancakes</h4>
+                  <div class="meta">28g Protein · 10 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 40% 35%, #F5C89E, #D89060 70%, #9C5A30);">
+                  <span class="heart">🤍</span>
+                  <span class="food-emoji">🍗</span>
+                  <span class="badge">450 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Hähnchen aus dem Ofen</h4>
+                  <div class="meta">42g Protein · 30 Min</div>
+                </div>
+              </div>
+              <div class="recipe-card">
+                <div class="img" style="background: radial-gradient(circle at 35% 30%, #FFD6A5, #E89058 70%, #B05A28);">
+                  <span class="heart">💚</span>
+                  <span class="food-emoji">🍲</span>
+                  <span class="badge">260 kcal</span>
+                </div>
+                <div class="body">
+                  <h4>Kürbis-Ingwer-Suppe</h4>
+                  <div class="meta">14g Protein · 20 Min</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button onclick="goto('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Home</button>
+            <button onclick="goto('tracker')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tracker</button>
+            <button class="active"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>Rezepte</button>
+            <button onclick="goto('workouts')"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>Workouts</button>
+            <button onclick="goto('profile')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Profil</button>
+          </nav>
+        </section>
+
+        <!-- ===== 7. RECIPE DETAIL ===== -->
+        <section class="screen" data-scr="recipedetail">
+          <div class="recipe-hero">
+            <button class="back" onclick="goto('recipes')">
+              <svg class="ic" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="fav">
+              <svg class="ic" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 21s-8-4.6-8-11a5 5 0 019-3 5 5 0 019 3c0 6.4-8 11-8 11z"/></svg>
+            </button>
+            <div class="title-block">
+              <h1>Skyr-Bowl mit Beeren &amp; Haferflocken</h1>
+              <div class="tags">
+                <span class="tag">Eiweiß-Booster</span>
+                <span class="tag">5 Min</span>
+                <span class="tag">Frühstück</span>
+              </div>
+            </div>
+          </div>
+          <div class="recipe-detail-body">
+            <div class="nutrition-strip">
+              <div class="stat"><div class="n">340</div><div class="l">kcal</div></div>
+              <div class="stat protein"><div class="n">32g</div><div class="l">Protein</div></div>
+              <div class="stat carbs"><div class="n">38g</div><div class="l">Carbs</div></div>
+              <div class="stat fat"><div class="n">4g</div><div class="l">Fett</div></div>
+            </div>
+
+            <h2 class="section-title" style="margin-top:0">Zutaten <span style="float:right; font-family:var(--sans); font-size:12px; color:var(--ink-mute); font-weight:500;">1 Portion</span></h2>
+            <ul class="ingredients-list">
+              <li>Skyr Natur <span class="amt">200 g</span></li>
+              <li>Haferflocken zart <span class="amt">30 g</span></li>
+              <li>Blaubeeren frisch <span class="amt">50 g</span></li>
+              <li>Himbeeren frisch <span class="amt">30 g</span></li>
+              <li>Honig <span class="amt">1 TL</span></li>
+              <li>Chia-Samen <span class="amt">1 TL</span></li>
+            </ul>
+
+            <h2 class="section-title">Zubereitung</h2>
+            <div style="color:var(--ink-soft); font-size:14px; line-height:1.6;">
+              <p><strong style="color:var(--brand); font-family:var(--serif); font-size:16px;">1.</strong> Skyr in eine Schüssel geben und mit dem Honig glatt rühren.</p>
+              <p style="margin-top:12px"><strong style="color:var(--brand); font-family:var(--serif); font-size:16px;">2.</strong> Haferflocken darüberstreuen, mit Beeren und Chia-Samen belegen.</p>
+              <p style="margin-top:12px"><strong style="color:var(--brand); font-family:var(--serif); font-size:16px;">3.</strong> Genießen — optional 5 Min ziehen lassen, dann werden die Haferflocken cremiger.</p>
+            </div>
+
+            <div style="margin-top:24px; display:flex; gap:10px;">
+              <button class="btn accent">＋ Zum Frühstück hinzufügen</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 8. WORKOUTS ===== -->
+        <section class="screen" data-scr="workouts">
+          <div class="scroll">
+            <div class="workout-head" style="padding:0 0 12px">
+              <h1 class="screen-title">Bewegung</h1>
+              <p style="color:var(--ink-mute); font-size:13px; margin-top:2px;">Kurze Workouts. Alltags-Hacks. Kein Fitnessstudio nötig.</p>
+            </div>
+
+            <div class="workout-hero">
+              <div class="kicker">Empfehlung für heute</div>
+              <h3>7 Minuten Ganzkörper — Fettverbrennung</h3>
+              <div class="meta">7 Min · 7 Übungen · Kein Equipment</div>
+              <button class="play-btn">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l14 8-14 8z"/></svg>
+                Jetzt starten
+              </button>
+            </div>
+
+            <h2 class="section-title" style="margin-top:6px">Home Workouts <span class="link">Alle →</span></h2>
+            <div class="workout-list">
+              <div class="item">
+                <div class="thumb">🔥</div>
+                <div class="info">
+                  <h4>HIIT Booster</h4>
+                  <div class="meta-row">10 Min<span class="dot"></span>Mittel<span class="dot"></span>140 kcal</div>
+                </div>
+                <div class="go"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="item">
+                <div class="thumb">🧘‍♀️</div>
+                <div class="info">
+                  <h4>Bauch &amp; Core Basics</h4>
+                  <div class="meta-row">8 Min<span class="dot"></span>Einsteiger<span class="dot"></span>75 kcal</div>
+                </div>
+                <div class="go"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="item">
+                <div class="thumb">💪</div>
+                <div class="info">
+                  <h4>Oberkörper Straffung</h4>
+                  <div class="meta-row">15 Min<span class="dot"></span>Mittel<span class="dot"></span>180 kcal</div>
+                </div>
+                <div class="go"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="item">
+                <div class="thumb">🚶‍♀️</div>
+                <div class="info">
+                  <h4>Aktive Pause — Bürostretch</h4>
+                  <div class="meta-row">5 Min<span class="dot"></span>Einsteiger<span class="dot"></span>25 kcal</div>
+                </div>
+                <div class="go"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+            </div>
+
+            <h2 class="section-title">Stoffwechsel-Hacks</h2>
+            <div class="hack-card">
+              <div class="num">02</div>
+              <div>
+                <h4>10-Minuten-Spaziergang nach jeder Mahlzeit</h4>
+                <p>Senkt den Blutzucker-Peak nachweislich um bis zu 30 % — kein Insulinstoß, weniger Fettspeicherung.</p>
+              </div>
+            </div>
+            <div class="hack-card">
+              <div class="num">03</div>
+              <div>
+                <h4>Kalt duschen (30 Sek. am Ende)</h4>
+                <p>Aktiviert braunes Fettgewebe — dein Körper verbrennt 100–250 kcal zusätzlich zum Aufwärmen.</p>
+              </div>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button onclick="goto('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Home</button>
+            <button onclick="goto('tracker')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tracker</button>
+            <button onclick="goto('recipes')"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>Rezepte</button>
+            <button class="active"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>Workouts</button>
+            <button onclick="goto('profile')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Profil</button>
+          </nav>
+        </section>
+
+        <!-- ===== 9. PROGRESS ===== -->
+        <section class="screen" data-scr="progress">
+          <div class="scroll" style="padding:0 0 100px">
+            <div class="progress-head">
+              <h1 class="screen-title">Dein Fortschritt</h1>
+              <p style="color:var(--ink-mute); font-size:13px; margin-top:2px;">Was gemessen wird, verändert sich.</p>
+            </div>
+
+            <div class="progress-tabs">
+              <button class="active">Gewicht</button>
+              <button>Fotos</button>
+              <button>Maße</button>
+            </div>
+
+            <div class="weight-card">
+              <div class="row-between">
+                <div>
+                  <div class="kicker" style="margin-bottom:2px">Aktuell</div>
+                  <div class="big">76,4<small>kg</small></div>
+                </div>
+                <div style="text-align:right">
+                  <div class="delta">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 15l6-6 6 6"/></svg>
+                    −2,4 kg
+                  </div>
+                  <div style="font-size:11px; color:var(--ink-mute); margin-top:4px;">letzte 3 Wochen</div>
+                </div>
+              </div>
+
+              <svg class="weight-chart" viewBox="0 0 340 140" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--brand)" stop-opacity="0.25"/>
+                    <stop offset="100%" stop-color="var(--brand)" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <g class="grid">
+                  <line x1="0" y1="35"  x2="340" y2="35"/>
+                  <line x1="0" y1="70"  x2="340" y2="70"/>
+                  <line x1="0" y1="105" x2="340" y2="105"/>
+                </g>
+                <line class="goal-line" x1="0" y1="115" x2="340" y2="115"/>
+                <path class="area" d="M0,30 L48,42 L96,38 L144,52 L192,60 L240,72 L288,85 L340,92 L340,140 L0,140 Z"/>
+                <path class="line" d="M0,30 L48,42 L96,38 L144,52 L192,60 L240,72 L288,85 L340,92"/>
+                <circle class="dot" cx="0"   cy="30" r="3"/>
+                <circle class="dot" cx="48"  cy="42" r="3"/>
+                <circle class="dot" cx="96"  cy="38" r="3"/>
+                <circle class="dot" cx="144" cy="52" r="3"/>
+                <circle class="dot" cx="192" cy="60" r="3"/>
+                <circle class="dot" cx="240" cy="72" r="3"/>
+                <circle class="dot" cx="288" cy="85" r="3"/>
+                <circle class="dot end" cx="340" cy="92" r="5"/>
+              </svg>
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:var(--ink-mute); font-variant-numeric:tabular-nums; margin-top:2px; padding: 0 2px;">
+                <span>KW 34</span><span>KW 35</span><span>KW 36</span><span>KW 37</span><span>heute</span>
+              </div>
+              <div style="display:flex; gap:16px; margin-top:12px; padding-top:12px; border-top:1px solid var(--line-soft); font-size:11px;">
+                <span style="color:var(--ink-mute);"><span style="display:inline-block; width:10px; height:2px; background:var(--brand); vertical-align:middle; margin-right:4px;"></span>Verlauf</span>
+                <span style="color:var(--ink-mute);"><span style="display:inline-block; width:10px; height:2px; background:var(--accent); vertical-align:middle; margin-right:4px; border-radius:1px;"></span>Ziel 72,5 kg</span>
+              </div>
+            </div>
+
+            <div class="goal-progress-card">
+              <h4>Ziel-Fortschritt</h4>
+              <div class="goal-bar-wrap">
+                <span>Start <b>78,8 kg</b></span>
+                <span>Ziel <b>72,5 kg</b></span>
+              </div>
+              <div class="goal-bar">
+                <div class="fill"></div>
+                <div class="marker"></div>
+              </div>
+              <div style="text-align:center; font-family:var(--serif); font-size:15px; color:var(--brand); margin-top:10px; font-weight:500;">
+                62 % geschafft · noch <strong>3,9 kg</strong>
+              </div>
+            </div>
+
+            <h2 class="section-title" style="margin: 22px 20px 10px 20px;">Vorher · Jetzt</h2>
+            <div class="photo-strip">
+              <div class="ph" style="background: linear-gradient(135deg, #C0AF95, #9E8C71);"><span>15. Aug · 78,8 kg</span></div>
+              <div class="ph" style="background: linear-gradient(135deg, #A29078, #7B6C57);"><span>20. Sept · 76,4 kg</span></div>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button onclick="goto('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Home</button>
+            <button onclick="goto('tracker')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tracker</button>
+            <button onclick="goto('recipes')"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>Rezepte</button>
+            <button onclick="goto('workouts')"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>Workouts</button>
+            <button class="active"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Profil</button>
+          </nav>
+        </section>
+
+        <!-- ===== 10. PROFILE ===== -->
+        <section class="screen" data-scr="profile">
+          <div class="scroll" style="padding:0 0 100px">
+            <div class="profile-head">
+              <div class="avatar-lg">FL</div>
+              <h2>Florian Lienhart</h2>
+              <div class="sub">BodyShift Kunde · seit August 2026</div>
+              <div class="badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+                4 von 8 Behandlungen absolviert
+              </div>
+            </div>
+
+            <div class="stat-strip">
+              <div class="item"><div class="n">−2,4</div><div class="l">kg gesamt</div></div>
+              <div class="item"><div class="n">12</div><div class="l">Tage Streak</div></div>
+              <div class="item"><div class="n">76 %</div><div class="l">Ziel-Fortschritt</div></div>
+            </div>
+
+            <div class="appointment-card">
+              <div class="kicker">Nächster Termin</div>
+              <div class="date">Do, 25. September · 14:00</div>
+              <div class="studio">BodyShift Studio Graz-Andritz</div>
+              <button class="cta">
+                Zum Kalender hinzufügen
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+              </button>
+            </div>
+
+            <div class="menu-list">
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                <div class="lbl">Meine Termine</div>
+                <div class="val">4 kommende</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M12 3v18M3 12h18"/></svg></div>
+                <div class="lbl">Ziele &amp; Kalorien</div>
+                <div class="val">1.680 kcal</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M4 12h16"/></svg></div>
+                <div class="lbl">Apple Health / Google Fit</div>
+                <div class="val">Verbunden</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M12 2a5 5 0 015 5c0 3-5 8-5 15 0-7-5-12-5-15a5 5 0 015-5z"/></svg></div>
+                <div class="lbl">Erinnerungen</div>
+                <div class="val">3 aktiv</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M21 15a4 4 0 01-4 4H8l-5 3V6a4 4 0 014-4h10a4 4 0 014 4z"/></svg></div>
+                <div class="lbl">Coach-Chat</div>
+                <div class="val" style="color:var(--accent); font-weight:600;">Neue Nachricht</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+            </div>
+
+            <div class="menu-list">
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+                <div class="lbl">Hilfe &amp; Support</div>
+                <div class="chev"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+              </div>
+              <div class="menu-item">
+                <div class="ico"><svg class="ic-sm" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></div>
+                <div class="lbl" style="color:var(--protein);">Abmelden</div>
+              </div>
+            </div>
+          </div>
+          <nav class="tabbar">
+            <button onclick="goto('home')"><svg class="ic" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a2 2 0 01-2 2h-4v-6h-6v6H5a2 2 0 01-2-2z"/></svg>Home</button>
+            <button onclick="goto('tracker')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Tracker</button>
+            <button onclick="goto('recipes')"><svg class="ic" viewBox="0 0 24 24"><path d="M4 4h16v6a8 8 0 01-16 0z"/><path d="M8 4v-1M16 4v-1M4 20h16"/></svg>Rezepte</button>
+            <button onclick="goto('workouts')"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M2 10l4-4M14 22l4-4M22 14l-4-4M10 2l-4 4"/></svg>Workouts</button>
+            <button class="active"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>Profil</button>
+          </nav>
+        </section>
+
+        <!-- ===== 12. WOCHENKONTO ===== -->
+        <section class="screen" data-scr="weekacc">
+          <div class="scroll" style="padding:0 0 100px">
+            <div class="wa-hero">
+              <div class="row-between" style="align-items:center; position:relative; z-index:1;">
+                <button style="color:var(--brand-ink); font-size:15px; opacity:.85;" onclick="goto('home')">← Zurück</button>
+                <span style="width:60px"></span>
+              </div>
+              <div class="kicker" style="margin-top:10px">Wochenkonto · KW 38</div>
+              <h2 class="headline">3.240&nbsp;kcal Puffer bis Sonntag.</h2>
+              <div class="sub">Ein Ausrutscher heute kostet die Woche nix — verschieb einfach.</div>
+
+              <div class="stat-row">
+                <div class="stat"><div class="n">8.520</div><div class="l">verbraucht</div></div>
+                <div class="stat"><div class="n">11.760</div><div class="l">Wochenziel</div></div>
+                <div class="stat"><div class="n">1½</div><div class="l">Tage übrig</div></div>
+              </div>
+              <div class="wa-bigbar"><div class="fill"></div></div>
+            </div>
+
+            <div class="wa-days">
+              <h2 class="section-title" style="margin:14px 0 6px; padding:0 4px;">Deine Woche</h2>
+
+              <div class="wa-ring-grid">
+                <div class="wa-ring-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--brand)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="31.7"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">82</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Mo</div>
+                  <div class="wa-ring-kcal">1.380</div>
+                </div>
+
+                <div class="wa-ring-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--brand)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="42.2"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">76</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Di</div>
+                  <div class="wa-ring-kcal">1.280</div>
+                </div>
+
+                <div class="wa-ring-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--brand)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="17.6"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">90</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Mi</div>
+                  <div class="wa-ring-kcal">1.510</div>
+                </div>
+
+                <div class="wa-ring-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--brand)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="21.1"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">88</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Do</div>
+                  <div class="wa-ring-kcal">1.480</div>
+                </div>
+
+                <div class="wa-ring-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--brand)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="52.8"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">70</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Fr</div>
+                  <div class="wa-ring-kcal">1.240</div>
+                </div>
+
+                <div class="wa-ring-cell treat-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--carbs)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="175.9"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">0</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">Sa 🎉</div>
+                  <div class="wa-ring-kcal">2.400</div>
+                </div>
+
+                <div class="wa-ring-cell today-cell" onclick="goto('daybudget')">
+                  <svg viewBox="0 0 70 70">
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--track)" stroke-width="6"></circle>
+                    <circle cx="35" cy="35" r="28" fill="none" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"
+                      stroke-dasharray="175.9" stroke-dashoffset="56.3"
+                      transform="rotate(-90 35 35)"></circle>
+                    <text x="35" y="34" text-anchor="middle" font-size="14" font-family="var(--serif)" font-weight="500" fill="var(--ink)">68</text>
+                    <text x="35" y="46" text-anchor="middle" font-size="7" font-family="var(--sans)" font-weight="600" fill="var(--ink-mute)" letter-spacing="0.5">%</text>
+                  </svg>
+                  <div class="wa-ring-lbl">So</div>
+                  <div class="wa-ring-kcal">1.140</div>
+                </div>
+              </div>
+
+              <div class="wa-actions">
+                <button>
+                  <span>🎉</span> Gönn-Tag planen
+                </button>
+                <button onclick="goto('daybudget')">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M8 12h8M4 6h16M4 18h16"/></svg>
+                  Budget verteilen
+                </button>
+              </div>
+
+              <div style="margin: 18px 0 4px; padding: 14px 16px; background: var(--accent-soft); border-radius: 14px; color: var(--accent); font-size: 12.5px; line-height: 1.5;">
+                <b style="font-family:var(--serif); font-size:14px; display:block; margin-bottom:2px;">💡 Wie das Wochenkonto funktioniert</b>
+                Ein einzelner Tag kann drüber sein — solange die Woche passt. Verschieb Budget frei zwischen Tagen. Plan deinen Gönn-Tag im Voraus, und der Puffer wird automatisch verteilt.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 13. TAGES-BUDGET & SLIDER ===== -->
+        <section class="screen" data-scr="daybudget">
+          <div class="scroll" style="padding:0 0 100px">
+            <div class="db-head">
+              <div class="row-between" style="align-items:flex-start;">
+                <div>
+                  <div class="kicker" style="margin-bottom:4px">Tag im Wochenkonto</div>
+                  <div class="day-title">Samstag<small>20.09 · Gönn-Tag 🎉</small></div>
+                </div>
+                <button style="color:var(--ink-mute); font-size:14px;" onclick="goto('weekacc')">← Wochenkonto</button>
+              </div>
+            </div>
+
+            <div class="db-donut">
+              <svg viewBox="0 0 200 200">
+                <circle class="track" cx="100" cy="100" r="85"></circle>
+                <circle class="value" cx="100" cy="100" r="85"
+                  stroke="var(--accent)"
+                  stroke-dasharray="534" stroke-dashoffset="534"></circle>
+                <text class="big" x="100" y="94">2.400</text>
+                <text class="lbl" x="100" y="118">kcal Budget</text>
+                <text class="lbl" x="100" y="134" style="fill:var(--accent); letter-spacing:0.08em;">+720 vs. Standard</text>
+              </svg>
+            </div>
+
+            <div class="db-numbers">
+              <div class="n-item eaten"><div class="n">0</div><div class="l">gegessen</div></div>
+              <div class="n-item left"><div class="n">2.400</div><div class="l">übrig</div></div>
+              <div class="n-item adj"><div class="n">+720</div><div class="l">Puffer</div></div>
+            </div>
+
+            <div class="db-slider-card">
+              <h4>Budget aus anderen Tagen holen</h4>
+              <div class="helper">Verschieb bis zu 800 kcal aus Mo–Fr auf heute. Wochensumme bleibt gleich.</div>
+
+              <div class="slider-value">
+                <span class="num">+720</span>
+                <span class="u">kcal</span>
+              </div>
+
+              <input type="range" min="-400" max="1200" step="50" value="720" class="kcal-slider" oninput="updateSlider(this.value)">
+              <div class="slider-range">
+                <span>−400</span>
+                <span>0</span>
+                <span>+1.200</span>
+              </div>
+
+              <div class="slider-hint">
+                <b>+720 kcal</b> auf heute → wird automatisch aus Mo, Di und Mi abgezogen (je ~240 kcal).<br>
+                Deine Wochensumme bleibt bei <b>11.760 kcal</b>.
+              </div>
+
+              <div class="redist-preview">
+                <div class="day"><div class="lbl">Mo</div><div class="delta minus" id="rd-mo">−240</div></div>
+                <div class="day"><div class="lbl">Di</div><div class="delta minus" id="rd-di">−240</div></div>
+                <div class="day"><div class="lbl">Mi</div><div class="delta minus" id="rd-mi">−240</div></div>
+                <div class="day"><div class="lbl">Do</div><div class="delta zero" id="rd-do">0</div></div>
+                <div class="day"><div class="lbl">Fr</div><div class="delta zero" id="rd-fr">0</div></div>
+                <div class="day"><div class="lbl" style="color:var(--accent);">Sa</div><div class="delta plus" id="rd-sa">+720</div></div>
+                <div class="day"><div class="lbl">So</div><div class="delta zero" id="rd-so">0</div></div>
+              </div>
+            </div>
+
+            <div style="padding: 16px 20px 0;">
+              <button class="btn accent" onclick="goto('weekacc')">Speichern &amp; zurück</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== 14. WOCHENRÜCKBLICK ===== -->
+        <section class="screen" data-scr="weekreview">
+          <div class="wr-hero">
+            <div class="badge">Sonntagabend</div>
+            <h1>Woche geschafft — sauber gespielt.</h1>
+            <div class="sub">Du warst 20 kcal <em>unter</em> deinem Wochenziel. Das ist Konstanz, kein Zufall.</div>
+          </div>
+
+          <div class="wr-body">
+            <div class="wr-metric-grid">
+              <div class="wr-metric">
+                <div class="head">
+                  <div class="ico b">📉</div>
+                  <div>
+                    <div class="n">−0,4<small style="font-family:var(--sans); font-size:11px; color:var(--ink-mute); font-weight:500; margin-left:2px;">kg</small></div>
+                    <div class="l">Gewicht diese Woche</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wr-metric">
+                <div class="head">
+                  <div class="ico">🔥</div>
+                  <div>
+                    <div class="n">7<small style="font-family:var(--sans); font-size:11px; color:var(--ink-mute); font-weight:500; margin-left:2px;">/7</small></div>
+                    <div class="l">Tracking-Streak</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wr-metric">
+                <div class="head">
+                  <div class="ico b">🥩</div>
+                  <div>
+                    <div class="n">128<small style="font-family:var(--sans); font-size:11px; color:var(--ink-mute); font-weight:500; margin-left:2px;">g</small></div>
+                    <div class="l">Ø Protein/Tag</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wr-metric">
+                <div class="head">
+                  <div class="ico">🚶</div>
+                  <div>
+                    <div class="n">48k</div>
+                    <div class="l">Schritte gesamt</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="wr-week-chart">
+              <h4>Deine Woche im Überblick</h4>
+              <div class="helper">Grün = normale Tage · Gelb = Gönn-Tag</div>
+              <div class="bars">
+                <div class="bar-col"><div class="bar" style="height:76%"></div><div class="lbl">Mo</div></div>
+                <div class="bar-col"><div class="bar" style="height:70%"></div><div class="lbl">Di</div></div>
+                <div class="bar-col"><div class="bar" style="height:82%"></div><div class="lbl">Mi</div></div>
+                <div class="bar-col"><div class="bar" style="height:80%"></div><div class="lbl">Do</div></div>
+                <div class="bar-col"><div class="bar" style="height:66%"></div><div class="lbl">Fr</div></div>
+                <div class="bar-col"><div class="bar treat" style="height:98%"></div><div class="lbl">Sa</div></div>
+                <div class="bar-col"><div class="bar" style="height:72%"></div><div class="lbl">So</div></div>
+              </div>
+            </div>
+
+            <div class="wr-message">
+              <h4>💚 Was diese Woche gut lief</h4>
+              <p>Du hast dir am Samstag deinen Gönn-Tag genommen und trotzdem im Wochenbudget geblieben. <strong>Genau so funktioniert das Konzept.</strong> Kein Alles-oder-nichts, sondern klug verteilt.</p>
+            </div>
+
+            <div class="wr-message" style="background: color-mix(in oklab, var(--brand) 12%, var(--surface)); color: var(--brand);">
+              <h4 style="color: var(--brand);">🎯 Fokus für nächste Woche</h4>
+              <p style="color: var(--ink-soft);">Dein Protein-Schnitt liegt bei 128g — Ziel wären 140g. Ein zusätzlicher Skyr oder 100g Hähnchen pro Tag reichen aus. Kleine Stellschraube, große Wirkung.</p>
+            </div>
+
+            <button class="btn" onclick="goto('home')" style="margin-top: 8px;">Neue Woche starten →</button>
+
+            <div style="text-align:center; font-size:11px; color:var(--ink-mute); margin-top:14px;">
+              Wochenrückblick jeden Sonntag um 19:00 · Kannst du in Einstellungen anpassen
+            </div>
+          </div>
+        </section>
+
+      </div>
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+  <aside class="notes-panel">
+    <div class="kicker">Design-Notiz</div>
+    <h3 id="noteTitle">Login &amp; Splash</h3>
+    <p class="note" id="noteBody">Der erste Eindruck: warmes Petrol-Grün mit Terracotta-Akzent — vertrauenswürdig und premium, nicht "noch eine Fitness-App". Nur Bestandskunden loggen sich ein oder aktivieren mit Code aus der Behandlung.</p>
+    <ul id="noteList">
+      <li>Serif-Display (Fraunces) für Persönlichkeit</li>
+      <li>Kein Social Login — nur Kunden-Zugang</li>
+      <li>"Termin buchen" als Sekundär-Weg</li>
+    </ul>
+  </aside>
+</div>
+
+<script>
+  const notes = {
+    login: {
+      title: "Login &amp; Splash",
+      body: "Original-Logo-Feel: Rahmen, Silhouette-Linie, BODYSHIFT-Serif in Sperrung, Untertitel „Körper neu denken\". Warmes Petrol-Grün mit Terracotta-Akzent — premium, nicht „noch eine Fitness-App\".",
+      list: ["Silhouette als Inline-SVG angelehnt ans Logo","BODYSHIFT-Serif in Sperrung wie im CI","Nur Bestandskunden — kein Social Login","'Termin buchen' als Sekundär-Weg für Interessenten"]
+    },
+    onboarding: {
+      title: "Ziel setzen",
+      body: "Der wichtigste Onboarding-Schritt. Wir berechnen automatisch das Kalorien- und Protein-Ziel nach Mifflin-St Jeor und zeigen realistische Zeitspanne für Vertrauen.",
+      list: ["Live-Berechnung von kcal &amp; Makros","Bezug zu 'sanft &amp; sicher' entkräftet Angst","Progress-Bar zeigt: du bist gleich fertig"]
+    },
+    home: {
+      title: "Dashboard",
+      body: "Der Screen, der 20× am Tag geöffnet wird. Kalorien-Ring als Fokus, Makros als Balken, Streak für Motivation, Rezept-Vorschlag als tägliche Inspiration.",
+      list: ["Rezept &amp; Hack rotieren täglich (Retention)","Streak-Feuer wirkt stärker als Zahlen","Schritte &amp; Wasser als schnelle Wins"]
+    },
+    tracker: {
+      title: "Kalorien-Tracker",
+      body: "Muss schneller sein als YAZIO. Datum-Strip oben, Mahlzeiten-Cards mit direkter kcal-Summe, One-Tap zum Hinzufügen.",
+      list: ["Barcode-Scan prominent (nicht versteckt)","'Meine Rezepte' als eigene Kategorie","Farbcodierung: unter Ziel = grün"]
+    },
+    addfood: {
+      title: "Essen hinzufügen",
+      body: "Drei Wege parallel: Suche, Barcode-Scan, oder KI-Foto-Analyse. BodyShift-Rezepte werden bevorzugt vorgeschlagen. Modal-Overlay — schließt schnell.",
+      list: ["OpenFoodFacts (gratis, DACH-Produkte)","KI-Foto als Premium-CTA prominent","Zuletzt gescannte Produkte oben"]
+    },
+    aiscan: {
+      title: "KI Foto-Scan ✨",
+      body: "Dein Wow-Feature. Kunde fotografiert die Mahlzeit, Claude Vision erkennt Zutaten + Portionen + Kalorien in Sekunden. Der Kunde bestätigt und trackt mit einem Tap.",
+      list: [
+        "Powered by Claude Vision API (~0,01 € pro Analyse)",
+        "Konfidenz-Werte pro Zutat → Kunde kann korrigieren",
+        "Portionen mit Slider anpassbar",
+        "Datenschutz: Fotos verschlüsselt, nicht öffentlich",
+        "Fallback zur manuellen Eingabe wenn KI unsicher"
+      ]
+    },
+    recipes: {
+      title: "Rezepte",
+      body: "Deine kuratierten BodyShift-Rezepte. Kategorie-Filter, Kalorien pro Card sichtbar, Bild-first. Später mit deinen eigenen Fotos.",
+      list: ["Filter nach Zeit, Protein, Diät","Auto-import in den Tracker","Wochenplan-Feature in v2"]
+    },
+    recipedetail: {
+      title: "Rezept-Detail",
+      body: "Hero-Bild, direkte Nährwert-Anzeige, klare Zutatenliste, nummerierte Schritte. Ein-Klick-Hinzufügen zum Tracker als Haupt-CTA.",
+      list: ["Portionen skalierbar (1×/2×/4×)","Später: Video-Zubereitung","Einkaufsliste generieren"]
+    },
+    workouts: {
+      title: "Workouts &amp; Hacks",
+      body: "Kein Overkill. Kurze Home-Workouts (5–15 Min), keine Geräte. Stoffwechsel-Hacks als Micro-Learnings — dein USP gegenüber generischen Fitness-Apps.",
+      list: ["Timer-basiert mit Anleitungs-Videos","Hacks: tägliche neue Karte","Alltags-fokus, nicht Fitness-Studio"]
+    },
+    progress: {
+      title: "Fortschritt",
+      body: "Der Emotional-Screen. Gewichtsverlauf mit Ziellinie, Vorher/Nachher-Fotos, Prozent-Fortschritt. Motiviert an schwachen Tagen.",
+      list: ["Fotos privat, verschlüsselt","Ziel-Linie visuell prominent","Optional: Erfolg teilen (IG-Story) → Marketing"]
+    },
+    profile: {
+      title: "Profil &amp; Behandlung",
+      body: "Die Verzahnung mit dem BodyShift-Geschäft. Termine, Behandlungs-Fortschritt, Coach-Chat für Nachfragen, Apple Health-Sync.",
+      list: ["Termine synchronisieren mit deinem CRM","Coach-Chat = Retention-Booster","Behandlungs-Fortschritt als Badge"]
+    },
+    weekacc: {
+      title: "Wochenkonto",
+      body: "Das USP-Feature: statt 7 einzelner Tageslimits ein Wochenbudget. Ein Ausrutscher kostet nur Puffer, nicht die ganze Diät. Der Gönn-Tag wird geplant, nicht bereut.",
+      list: [
+        "Ein-Satz-Feedback statt Zahlensalat",
+        "Positiv formuliert — nie schuldzuweisend",
+        "Klick auf Tag → Detail-View mit Slider",
+        "Gönn-Tag wird visuell gelb hervorgehoben",
+        "Bar unten zeigt Woche insgesamt (% verbraucht)"
+      ]
+    },
+    daybudget: {
+      title: "Tages-Budget &amp; Slider",
+      body: "Slider in 50-kcal-Schritten. Verschiebt der User Budget auf Samstag, werden die kcal automatisch von anderen Tagen abgezogen — visuell sofort sichtbar. Die Wochensumme bleibt immer konstant.",
+      list: [
+        "50-kcal-Snap für schnelle Bedienung",
+        "Live-Vorschau: wo kommt/geht das Budget hin",
+        "Verteilung intelligent auf ruhigere Tage",
+        "Farben: Terracotta = Plus, Rot = Minus"
+      ]
+    },
+    weekreview: {
+      title: "Wochenrückblick",
+      body: "Automatisch Sonntagabend. Ruhiger, positiver Rückblick auf die Woche als Ganzes — nicht auf einzelne Tage. Feiert Konstanz, benennt eine konkrete Stellschraube für nächste Woche.",
+      list: [
+        "Positiv-first, nie schuldzuweisend",
+        "Konkreter Fokus für nächste Woche",
+        "Metriken: Gewicht, Streak, Protein, Schritte",
+        "'Neue Woche starten' als klarer Reset"
+      ]
+    }
+  };
+
+  const nav = document.getElementById('screenNav');
+  const noteTitle = document.getElementById('noteTitle');
+  const noteBody = document.getElementById('noteBody');
+  const noteList = document.getElementById('noteList');
+
+  function goto(scr) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.dataset.scr === scr));
+    document.querySelectorAll('#screenNav button').forEach(b => b.classList.toggle('active', b.dataset.screen === scr));
+    const n = notes[scr];
+    if (n) {
+      noteTitle.innerHTML = n.title;
+      noteBody.innerHTML = n.body;
+      noteList.innerHTML = n.list.map(li => `<li>${li}</li>`).join('');
+    }
+    document.querySelectorAll('.scroll').forEach(el => el.scrollTop = 0);
+  }
+  nav.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-screen]');
+    if (btn) goto(btn.dataset.screen);
+  });
+
+  // Budget-Slider im Tages-Detail
+  window.updateSlider = function(v) {
+    const val = parseInt(v);
+    const sliderNum = document.querySelector('.slider-value .num');
+    if (sliderNum) sliderNum.textContent = (val >= 0 ? '+' : '') + val;
+
+    // Verteilung: bei +720 werden 3 Tage à 240 abgezogen; skaliert linear
+    const days = ['mo','di','mi','do','fr','sa','so'];
+    const perDayShift = Math.round(val / 3);
+    const dayValues = {
+      mo: -perDayShift, di: -perDayShift, mi: -perDayShift,
+      do: 0, fr: 0, sa: val, so: 0
+    };
+    days.forEach(d => {
+      const el = document.getElementById('rd-' + d);
+      if (!el) return;
+      const dv = dayValues[d];
+      el.className = 'delta ' + (dv > 0 ? 'plus' : dv < 0 ? 'minus' : 'zero');
+      el.textContent = (dv > 0 ? '+' : '') + (dv === 0 ? '0' : dv);
+    });
+
+    // Slider-Hint updaten
+    const hint = document.querySelector('.slider-hint');
+    if (hint) {
+      const absVal = Math.abs(val);
+      const source = val > 0 ? 'auf heute' : 'weg von heute';
+      const target = val > 0 ? 'aus Mo–Mi' : 'auf Mo–Mi verteilt';
+      hint.innerHTML = `<b>${val >= 0 ? '+' : ''}${val} kcal</b> ${source} → wird ${target} (je ~${Math.abs(perDayShift)} kcal).<br>Deine Wochensumme bleibt bei <b>11.760 kcal</b>.`;
+    }
+
+    // Donut-Ring updaten
+    const donutValue = document.querySelector('.db-donut .value');
+    if (donutValue) {
+      const totalBudget = 1680 + val;
+      const circumference = 534;
+      const offset = circumference * (1 - Math.min(1, totalBudget / 2400));
+      donutValue.setAttribute('stroke-dashoffset', offset);
+    }
+    const donutBig = document.querySelector('.db-donut text.big');
+    if (donutBig) donutBig.textContent = (1680 + val).toLocaleString('de-AT');
+    const donutDelta = document.querySelector('.db-donut text.lbl:last-of-type');
+    if (donutDelta) donutDelta.textContent = (val >= 0 ? '+' : '') + val + ' vs. Standard';
+
+    // Puffer-Kachel updaten
+    const adj = document.querySelector('.db-numbers .adj .n');
+    if (adj) adj.textContent = (val >= 0 ? '+' : '') + val;
+    const left = document.querySelector('.db-numbers .left .n');
+    if (left) left.textContent = (1680 + val).toLocaleString('de-AT');
+  };
+
+  // Initial Donut-Position setzen (Sa mit +720)
+  setTimeout(() => {
+    const donutValue = document.querySelector('.db-donut .value');
+    if (donutValue) {
+      const offset = 534 * (1 - 2400/2400);
+      donutValue.setAttribute('stroke-dashoffset', offset);
+    }
+  }, 100);
+
+  // Theme toggle: cycles auto → light → dark
+  const themeBtn = document.getElementById('themeBtn');
+  const modes = ['auto', 'light', 'dark'];
+  let modeIdx = 0;
+  try { modeIdx = Math.max(0, modes.indexOf(localStorage.getItem('bs-theme') || 'auto')); } catch(e){}
+  applyTheme();
+  themeBtn.addEventListener('click', () => {
+    modeIdx = (modeIdx + 1) % modes.length;
+    try { localStorage.setItem('bs-theme', modes[modeIdx]); } catch(e){}
+    applyTheme();
+  });
+  function applyTheme() {
+    const m = modes[modeIdx];
+    if (m === 'auto') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', m);
+    themeBtn.textContent = m === 'auto' ? 'Auto' : (m === 'light' ? 'Hell' : 'Dunkel');
+  }
+</script>
