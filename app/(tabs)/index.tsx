@@ -1,34 +1,69 @@
-import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, View, Text, StyleSheet, Pressable, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle } from 'react-native-svg';
+import { router } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
+import { DayRing } from '@/components/DayRing';
+import { listRecipes, type Recipe } from '@/lib/recipes';
+import { todaysHack } from '@/lib/hacks';
 
-/**
- * Dashboard — der Screen der 20× am Tag geöffnet wird.
- * Aufbau (aus dem Prototyp):
- * - Greeting mit Streak
- * - Großer Tages-Kalorien-Ring + Makro-Balken
- * - Wochenkonto (kompakt: 7 kleine Ringe)
- * - Schnellzugriff (Schritte, Wasser)
- * - Rezept des Tages
- * - Alltags-Hack
- */
+// Mock-Woche — später aus Supabase via useWeekAccount()
+const MOCK_WEEK = [
+  { label: 'Mo', percent: 0.82, variant: 'default' as const },
+  { label: 'Di', percent: 0.76, variant: 'default' as const },
+  { label: 'Mi', percent: 0.90, variant: 'default' as const },
+  { label: 'Do', percent: 0.88, variant: 'default' as const },
+  { label: 'Fr', percent: 0.70, variant: 'default' as const },
+  { label: 'Sa', percent: 0.00, variant: 'treat' as const },
+  { label: 'So', percent: 0.68, variant: 'today' as const },
+];
+
+const DAILY_GOAL = 1680;
+const CONSUMED = 1140;
+const REMAINING = DAILY_GOAL - CONSUMED;
+
 export default function HomeScreen() {
   const { colors } = useTheme();
+  const [recipeOfDay, setRecipeOfDay] = useState<Recipe | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const hack = todaysHack();
 
-  // Mock-Daten — später aus Supabase
-  const dailyGoal = 1680;
-  const consumed = 1140;
-  const remaining = dailyGoal - consumed;
-  const progress = consumed / dailyGoal;
+  async function loadRecipeOfDay() {
+    try {
+      const list = await listRecipes({ limit: 20 });
+      if (list.length > 0) {
+        const idx = new Date().getDate() % list.length;
+        setRecipeOfDay(list[idx]);
+      }
+    } catch {
+      // still ohne Rezept-Card — App bleibt lauffähig
+    } finally {
+      setRefreshing(false);
+    }
+  }
+
+  useEffect(() => {
+    loadRecipeOfDay();
+  }, []);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
       <ScrollView
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => { setRefreshing(true); loadRecipeOfDay(); }}
+            tintColor={colors.brand}
+          />
+        }
       >
+        {/* Header */}
         <View style={styles.header}>
           <View>
             <Text style={[styles.greeting, { color: colors.ink }]}>Guten Morgen, Florian</Text>
@@ -39,17 +74,18 @@ export default function HomeScreen() {
           </View>
         </View>
 
+        {/* Kalorien-Hero */}
         <View style={[styles.calorieHero, { backgroundColor: colors.surface }]}>
           <View style={styles.calRingWrap}>
-            <CalorieRing consumed={consumed} goal={dailyGoal} color={colors.accent} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
+            <CalorieRing consumed={CONSUMED} goal={DAILY_GOAL} color={colors.accent} trackColor={colors.track} />
             <View style={styles.calStats}>
               <Text style={[styles.label, { color: colors.inkMute }]}>VERBLEIBEND</Text>
               <Text style={[styles.bigNumber, { color: colors.ink }]}>
-                {remaining}
+                {REMAINING}
                 <Text style={[styles.unit, { color: colors.inkMute }]}> kcal</Text>
               </Text>
               <Text style={[styles.remainingHint, { color: colors.success }]}>
-                ✓ Gut im Plan · Ziel {dailyGoal.toLocaleString('de-AT')} kcal
+                ✓ Gut im Plan · Ziel {DAILY_GOAL.toLocaleString('de-AT')} kcal
               </Text>
             </View>
           </View>
@@ -61,39 +97,118 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {/* TODO: Wochenkonto-Card, Streak-Cards, Rezept des Tages, Hack */}
-        <View style={[styles.placeholder, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.placeholderText, { color: colors.inkMute }]}>
-            Wochenkonto, Rezept des Tages und Hack kommen als nächstes.
+        {/* Wochenkonto */}
+        <Pressable
+          style={[styles.weekCard, { backgroundColor: colors.surface }]}
+          onPress={() => { /* TODO: → /week-account */ }}
+        >
+          <View style={styles.weekHead}>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
+              <Text style={[styles.weekTitle, { color: colors.ink }]}>Woche</Text>
+              <Text style={[styles.weekKicker, { color: colors.inkMute }]}>Mo – So · KW 38</Text>
+            </View>
+            <Text style={[styles.weekRemain, { color: colors.brand }]}>
+              3.240<Text style={[styles.weekRemainUnit, { color: colors.inkMute }]}> kcal übrig</Text>
+            </Text>
+          </View>
+          <View style={styles.weekRings}>
+            {MOCK_WEEK.map((d) => (
+              <DayRing key={d.label} label={d.label} percent={d.percent} variant={d.variant} colors={colors} />
+            ))}
+          </View>
+          <Text style={[styles.weekFeedback, { color: colors.inkSoft }]}>
+            <Text style={{ color: colors.success }}>✓ </Text>
+            Sauber unterwegs — noch Puffer für <Text style={{ color: colors.accent, fontWeight: '600' }}>Sa (Gönn-Tag)</Text>
           </Text>
+        </Pressable>
+
+        {/* Quick-Stats */}
+        <View style={styles.quickStrip}>
+          <MiniCard icon="👣" label="Schritte heute" value="6.240" bg={colors.surface} inkColor={colors.ink} inkMute={colors.inkMute} accentBg={colors.brand} accentColor={colors.brand} />
+          <MiniCard icon="💧" label="Wasser · Ziel 2,5L" value="1,4L" bg={colors.surface} inkColor={colors.ink} inkMute={colors.inkMute} accentBg={colors.accent} accentColor={colors.accent} />
+        </View>
+
+        {/* Rezept des Tages */}
+        {recipeOfDay && (
+          <>
+            <View style={styles.sectionHead}>
+              <Text style={[styles.sectionTitle, { color: colors.ink }]}>Rezept des Tages</Text>
+              <Pressable onPress={() => router.push('/(tabs)/recipes')}>
+                <Text style={[styles.sectionLink, { color: colors.brand }]}>Alle →</Text>
+              </Pressable>
+            </View>
+            <Pressable
+              style={[styles.recipeCard, { backgroundColor: colors.surface }]}
+              onPress={() => router.push(`/recipe/${recipeOfDay.slug}`)}
+            >
+              <View style={styles.recipeImg}>
+                {recipeOfDay.image_url ? (
+                  <Image source={recipeOfDay.image_url} style={StyleSheet.absoluteFill} contentFit="cover" />
+                ) : (
+                  <LinearGradient colors={['#C67A50', '#E4A87A']} style={StyleSheet.absoluteFill} />
+                )}
+                <LinearGradient
+                  colors={['transparent', 'rgba(0,0,0,0.4)']}
+                  style={StyleSheet.absoluteFill}
+                  locations={[0.55, 1]}
+                />
+                {recipeOfDay.tags?.[0] && (
+                  <View style={styles.recipeTag}>
+                    <Text style={[styles.recipeTagText, { color: colors.brand }]}>
+                      {recipeOfDay.tags[0]}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View style={styles.recipeBody}>
+                <Text style={[styles.recipeTitle, { color: colors.ink }]} numberOfLines={1}>
+                  {recipeOfDay.title}
+                </Text>
+                <Text style={[styles.recipeMeta, { color: colors.inkMute }]}>
+                  {recipeOfDay.kcal ? `${recipeOfDay.kcal} kcal` : ''}
+                  {recipeOfDay.protein_g ? ` · ${recipeOfDay.protein_g}g Protein` : ''}
+                  {recipeOfDay.minutes ? ` · ${recipeOfDay.minutes} Min` : ''}
+                </Text>
+              </View>
+            </Pressable>
+          </>
+        )}
+
+        {/* Alltags-Hack */}
+        <View style={styles.sectionHead}>
+          <Text style={[styles.sectionTitle, { color: colors.ink }]}>Alltags-Hack</Text>
+        </View>
+        <View style={[styles.hackCard, { backgroundColor: colors.accentSoft }]}>
+          <Text style={[styles.hackNum, { color: colors.accent }]}>{hack.number}</Text>
+          <View style={{ flex: 1 }}>
+            <Text style={[styles.hackTitle, { color: colors.accent }]}>{hack.title}</Text>
+            <Text style={[styles.hackBody, { color: colors.accent }]}>{hack.body}</Text>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function CalorieRing({ consumed, goal, color, trackColor, inkColor, inkMute }: {
-  consumed: number; goal: number; color: string; trackColor: string; inkColor: string; inkMute: string;
+function CalorieRing({ consumed, goal, color, trackColor }: {
+  consumed: number; goal: number; color: string; trackColor: string;
 }) {
   const r = 55;
   const circumference = 2 * Math.PI * r;
   const progress = Math.min(1, consumed / goal);
   const offset = circumference * (1 - progress);
-
   return (
     <Svg width={130} height={130} viewBox="0 0 130 130">
       <Circle cx={65} cy={65} r={r} fill="none" stroke={trackColor} strokeWidth={12} />
       <Circle
-        cx={65}
-        cy={65}
-        r={r}
+        cx={65} cy={65} r={r}
         fill="none"
         stroke={color}
         strokeWidth={12}
         strokeLinecap="round"
         strokeDasharray={circumference}
         strokeDashoffset={offset}
-        transform={`rotate(-90 65 65)`}
+        transform="rotate(-90 65 65)"
       />
     </Svg>
   );
@@ -119,43 +234,76 @@ function MacroBar({ label, current, goal, color, trackColor, inkColor, inkMute }
   );
 }
 
+function MiniCard({ icon, label, value, bg, inkColor, inkMute, accentBg, accentColor }: {
+  icon: string; label: string; value: string; bg: string; inkColor: string; inkMute: string; accentBg: string; accentColor: string;
+}) {
+  return (
+    <View style={[styles.miniCard, { backgroundColor: bg }]}>
+      <View style={[styles.miniIcon, { backgroundColor: accentBg + '22' }]}>
+        <Text style={{ fontSize: 14 }}>{icon}</Text>
+      </View>
+      <Text style={[styles.miniValue, { color: inkColor }]}>{value}</Text>
+      <Text style={[styles.miniLabel, { color: inkMute }]}>{label}</Text>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: { flex: 1 },
   scroll: { padding: spacing.xl, paddingBottom: 40 },
   header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: spacing.md },
   greeting: { fontFamily: fonts.serifMedium, fontSize: 22 },
   streak: { fontFamily: fonts.sans, fontSize: 12.5, marginTop: 2 },
-  avatar: {
-    width: 42, height: 42, borderRadius: 100,
-    alignItems: 'center', justifyContent: 'center',
-  },
+  avatar: { width: 42, height: 42, borderRadius: 100, alignItems: 'center', justifyContent: 'center' },
   avatarText: { fontFamily: fonts.serifMedium, fontSize: 16 },
-  calorieHero: {
-    borderRadius: radius.xl,
-    padding: 22,
-    marginTop: spacing.sm,
-  },
+
+  calorieHero: { borderRadius: radius.xl, padding: 22 },
   calRingWrap: { flexDirection: 'row', alignItems: 'center', gap: 20 },
   calStats: { flex: 1 },
-  label: {
-    fontFamily: fonts.sans, fontSize: 11, fontWeight: '600',
-    letterSpacing: 1.5, marginBottom: 2,
-  },
+  label: { fontFamily: fonts.sansBold, fontSize: 11, fontWeight: '600', letterSpacing: 1.5, marginBottom: 2 },
   bigNumber: { fontFamily: fonts.serifMedium, fontSize: 32, letterSpacing: -0.5 },
   unit: { fontFamily: fonts.sans, fontSize: 13, fontWeight: '500' },
   remainingHint: { fontFamily: fonts.sans, fontSize: 13, fontWeight: '500', marginTop: 8 },
-  macros: {
-    flexDirection: 'row', gap: 10,
-    marginTop: 16, paddingTop: 16, borderTopWidth: 1,
-  },
+  macros: { flexDirection: 'row', gap: 10, marginTop: 16, paddingTop: 16, borderTopWidth: 1 },
   macro: { flex: 1, gap: 6 },
   macroHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
-  macroName: { fontFamily: fonts.sans, fontSize: 11, fontWeight: '600', letterSpacing: 1 },
+  macroName: { fontFamily: fonts.sansBold, fontSize: 11, fontWeight: '600', letterSpacing: 1 },
   macroVal: { fontFamily: fonts.sans, fontSize: 12.5, fontWeight: '600' },
   macroBar: { height: 6, borderRadius: 3, overflow: 'hidden' },
-  placeholder: {
-    marginTop: spacing.md, padding: spacing.xl, borderRadius: radius.lg,
-    alignItems: 'center',
+
+  weekCard: { borderRadius: radius.lg, padding: 16, marginTop: 12 },
+  weekHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 },
+  weekTitle: { fontFamily: fonts.serifMedium, fontSize: 15 },
+  weekKicker: { fontFamily: fonts.sansBold, fontSize: 10, letterSpacing: 1.2, fontWeight: '600' },
+  weekRemain: { fontFamily: fonts.serifMedium, fontSize: 15 },
+  weekRemainUnit: { fontFamily: fonts.sans, fontSize: 11, fontWeight: '500' },
+  weekRings: { flexDirection: 'row', gap: 6, paddingVertical: 4 },
+  weekFeedback: { fontFamily: fonts.sans, fontSize: 12.5, marginTop: 10 },
+
+  quickStrip: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  miniCard: { flex: 1, borderRadius: radius.md, padding: 14, gap: 4 },
+  miniIcon: { width: 32, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  miniValue: { fontFamily: fonts.serifMedium, fontSize: 22 },
+  miniLabel: { fontFamily: fonts.sans, fontSize: 11.5 },
+
+  sectionHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', marginTop: 22, marginBottom: 10 },
+  sectionTitle: { fontFamily: fonts.serifMedium, fontSize: 18 },
+  sectionLink: { fontFamily: fonts.sansBold, fontSize: 12.5, fontWeight: '500' },
+
+  recipeCard: { borderRadius: radius.lg, overflow: 'hidden' },
+  recipeImg: { height: 130, position: 'relative' },
+  recipeTag: {
+    position: 'absolute', top: 12, left: 12,
+    paddingHorizontal: 10, paddingVertical: 4, borderRadius: 100,
+    backgroundColor: 'rgba(255,255,255,0.9)',
   },
-  placeholderText: { fontFamily: fonts.sans, fontSize: 13, textAlign: 'center' },
+  recipeTagText: { fontFamily: fonts.sansBold, fontSize: 10, fontWeight: '600', letterSpacing: 0.6, textTransform: 'uppercase' },
+  recipeBody: { padding: 14 },
+  recipeTitle: { fontFamily: fonts.serifMedium, fontSize: 18, marginBottom: 4 },
+  recipeMeta: { fontFamily: fonts.sans, fontSize: 12 },
+
+  hackCard: { flexDirection: 'row', gap: 14, padding: 16, borderRadius: radius.lg, alignItems: 'flex-start' },
+  hackNum: { fontFamily: fonts.serifMedium, fontSize: 26, opacity: 0.85 },
+  hackTitle: { fontFamily: fonts.serifMedium, fontSize: 15, marginBottom: 4 },
+  hackBody: { fontFamily: fonts.sans, fontSize: 12.5, lineHeight: 18, opacity: 0.85 },
 });

@@ -70,16 +70,19 @@ assets/                Bilder, Fonts, Icons
 
 - [x] Design-Prototyp (14 Screens)
 - [x] Projekt-Fundament (Expo + Supabase + Claude)
-- [x] Login-Screen
-- [x] Dashboard-Grundgerüst (Tages-Ring + Makros)
-- [ ] Wochenkonto (Home-Card + Detail + Slider)
-- [ ] Onboarding-Flow (Ziele + Makro-Berechnung)
-- [ ] Kalorien-Tracker
+- [x] Login-Screen (Anmelden + Registrieren)
+- [x] Onboarding-Flow (Ziele + Makro-Berechnung live)
+- [x] Dashboard komplett (Tages-Ring, Wochenkonto-Ringe, QuickStats, Rezept, Hack)
+- [x] Rezepte-Tab mit Filtern + Detail-View
+- [x] Spoonacular-Import-Pipeline (Edge Function mit Claude-Übersetzung)
+- [x] Alltags-Hacks (statisch, mit tages-rotation)
+- [ ] Wochenkonto-Detail-Screen + Budget-Slider
+- [ ] Kalorien-Tracker (Datum-Strip, Mahlzeiten-Erfassung)
 - [ ] KI-Foto-Analyse (Kamera → Edge Function → Ergebnis)
-- [ ] Rezepte + Detail-View
-- [ ] Home-Workouts + Alltags-Hacks
+- [ ] Home-Workouts (Timer-basiert)
 - [ ] Fortschritt (Gewicht + Fotos)
 - [ ] Profil + Behandlungs-Termine
+- [ ] Coach-Chat
 - [ ] TestFlight/Play-Beta mit 10-20 Testkundinnen
 - [ ] Store-Launch
 
