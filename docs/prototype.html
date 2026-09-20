@@ -310,14 +310,17 @@
   .login-hero {
     background: var(--brand);
     color: var(--brand-ink);
-    height: 100%; padding: 70px 32px 34px;
+    height: 100%; padding: 90px 32px 20px;
     display: flex; flex-direction: column;
+    justify-content: space-between;
     position: relative; overflow: hidden;
     text-align: center;
   }
-  .login-hero .login-brand { margin-top: 26%; }
-  .login-hero .tagline-block { margin-top: auto; margin-bottom: 28px; }
-  .login-hero .cta-stack { margin-top: 0; }
+  .login-hero .login-brand,
+  .login-hero .tagline-block,
+  .login-hero .cta-stack {
+    flex: 0 0 auto;
+  }
   .login-hero::after {
     content: ""; position: absolute; inset: 0;
     background:
@@ -1587,8 +1590,8 @@
 
             <div class="cta-stack">
               <button class="btn" onclick="goto('home')">Einloggen</button>
-              <button class="btn ghost">Konto aktivieren mit Code</button>
-              <div class="foot">Nur für BodyShift-Kunden. Noch keinen Termin? <u>Termin buchen</u></div>
+              <button class="btn ghost">Neu registrieren</button>
+              <div class="foot">Mit deiner Anmeldung akzeptierst du unsere<br>AGB &amp; Datenschutzerklärung</div>
             </div>
           </div>
         </section>
