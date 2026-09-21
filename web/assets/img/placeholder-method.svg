@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 960" preserveAspectRatio="xMidYMid slice">
+  <rect width="800" height="960" fill="#f5f0ea"/>
+  <g fill="none" stroke="#c9a98a" stroke-width="1.5" opacity="0.8">
+    <rect x="120" y="360" width="560" height="180" rx="90"/>
+    <line x1="200" y1="450" x2="600" y2="450"/>
+    <circle cx="240" cy="450" r="10" fill="#c9a98a"/>
+    <circle cx="360" cy="450" r="10" fill="#c9a98a"/>
+    <circle cx="480" cy="450" r="10" fill="#c9a98a"/>
+    <circle cx="600" cy="450" r="10" fill="#c9a98a"/>
+  </g>
+  <text x="400" y="840" text-anchor="middle" font-family="Manrope, sans-serif" font-size="14" letter-spacing="8" fill="#6b6b6b">METHODE-BILD PLATZHALTER</text>
+</svg>

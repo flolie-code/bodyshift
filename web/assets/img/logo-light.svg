@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 90" role="img" aria-label="Bodyshift — Körper neu denken">
+  <style>
+    .b-word { font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif; font-weight: 500; fill: #f5f0ea; letter-spacing: 6px; }
+    .b-sub  { font-family: "Manrope", "Inter", sans-serif; font-weight: 500; fill: #f5f0ea; letter-spacing: 4px; }
+  </style>
+  <rect x="4" y="4" width="312" height="82" fill="none" stroke="#f5f0ea" stroke-width="1.2"/>
+  <text class="b-word" x="160" y="46" text-anchor="middle" font-size="30">BODYSHIFT</text>
+  <text class="b-sub" x="160" y="72" text-anchor="middle" font-size="10">KÖRPER NEU DENKEN</text>
+</svg>

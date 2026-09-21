@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+  <rect width="400" height="500" fill="#c9a98a"/>
+  <g fill="none" stroke="#101010" stroke-width="1.5" opacity="0.55">
+    <path d="M200 90 c18 25 22 60 8 90 c-14 28 -14 50 4 75 c22 35 30 80 12 130 c-9 28 -9 55 4 85"/>
+    <circle cx="195" cy="70" r="22"/>
+  </g>
+  <text x="200" y="470" text-anchor="middle" font-family="Manrope, sans-serif" font-size="12" letter-spacing="4" fill="#f5f0ea">NACHHER-BILD</text>
+</svg>
