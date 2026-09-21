@@ -59,11 +59,13 @@ export const radius = {
   xl: 28,
 } as const;
 
+// Für den ersten Test: System-Fonts (kein Custom-Font-Loading nötig).
+// Später mit @expo-google-fonts/inter + @expo-google-fonts/fraunces ersetzen.
 export const fonts = {
-  sans: 'Inter',
-  sansBold: 'Inter-Bold',
-  serif: 'Fraunces',
-  serifMedium: 'Fraunces-Medium',
+  sans: undefined as unknown as string,
+  sansBold: undefined as unknown as string,
+  serif: undefined as unknown as string,
+  serifMedium: undefined as unknown as string,
 } as const;
 
 export const spacing = {
