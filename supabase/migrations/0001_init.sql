@@ -138,6 +138,6 @@ create policy "own_favs"       on recipe_favorites  for all using (user_id = aut
 create policy "read_published_recipes" on recipes for select using (is_published = true);
 
 -- Indexes für Performance
-create index if not exists meals_user_day    on meals (user_id, (logged_at::date));
+create index if not exists meals_user_time   on meals (user_id, logged_at desc);
 create index if not exists weight_user_date  on weight_entries (user_id, recorded_at desc);
 create index if not exists appts_user_time   on appointments (user_id, scheduled_at);
