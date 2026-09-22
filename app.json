@@ -28,7 +28,12 @@
         "backgroundColor": "#143A3F"
       },
       "package": "com.bodyshift.companion",
-      "permissions": ["CAMERA", "RECORD_AUDIO"]
+      "permissions": [
+        "CAMERA",
+        "RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -50,8 +55,12 @@
     },
     "extra": {
       "eas": {
-        "projectId": ""
+        "projectId": "46fda740-d8bd-4209-b42a-fd2c3f15b0a2"
+      },
+      "router": {
+        "origin": false
       }
-    }
+    },
+    "owner": "flolie"
   }
 }
