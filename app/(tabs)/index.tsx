@@ -100,7 +100,7 @@ export default function HomeScreen() {
         {/* Wochenkonto */}
         <Pressable
           style={[styles.weekCard, { backgroundColor: colors.surface }]}
-          onPress={() => { /* TODO: → /week-account */ }}
+          onPress={() => router.push('/wochenkonto')}
         >
           <View style={styles.weekHead}>
             <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
