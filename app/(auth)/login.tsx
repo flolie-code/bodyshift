@@ -83,21 +83,23 @@ export default function LoginScreen() {
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <View style={styles.brand}>
-              <Text style={[styles.logoWord, { color: colors.brandInk }]}>
-                BODY<Text style={{ color: colors.accent }}>SHIFT</Text>
-              </Text>
-              <Text style={[styles.logoSub, { color: colors.brandInk + 'B3' }]}>
-                KÖRPER NEU DENKEN
-              </Text>
-            </View>
+            <View style={styles.topBlock}>
+              <View style={styles.brand}>
+                <Text style={[styles.logoWord, { color: colors.brandInk }]}>
+                  BODY<Text style={{ color: colors.accent }}>SHIFT</Text>
+                </Text>
+                <Text style={[styles.logoSub, { color: colors.brandInk + 'B3' }]}>
+                  KÖRPER NEU DENKEN
+                </Text>
+              </View>
 
-            <View style={styles.taglineBlock}>
-              <Text style={[styles.tagline, { color: colors.brandInk }]}>
-                Dein Weg zum{' '}
-                <Text style={{ color: colors.accent, fontStyle: 'italic' }}>Wunschgewicht</Text>{' '}
-                — wissenschaftlich, alltagstauglich.
-              </Text>
+              <View style={styles.taglineBlock}>
+                <Text style={[styles.tagline, { color: colors.brandInk }]}>
+                  Dein Weg zum{' '}
+                  <Text style={{ color: colors.accent, fontStyle: 'italic' }}>Wunschgewicht</Text>{' '}
+                  — wissenschaftlich, alltagstauglich.
+                </Text>
+              </View>
             </View>
 
             <View style={styles.ctaStack}>
@@ -216,6 +218,15 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  // Wrapper der Brand + Tagline haelt und beide mit space-evenly
+  // vertikal verteilt: gleicher Abstand vom oberen Rand zur Brand
+  // wie von Brand zur Tagline.
+  topBlock: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
   },
   brand: { alignItems: 'center' },
   logoWord: { fontFamily: fonts.serifMedium, fontSize: 38, letterSpacing: 6 },
