@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: [['babel-preset-expo', { jsxImportSource: 'react' }]],
+    presets: ['babel-preset-expo'],
     plugins: [
       [
         'module-resolver',
@@ -13,7 +13,8 @@ module.exports = function (api) {
           },
         },
       ],
-      'react-native-reanimated/plugin',
+      // Reanimated 4 nutzt worklets/plugin, muss letzter Plugin sein
+      'react-native-worklets/plugin',
     ],
   };
 };

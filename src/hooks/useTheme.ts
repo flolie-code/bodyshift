@@ -7,8 +7,6 @@ export function useTheme(): {
 } {
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
-  return {
-    colors: isDark ? darkColors : lightColors,
-    isDark,
-  };
+  const colors: ColorPalette = isDark ? darkColors : lightColors;
+  return { colors, isDark };
 }

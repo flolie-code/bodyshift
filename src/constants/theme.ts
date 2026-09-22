@@ -4,7 +4,30 @@
  * Alle Screens nutzen ausschließlich diese Werte.
  */
 
-export const lightColors = {
+export type ColorPalette = {
+  bg: string;
+  stage: string;
+  surface: string;
+  surfaceAlt: string;
+  surfaceDeep: string;
+  ink: string;
+  inkSoft: string;
+  inkMute: string;
+  line: string;
+  lineSoft: string;
+  brand: string;
+  brand2: string;
+  brandInk: string;
+  accent: string;
+  accentSoft: string;
+  protein: string;
+  carbs: string;
+  fat: string;
+  success: string;
+  track: string;
+};
+
+export const lightColors: ColorPalette = {
   bg: '#EFEAE1',
   stage: '#E7E0D3',
   surface: '#FFFFFF',
@@ -25,9 +48,9 @@ export const lightColors = {
   fat: '#6E8E5F',
   success: '#4E8A5E',
   track: '#E6DEC9',
-} as const;
+};
 
-export const darkColors = {
+export const darkColors: ColorPalette = {
   bg: '#0E1817',
   stage: '#14201E',
   surface: '#1B2826',
@@ -48,9 +71,7 @@ export const darkColors = {
   fat: '#9AB988',
   success: '#7BC48A',
   track: '#2B3A38',
-} as const;
-
-export type ColorPalette = typeof lightColors;
+};
 
 export const radius = {
   sm: 10,
