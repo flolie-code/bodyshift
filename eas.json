@@ -12,7 +12,8 @@
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYXZ1ZGVqaGRxaWNhZmN4dmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk5MjQ4OTEsImV4cCI6MjEwNTUwMDg5MX0.zSyphpyxJ5RTXzfvtbCwP0EVbgAgcYyoOU0JDHPzcuc"
       },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "ubuntu-22.04-jdk-17-ndk-r26b"
       },
       "ios": {
         "simulator": false
