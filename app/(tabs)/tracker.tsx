@@ -13,7 +13,7 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useFocusEffect } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
 import {
@@ -178,6 +178,15 @@ export default function TrackerScreen() {
           />
         ))}
       </ScrollView>
+
+      <Pressable
+        style={[styles.fab, { backgroundColor: colors.accent }]}
+        onPress={() => router.push('/ki-foto')}
+        accessibilityLabel="Mahlzeit per Foto scannen"
+      >
+        <Text style={styles.fabIcon}>📷</Text>
+        <Text style={[styles.fabText, { color: colors.brandInk }]}>KI-Foto</Text>
+      </Pressable>
 
       <AddMealModal
         visible={modalOpen}
@@ -455,4 +464,22 @@ const styles = StyleSheet.create({
     fontFamily: fonts.sans, fontSize: 11.5, textAlign: 'center',
     marginTop: 8, lineHeight: 16,
   },
+  fab: {
+    position: 'absolute',
+    right: 20,
+    bottom: 24,
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  fabIcon: { fontSize: 16 },
+  fabText: { fontFamily: fonts.sansBold, fontSize: 14, fontWeight: '600' },
 });
