@@ -1,0 +1,57 @@
+name: Production Build (Store-Release)
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Ziel-Plattform (aab fuer Android)'
+        required: true
+        default: 'android'
+        type: choice
+        options:
+          - android
+          - ios
+          - all
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build ${{ github.event.inputs.platform }} Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps --no-audit --no-fund
+
+      - name: Setup EAS CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Warnung — Version pruefen
+        run: |
+          VERSION=$(node -p "require('./app.json').expo.version")
+          echo "Baue Version $VERSION als Produktions-Build."
+          if [ "$VERSION" = "0.1.0" ]; then
+            echo "::warning::Version steht auf 0.1.0. Fuer Store-Release erst auf 1.0.0 bumpen (siehe docs/LAUNCH.md)."
+          fi
+
+      - name: Build via EAS starten
+        run: eas build --platform ${{ github.event.inputs.platform }} --profile production --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Wo geht's weiter
+        run: |
+          echo "::notice title=Produktions-Build gestartet::Der finale Build (Android AAB / iOS IPA) laeuft in der Expo-Cloud. Fortschritt: https://expo.dev → dein Projekt → Builds. Download nach ~15-30 Min, dann in die Play Console hochladen."

@@ -21,6 +21,9 @@
     "production": {
       "channel": "production",
       "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle"
+      },
       "env": {
         "EXPO_PUBLIC_SUPABASE_URL": "https://gjavudejhdqicafcxvlx.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYXZ1ZGVqaGRxaWNhZmN4dmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk5MjQ4OTEsImV4cCI6MjEwNTUwMDg5MX0.zSyphpyxJ5RTXzfvtbCwP0EVbgAgcYyoOU0JDHPzcuc"
