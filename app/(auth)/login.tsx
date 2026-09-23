@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -28,6 +28,13 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
+
+  const scrollToForm = () => {
+    // Auf Tastatur-Fokus: Form ans Ende der ScrollView scrollen,
+    // damit die Felder ueber der Tastatur sichtbar bleiben.
+    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
+  };
 
   async function submit() {
     setLoading(true);
@@ -75,15 +82,17 @@ export default function LoginScreen() {
     <LinearGradient colors={[colors.brand, '#0f2f33']} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
           style={{ flex: 1 }}
         >
           <ScrollView
-            contentContainerStyle={styles.container}
+            ref={scrollRef}
+            contentContainerStyle={[styles.container, showForm && styles.containerForm]}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <View style={styles.topBlock}>
+            <View style={[styles.topBlock, showForm && styles.topBlockForm]}>
               <View style={styles.brand}>
                 <Text style={[styles.logoWord, { color: colors.brandInk }]}>
                   BODY<Text style={{ color: colors.accent }}>SHIFT</Text>
@@ -128,6 +137,7 @@ export default function LoginScreen() {
                         placeholderTextColor={colors.brandInk + '80'}
                         value={firstName}
                         onChangeText={setFirstName}
+                        onFocus={scrollToForm}
                         autoCapitalize="words"
                       />
                       <TextInput
@@ -136,6 +146,7 @@ export default function LoginScreen() {
                         placeholderTextColor={colors.brandInk + '80'}
                         value={lastName}
                         onChangeText={setLastName}
+                        onFocus={scrollToForm}
                         autoCapitalize="words"
                       />
                     </View>
@@ -146,6 +157,7 @@ export default function LoginScreen() {
                     placeholderTextColor={colors.brandInk + '80'}
                     value={email}
                     onChangeText={setEmail}
+                    onFocus={scrollToForm}
                     autoCapitalize="none"
                     keyboardType="email-address"
                     autoComplete="email"
@@ -156,6 +168,7 @@ export default function LoginScreen() {
                     placeholderTextColor={colors.brandInk + '80'}
                     value={password}
                     onChangeText={setPassword}
+                    onFocus={scrollToForm}
                     secureTextEntry
                     autoComplete={mode === 'signup' ? 'new-password' : 'password'}
                   />
@@ -219,6 +232,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  // Wenn das Formular offen ist: kompakter oben, damit die Felder nicht
+  // von der Tastatur verdeckt werden. topBlock verliert flex:1.
+  containerForm: {
+    justifyContent: 'flex-start',
+    gap: 24,
+    paddingTop: 60,
+  },
   // Wrapper der Brand + Tagline haelt und beide mit space-evenly
   // vertikal verteilt: gleicher Abstand vom oberen Rand zur Brand
   // wie von Brand zur Tagline.
@@ -227,6 +247,11 @@ const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'space-evenly',
     alignItems: 'center',
+  },
+  // Kompakter Header wenn Formular offen — keine flex:1, weniger vertikaler Raum
+  topBlockForm: {
+    flex: 0,
+    gap: 12,
   },
   brand: { alignItems: 'center' },
   logoWord: { fontFamily: fonts.serifMedium, fontSize: 38, letterSpacing: 6 },

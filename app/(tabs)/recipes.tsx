@@ -58,38 +58,42 @@ export default function RecipesScreen() {
         <Text style={[styles.title, { color: colors.ink }]}>Rezepte</Text>
       </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.stripPad}
-      >
-        {CATEGORIES.map((c) => (
-          <FilterPill
-            key={c.label}
-            label={c.label}
-            active={category === c.key}
-            onPress={() => setCategory(c.key)}
-            colors={colors}
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.filterBar}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.stripPad}
+        >
+          {CATEGORIES.map((c) => (
+            <FilterPill
+              key={c.label}
+              label={c.label}
+              active={category === c.key}
+              onPress={() => setCategory(c.key)}
+              colors={colors}
+            />
+          ))}
+        </ScrollView>
+      </View>
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={[styles.stripPad, { paddingBottom: 4 }]}
-      >
-        {TAG_QUICK.map((t) => (
-          <FilterPill
-            key={t.key}
-            label={t.label}
-            active={tag === t.key}
-            onPress={() => setTag(tag === t.key ? null : t.key)}
-            colors={colors}
-            subtle
-          />
-        ))}
-      </ScrollView>
+      <View style={styles.filterBar}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.stripPad}
+        >
+          {TAG_QUICK.map((t) => (
+            <FilterPill
+              key={t.key}
+              label={t.label}
+              active={tag === t.key}
+              onPress={() => setTag(tag === t.key ? null : t.key)}
+              colors={colors}
+              subtle
+            />
+          ))}
+        </ScrollView>
+      </View>
 
       {loading ? (
         <View style={styles.center}>
@@ -195,9 +199,20 @@ const styles = StyleSheet.create({
   container: { flex: 1 },
   head: { paddingHorizontal: spacing.xl, paddingTop: spacing.lg, paddingBottom: 4 },
   title: { fontFamily: fonts.serifMedium, fontSize: 28 },
-  stripPad: { paddingHorizontal: spacing.xl, paddingVertical: 8, gap: 8, flexDirection: 'row' },
-  pill: { paddingHorizontal: 14, paddingVertical: 7, borderRadius: 100, borderWidth: 1 },
-  pillText: { fontFamily: fonts.sansBold, fontSize: 12.5, fontWeight: '500' },
+  filterBar: { height: 46, justifyContent: 'center' },
+  stripPad: {
+    paddingHorizontal: spacing.xl,
+    gap: 8,
+    alignItems: 'center',
+  },
+  pill: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 100,
+    borderWidth: 1,
+    alignSelf: 'center',
+  },
+  pillText: { fontFamily: fonts.sansBold, fontSize: 13, fontWeight: '500' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: spacing.xl, gap: spacing.md },
   errorText: { fontFamily: fonts.sans, fontSize: 13, textAlign: 'center' },
   emptyTitle: { fontFamily: fonts.serifMedium, fontSize: 18 },
