@@ -17,6 +17,7 @@ export default function RootLayout() {
         <Stack.Screen name="wochenkonto" options={{ presentation: 'card' }} />
         <Stack.Screen name="fortschritt" options={{ presentation: 'card' }} />
         <Stack.Screen name="ki-foto" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="workout/[id]" options={{ presentation: 'card' }} />
       </Stack>
     </GestureHandlerRootView>
   );

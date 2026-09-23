@@ -1,36 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, View, Text, StyleSheet, Pressable, RefreshControl } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import Svg, { Circle } from 'react-native-svg';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
 import { DayRing } from '@/components/DayRing';
 import { listRecipes, type Recipe } from '@/lib/recipes';
 import { todaysHack } from '@/lib/hacks';
+import { useHomeData } from '@/hooks/useHomeData';
 
-// Mock-Woche — später aus Supabase via useWeekAccount()
-const MOCK_WEEK = [
-  { label: 'Mo', percent: 0.82, variant: 'default' as const },
-  { label: 'Di', percent: 0.76, variant: 'default' as const },
-  { label: 'Mi', percent: 0.90, variant: 'default' as const },
-  { label: 'Do', percent: 0.88, variant: 'default' as const },
-  { label: 'Fr', percent: 0.70, variant: 'default' as const },
-  { label: 'Sa', percent: 0.00, variant: 'treat' as const },
-  { label: 'So', percent: 0.68, variant: 'today' as const },
-];
+const WEEK_LABELS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'] as const;
 
-const DAILY_GOAL = 1680;
-const CONSUMED = 1140;
-const REMAINING = DAILY_GOAL - CONSUMED;
+function greeting(): string {
+  const h = new Date().getHours();
+  if (h < 11) return 'Guten Morgen';
+  if (h < 17) return 'Hallo';
+  return 'Guten Abend';
+}
 
 export default function HomeScreen() {
   const { colors } = useTheme();
+  const home = useHomeData();
   const [recipeOfDay, setRecipeOfDay] = useState<Recipe | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const hack = todaysHack();
+
+  const dailyGoal = home.dailyGoal;
+  const consumed = home.todayTotals.kcal;
+  const remaining = Math.max(0, dailyGoal - consumed);
+  const onTrack = consumed <= dailyGoal;
+  const todayIdx = (new Date().getDay() + 6) % 7;
+
+  const weekRings = home.weekConsumed.map((kcal, i) => {
+    const pct = kcal / dailyGoal;
+    return {
+      label: WEEK_LABELS[i],
+      percent: Math.max(0, Math.min(1, pct)),
+      variant: (i === todayIdx ? 'today' : 'default') as 'today' | 'default' | 'treat',
+    };
+  });
+  const weekTotalConsumed = home.weekConsumed.reduce((a, b) => a + b, 0);
+  const weekRemaining = home.weekMeta.weekBudget - weekTotalConsumed;
+
+  const initials = home.firstName ? home.firstName.slice(0, 2).toUpperCase() : 'BS';
 
   async function loadRecipeOfDay() {
     try {
@@ -50,6 +65,12 @@ export default function HomeScreen() {
     loadRecipeOfDay();
   }, []);
 
+  useFocusEffect(
+    useCallback(() => {
+      home.refresh();
+    }, [home.refresh])
+  );
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
       <ScrollView
@@ -66,34 +87,41 @@ export default function HomeScreen() {
         {/* Header */}
         <View style={styles.header}>
           <View>
-            <Text style={[styles.greeting, { color: colors.ink }]}>Guten Morgen, Florian</Text>
-            <Text style={[styles.streak, { color: colors.inkMute }]}>Tag 23 · Streak: 12 🔥</Text>
+            <Text style={[styles.greeting, { color: colors.ink }]}>
+              {greeting()}{home.firstName ? `, ${home.firstName}` : ''}
+            </Text>
+            <Text style={[styles.streak, { color: colors.inkMute }]}>
+              {new Date().toLocaleDateString('de-AT', { weekday: 'long', day: 'numeric', month: 'long' })}
+            </Text>
           </View>
-          <View style={[styles.avatar, { backgroundColor: colors.brand }]}>
-            <Text style={[styles.avatarText, { color: colors.brandInk }]}>FL</Text>
-          </View>
+          <Pressable
+            style={[styles.avatar, { backgroundColor: colors.brand }]}
+            onPress={() => router.push('/(tabs)/profile')}
+          >
+            <Text style={[styles.avatarText, { color: colors.brandInk }]}>{initials}</Text>
+          </Pressable>
         </View>
 
         {/* Kalorien-Hero */}
         <View style={[styles.calorieHero, { backgroundColor: colors.surface }]}>
           <View style={styles.calRingWrap}>
-            <CalorieRing consumed={CONSUMED} goal={DAILY_GOAL} color={colors.accent} trackColor={colors.track} />
+            <CalorieRing consumed={consumed} goal={dailyGoal} color={colors.accent} trackColor={colors.track} />
             <View style={styles.calStats}>
               <Text style={[styles.label, { color: colors.inkMute }]}>VERBLEIBEND</Text>
               <Text style={[styles.bigNumber, { color: colors.ink }]}>
-                {REMAINING}
+                {remaining.toLocaleString('de-AT')}
                 <Text style={[styles.unit, { color: colors.inkMute }]}> kcal</Text>
               </Text>
-              <Text style={[styles.remainingHint, { color: colors.success }]}>
-                ✓ Gut im Plan · Ziel {DAILY_GOAL.toLocaleString('de-AT')} kcal
+              <Text style={[styles.remainingHint, { color: onTrack ? colors.success : colors.protein }]}>
+                {onTrack ? '✓' : '!'} {onTrack ? 'Im Plan' : 'Über Tagesziel'} · Ziel {dailyGoal.toLocaleString('de-AT')} kcal
               </Text>
             </View>
           </View>
 
           <View style={[styles.macros, { borderTopColor: colors.lineSoft }]}>
-            <MacroBar label="Protein" current={95} goal={140} color={colors.protein} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
-            <MacroBar label="Carbs" current={92} goal={170} color={colors.carbs} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
-            <MacroBar label="Fett" current={23} goal={55} color={colors.fat} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
+            <MacroBar label="Protein" current={Math.round(home.todayTotals.protein)} goal={home.macroGoals.protein} color={colors.protein} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
+            <MacroBar label="Carbs" current={Math.round(home.todayTotals.carbs)} goal={home.macroGoals.carbs} color={colors.carbs} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
+            <MacroBar label="Fett" current={Math.round(home.todayTotals.fat)} goal={home.macroGoals.fat} color={colors.fat} trackColor={colors.track} inkColor={colors.ink} inkMute={colors.inkMute} />
           </View>
         </View>
 
@@ -105,20 +133,25 @@ export default function HomeScreen() {
           <View style={styles.weekHead}>
             <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 8 }}>
               <Text style={[styles.weekTitle, { color: colors.ink }]}>Woche</Text>
-              <Text style={[styles.weekKicker, { color: colors.inkMute }]}>Mo – So · KW 38</Text>
+              <Text style={[styles.weekKicker, { color: colors.inkMute }]}>Mo – So · KW {home.weekMeta.weekNumber}</Text>
             </View>
-            <Text style={[styles.weekRemain, { color: colors.brand }]}>
-              3.240<Text style={[styles.weekRemainUnit, { color: colors.inkMute }]}> kcal übrig</Text>
+            <Text style={[styles.weekRemain, { color: weekRemaining >= 0 ? colors.brand : colors.protein }]}>
+              {weekRemaining.toLocaleString('de-AT')}
+              <Text style={[styles.weekRemainUnit, { color: colors.inkMute }]}> kcal übrig</Text>
             </Text>
           </View>
           <View style={styles.weekRings}>
-            {MOCK_WEEK.map((d) => (
+            {weekRings.map((d) => (
               <DayRing key={d.label} label={d.label} percent={d.percent} variant={d.variant} colors={colors} />
             ))}
           </View>
           <Text style={[styles.weekFeedback, { color: colors.inkSoft }]}>
-            <Text style={{ color: colors.success }}>✓ </Text>
-            Sauber unterwegs — noch Puffer für <Text style={{ color: colors.accent, fontWeight: '600' }}>Sa (Gönn-Tag)</Text>
+            <Text style={{ color: weekRemaining >= 0 ? colors.success : colors.protein }}>
+              {weekRemaining >= 0 ? '✓ ' : '! '}
+            </Text>
+            {weekRemaining >= 0
+              ? `Wochen-Puffer: ${weekRemaining.toLocaleString('de-AT')} kcal — tippe für Details.`
+              : `Diese Woche ${Math.abs(weekRemaining)} kcal über Budget — kein Drama, nächste Woche startet frisch.`}
           </Text>
         </Pressable>
 

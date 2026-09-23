@@ -1,10 +1,12 @@
-import { useMemo, useState } from 'react';
-import { View, Text, StyleSheet, Pressable, ScrollView, Alert } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import Svg, { Circle } from 'react-native-svg';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
+import { supabase } from '@/lib/supabase';
+import type { Meal } from '@/lib/meals';
 import {
   type WeekAccount,
   type Weekday,
@@ -16,29 +18,56 @@ import {
   totalConsumed,
 } from '@/lib/weekAccount';
 
-const WEEKLY_BUDGET = 1680 * 7; // 11.760 kcal
-const BASE_DAILY = 1680;
+const FALLBACK_DAILY = 1800;
 
-function buildMockWeek(): WeekAccount {
+async function loadWeekFromSupabase(): Promise<WeekAccount> {
   const monday = new Date();
+  monday.setHours(0, 0, 0, 0);
   const dow = (monday.getDay() + 6) % 7;
   monday.setDate(monday.getDate() - dow);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23, 59, 59, 999);
   const iso = (d: Date) => d.toISOString().slice(0, 10);
 
-  const consumedMock = [1520, 1610, 1490, 1720, 1440, 0, 1180];
+  // Tages-Ziel aus Profil
+  let dailyKcal = FALLBACK_DAILY;
+  const { data: userData } = await supabase.auth.getUser();
+  if (userData.user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('target_kcal_daily')
+      .eq('user_id', userData.user.id)
+      .maybeSingle();
+    if (profile?.target_kcal_daily) dailyKcal = profile.target_kcal_daily;
+  }
+
+  // Meals der Woche laden
+  const { data: meals } = await supabase
+    .from('meals')
+    .select('logged_at, kcal')
+    .gte('logged_at', monday.toISOString())
+    .lte('logged_at', sunday.toISOString());
+
+  const perDay = [0, 0, 0, 0, 0, 0, 0];
+  (meals ?? []).forEach((m: Pick<Meal, 'logged_at' | 'kcal'>) => {
+    const d = new Date(m.logged_at);
+    const idx = (d.getDay() + 6) % 7;
+    perDay[idx] += m.kcal || 0;
+  });
 
   return {
     weekStartISO: iso(monday),
-    weeklyBudget: WEEKLY_BUDGET,
+    weeklyBudget: dailyKcal * 7,
     days: Array.from({ length: 7 }, (_, i) => {
       const d = new Date(monday);
       d.setDate(monday.getDate() + i);
       return {
         weekday: i as Weekday,
         dateISO: iso(d),
-        baseKcal: BASE_DAILY,
-        adjustedKcal: BASE_DAILY,
-        consumedKcal: consumedMock[i],
+        baseKcal: dailyKcal,
+        adjustedKcal: dailyKcal,
+        consumedKcal: perDay[i],
         isTreatDay: false,
       };
     }),
@@ -47,8 +76,46 @@ function buildMockWeek(): WeekAccount {
 
 export default function WochenkontoScreen() {
   const { colors } = useTheme();
-  const [week, setWeek] = useState<WeekAccount>(buildMockWeek);
+  const [week, setWeek] = useState<WeekAccount | null>(null);
+  const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Weekday>(((new Date().getDay() + 6) % 7) as Weekday);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    try {
+      const w = await loadWeekFromSupabase();
+      setWeek(w);
+    } catch (e) {
+      Alert.alert('Fehler', (e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    reload();
+  }, [reload]);
+
+  useFocusEffect(
+    useCallback(() => {
+      reload();
+    }, [reload])
+  );
+
+  if (loading || !week) {
+    return (
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.bg }]}>
+        <View style={styles.header}>
+          <Pressable onPress={() => router.back()} hitSlop={12}>
+            <Text style={[styles.back, { color: colors.brand }]}>← Zurück</Text>
+          </Pressable>
+          <Text style={[styles.title, { color: colors.ink }]}>Wochenkonto</Text>
+          <View style={{ width: 60 }} />
+        </View>
+        <ActivityIndicator color={colors.brand} style={{ marginTop: 40 }} />
+      </SafeAreaView>
+    );
+  }
 
   const today = ((new Date().getDay() + 6) % 7) as Weekday;
   const consumed = totalConsumed(week);
@@ -60,6 +127,7 @@ export default function WochenkontoScreen() {
   const selectedDay = week.days.find((d) => d.weekday === selected)!;
 
   function shift(delta: number) {
+    if (!week) return;
     const donors = week.days
       .map((d) => d.weekday)
       .filter((w) => w !== selected) as Weekday[];
@@ -67,6 +135,7 @@ export default function WochenkontoScreen() {
   }
 
   function toggleTreat() {
+    if (!week) return;
     if (selectedDay.isTreatDay) {
       // Zurücksetzen auf Basis
       setWeek({
