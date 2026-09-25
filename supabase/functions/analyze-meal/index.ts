@@ -5,7 +5,7 @@
 // Deploy: supabase functions deploy analyze-meal
 // Secret setzen: supabase secrets set ANTHROPIC_API_KEY=sk-ant-...
 
-import Anthropic from 'npm:@anthropic-ai/sdk@^0.32.1';
+import Anthropic from 'npm:@anthropic-ai/sdk@^0.127.0';
 
 const anthropic = new Anthropic({
   apiKey: Deno.env.get('ANTHROPIC_API_KEY') ?? '',

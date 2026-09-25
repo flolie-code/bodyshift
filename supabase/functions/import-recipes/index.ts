@@ -11,7 +11,7 @@
 // Deploy: supabase functions deploy import-recipes
 // Secrets: supabase secrets set SPOONACULAR_API_KEY=... ANTHROPIC_API_KEY=sk-ant-...
 
-import Anthropic from 'npm:@anthropic-ai/sdk@^0.32.1';
+import Anthropic from 'npm:@anthropic-ai/sdk@^0.127.0';
 import { createClient } from 'npm:@supabase/supabase-js@2';
 
 const anthropic = new Anthropic({
