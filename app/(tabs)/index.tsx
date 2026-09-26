@@ -18,6 +18,7 @@ import { DayRing } from '@/components/DayRing';
 import { JanaCard } from '@/components/JanaCard';
 import { FadeInView } from '@/components/FadeInView';
 import { AnimatedPress } from '@/components/AnimatedPress';
+import { WaterWidget } from '@/components/WaterWidget';
 import { listRecipes, type Recipe } from '@/lib/recipes';
 import { useHomeData } from '@/hooks/useHomeData';
 import { getJanaMessage } from '@/lib/jana';
@@ -196,8 +197,13 @@ export default function HomeScreen() {
           </View>
         </FadeInView>
 
-        {/* Wochenkonto — kompakter */}
+        {/* Wasser-Tracker */}
         <FadeInView delay={180}>
+          <WaterWidget colors={colors} />
+        </FadeInView>
+
+        {/* Wochenkonto — kompakter */}
+        <FadeInView delay={240}>
         <AnimatedPress
           style={[styles.weekCard, { backgroundColor: colors.surface }]}
           onPress={() => router.push('/wochenkonto')}
@@ -231,7 +237,7 @@ export default function HomeScreen() {
 
         {/* Rezept des Tages */}
         {recipeOfDay && (
-          <FadeInView delay={240}>
+          <FadeInView delay={300}>
           <AnimatedPress
             style={[styles.recipeCard, { backgroundColor: colors.surface }]}
             onPress={() => router.push(`/recipe/${recipeOfDay.slug}`)}
