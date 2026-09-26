@@ -1,15 +1,21 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
   Pressable,
   StyleSheet,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
   TextInput,
-  ScrollView,
+  Platform,
 } from 'react-native';
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle,
+  interpolate,
+  Extrapolation,
+  withTiming,
+  Easing,
+} from 'react-native-reanimated';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
@@ -28,13 +34,27 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(false);
-  const scrollRef = useRef<ScrollView>(null);
 
-  const scrollToForm = () => {
-    // Auf Tastatur-Fokus: Form ans Ende der ScrollView scrollen,
-    // damit die Felder ueber der Tastatur sichtbar bleiben.
-    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 100);
-  };
+  const keyboard = useAnimatedKeyboard();
+
+  // Der ganze Content bewegt sich smooth mit der Tastatur nach oben.
+  // Die native Keyboard-Animation-Curve wird durch reanimated exakt
+  // gespiegelt - kein Springen, kein Jitter.
+  const containerStyle = useAnimatedStyle(() => ({
+    paddingBottom: keyboard.height.value,
+  }));
+
+  // Brand-Header shrinkt smooth wenn Tastatur offen ist - macht Platz fuer Inputs.
+  const brandStyle = useAnimatedStyle(() => {
+    const openness = Math.min(1, keyboard.height.value / 200);
+    return {
+      transform: [
+        { scale: interpolate(openness, [0, 1], [1, 0.72], Extrapolation.CLAMP) },
+        { translateY: interpolate(openness, [0, 1], [0, -20], Extrapolation.CLAMP) },
+      ],
+      opacity: interpolate(openness, [0, 0.6, 1], [1, 0.8, 0.55], Extrapolation.CLAMP),
+    };
+  });
 
   async function submit() {
     setLoading(true);
@@ -57,7 +77,7 @@ export default function LoginScreen() {
         if (!data.session) {
           Alert.alert(
             'Fast fertig!',
-            'Bitte prüfe deine Email und bestätige den Link, dann kannst du loslegen.'
+            'Bitte pruefe deine Email und bestaetige den Link, dann kannst du loslegen.'
           );
           setLoading(false);
           return;
@@ -72,7 +92,10 @@ export default function LoginScreen() {
         router.replace('/(tabs)');
       }
     } catch (err) {
-      Alert.alert(mode === 'signup' ? 'Registrierung fehlgeschlagen' : 'Anmeldung fehlgeschlagen', (err as Error).message);
+      Alert.alert(
+        mode === 'signup' ? 'Registrierung fehlgeschlagen' : 'Anmeldung fehlgeschlagen',
+        (err as Error).message
+      );
     } finally {
       setLoading(false);
     }
@@ -80,199 +103,220 @@ export default function LoginScreen() {
 
   return (
     <LinearGradient colors={[colors.brand, '#0f2f33']} style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1 }}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
-          style={{ flex: 1 }}
-        >
-          <ScrollView
-            ref={scrollRef}
-            contentContainerStyle={[styles.container, showForm && styles.containerForm]}
-            keyboardShouldPersistTaps="handled"
-            showsVerticalScrollIndicator={false}
-          >
-            <View style={[styles.topBlock, showForm && styles.topBlockForm]}>
-              <View style={styles.brand}>
-                <Text style={[styles.logoWord, { color: colors.brandInk }]}>
-                  BODY<Text style={{ color: colors.accent }}>SHIFT</Text>
-                </Text>
-                <Text style={[styles.logoSub, { color: colors.brandInk + 'B3' }]}>
-                  KÖRPER NEU DENKEN
-                </Text>
-              </View>
-
-              <View style={styles.taglineBlock}>
-                <Text style={[styles.tagline, { color: colors.brandInk }]}>
-                  Dein Weg zum{' '}
-                  <Text style={{ color: colors.accent, fontStyle: 'italic' }}>Wunschgewicht</Text>{' '}
-                  — wissenschaftlich, alltagstauglich.
-                </Text>
-              </View>
-            </View>
-
-            <View style={styles.ctaStack}>
-              {showForm ? (
-                <>
-                  <View style={styles.tabRow}>
-                    <TabButton
-                      label="Anmelden"
-                      active={mode === 'signin'}
-                      onPress={() => setMode('signin')}
-                      colors={colors}
-                    />
-                    <TabButton
-                      label="Neu registrieren"
-                      active={mode === 'signup'}
-                      onPress={() => setMode('signup')}
-                      colors={colors}
-                    />
-                  </View>
-
-                  {mode === 'signup' && (
-                    <View style={{ flexDirection: 'row', gap: 10 }}>
-                      <TextInput
-                        style={[styles.input, { flex: 1, color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
-                        placeholder="Vorname"
-                        placeholderTextColor={colors.brandInk + '80'}
-                        value={firstName}
-                        onChangeText={setFirstName}
-                        onFocus={scrollToForm}
-                        autoCapitalize="words"
-                      />
-                      <TextInput
-                        style={[styles.input, { flex: 1, color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
-                        placeholder="Nachname"
-                        placeholderTextColor={colors.brandInk + '80'}
-                        value={lastName}
-                        onChangeText={setLastName}
-                        onFocus={scrollToForm}
-                        autoCapitalize="words"
-                      />
-                    </View>
-                  )}
-                  <TextInput
-                    style={[styles.input, { color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
-                    placeholder="Email"
-                    placeholderTextColor={colors.brandInk + '80'}
-                    value={email}
-                    onChangeText={setEmail}
-                    onFocus={scrollToForm}
-                    autoCapitalize="none"
-                    keyboardType="email-address"
-                    autoComplete="email"
-                  />
-                  <TextInput
-                    style={[styles.input, { color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
-                    placeholder={mode === 'signup' ? 'Passwort (min. 8 Zeichen)' : 'Passwort'}
-                    placeholderTextColor={colors.brandInk + '80'}
-                    value={password}
-                    onChangeText={setPassword}
-                    onFocus={scrollToForm}
-                    secureTextEntry
-                    autoComplete={mode === 'signup' ? 'new-password' : 'password'}
-                  />
-                  <Pressable
-                    style={[styles.btn, { backgroundColor: colors.brandInk }]}
-                    onPress={submit}
-                    disabled={loading}
-                  >
-                    <Text style={[styles.btnText, { color: colors.brand }]}>
-                      {loading ? 'Bitte warten...' : mode === 'signup' ? 'Konto anlegen' : 'Einloggen'}
-                    </Text>
-                  </Pressable>
-                </>
-              ) : (
-                <>
-                  <Pressable
-                    style={[styles.btn, { backgroundColor: colors.brandInk }]}
-                    onPress={() => { setMode('signin'); setShowForm(true); }}
-                  >
-                    <Text style={[styles.btnText, { color: colors.brand }]}>Einloggen</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.btnGhost, { borderColor: colors.brandInk + '40' }]}
-                    onPress={() => { setMode('signup'); setShowForm(true); }}
-                  >
-                    <Text style={[styles.btnText, { color: colors.brandInk }]}>Neu registrieren</Text>
-                  </Pressable>
-                </>
-              )}
-
-              <Text style={[styles.foot, { color: colors.brandInk + '99' }]}>
-                Mit deiner Anmeldung akzeptierst du unsere AGB &amp; Datenschutzerklärung.
+      <SafeAreaView style={{ flex: 1 }} edges={['top']}>
+        <Animated.View style={[styles.container, containerStyle]}>
+          {/* Brand-Block - shrinkt smooth wenn Tastatur kommt */}
+          <Animated.View style={[styles.brandBlock, brandStyle]}>
+            <View style={styles.brand}>
+              <Text style={[styles.logoWord, { color: colors.brandInk }]}>
+                BODY
+                <Text style={{ color: colors.accent }}>SHIFT</Text>
+              </Text>
+              <Text style={[styles.logoSub, { color: colors.brandInk + 'B3' }]}>
+                KOERPER NEU DENKEN
               </Text>
             </View>
-          </ScrollView>
-        </KeyboardAvoidingView>
+
+            <Text style={[styles.tagline, { color: colors.brandInk }]}>
+              Dein Weg zum{' '}
+              <Text style={{ color: colors.accent, fontStyle: 'italic' }}>Wunschgewicht</Text>
+              {' '}- wissenschaftlich, alltagstauglich.
+            </Text>
+          </Animated.View>
+
+          {/* CTA / Form */}
+          <View style={styles.ctaStack}>
+            {showForm ? (
+              <>
+                <View style={styles.tabRow}>
+                  <TabButton
+                    label="Anmelden"
+                    active={mode === 'signin'}
+                    onPress={() => setMode('signin')}
+                    colors={colors}
+                  />
+                  <TabButton
+                    label="Neu registrieren"
+                    active={mode === 'signup'}
+                    onPress={() => setMode('signup')}
+                    colors={colors}
+                  />
+                </View>
+
+                {mode === 'signup' && (
+                  <View style={{ flexDirection: 'row', gap: 10 }}>
+                    <TextInput
+                      style={[styles.input, { flex: 1, color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
+                      placeholder="Vorname"
+                      placeholderTextColor={colors.brandInk + '80'}
+                      value={firstName}
+                      onChangeText={setFirstName}
+                      autoCapitalize="words"
+                    />
+                    <TextInput
+                      style={[styles.input, { flex: 1, color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
+                      placeholder="Nachname"
+                      placeholderTextColor={colors.brandInk + '80'}
+                      value={lastName}
+                      onChangeText={setLastName}
+                      autoCapitalize="words"
+                    />
+                  </View>
+                )}
+                <TextInput
+                  style={[styles.input, { color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
+                  placeholder="Email"
+                  placeholderTextColor={colors.brandInk + '80'}
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                />
+                <TextInput
+                  style={[styles.input, { color: colors.brandInk, borderColor: colors.brandInk + '40' }]}
+                  placeholder={mode === 'signup' ? 'Passwort (min. 8 Zeichen)' : 'Passwort'}
+                  placeholderTextColor={colors.brandInk + '80'}
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  autoComplete={mode === 'signup' ? 'new-password' : 'password'}
+                />
+                <Pressable
+                  style={[styles.btn, { backgroundColor: colors.brandInk }]}
+                  onPress={submit}
+                  disabled={loading}
+                >
+                  <Text style={[styles.btnText, { color: colors.brand }]}>
+                    {loading
+                      ? 'Bitte warten...'
+                      : mode === 'signup'
+                      ? 'Konto anlegen'
+                      : 'Einloggen'}
+                  </Text>
+                </Pressable>
+              </>
+            ) : (
+              <>
+                <Pressable
+                  style={[styles.btn, { backgroundColor: colors.brandInk }]}
+                  onPress={() => {
+                    setMode('signin');
+                    setShowForm(true);
+                  }}
+                >
+                  <Text style={[styles.btnText, { color: colors.brand }]}>Einloggen</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.btnGhost, { borderColor: colors.brandInk + '40' }]}
+                  onPress={() => {
+                    setMode('signup');
+                    setShowForm(true);
+                  }}
+                >
+                  <Text style={[styles.btnText, { color: colors.brandInk }]}>Neu registrieren</Text>
+                </Pressable>
+              </>
+            )}
+
+            <Text style={[styles.foot, { color: colors.brandInk + '99' }]}>
+              Mit deiner Anmeldung akzeptierst du unsere AGB &amp; Datenschutzerklaerung.
+            </Text>
+          </View>
+        </Animated.View>
       </SafeAreaView>
     </LinearGradient>
   );
 }
 
-function TabButton({ label, active, onPress, colors }: { label: string; active: boolean; onPress: () => void; colors: any }) {
+function TabButton({
+  label,
+  active,
+  onPress,
+  colors,
+}: {
+  label: string;
+  active: boolean;
+  onPress: () => void;
+  colors: any;
+}) {
   return (
     <Pressable
       onPress={onPress}
-      style={[
-        styles.tabBtn,
-        active && { backgroundColor: colors.brandInk },
-      ]}
+      style={[styles.tabBtn, active && { backgroundColor: colors.brandInk }]}
     >
-      <Text style={[styles.tabBtnText, { color: active ? colors.brand : colors.brandInk + 'B3' }]}>{label}</Text>
+      <Text
+        style={[
+          styles.tabBtnText,
+          { color: active ? colors.brand : colors.brandInk + 'B3' },
+        ]}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 32,
     paddingVertical: 40,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  // Wenn das Formular offen ist: kompakter oben, damit die Felder nicht
-  // von der Tastatur verdeckt werden. topBlock verliert flex:1.
-  containerForm: {
-    justifyContent: 'flex-start',
-    gap: 24,
-    paddingTop: 60,
-  },
-  // Wrapper der Brand + Tagline haelt und beide mit space-evenly
-  // vertikal verteilt: gleicher Abstand vom oberen Rand zur Brand
-  // wie von Brand zur Tagline.
-  topBlock: {
+  brandBlock: {
     flex: 1,
     width: '100%',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-  },
-  // Kompakter Header wenn Formular offen — keine flex:1, weniger vertikaler Raum
-  topBlockForm: {
-    flex: 0,
-    gap: 12,
+    gap: 30,
   },
   brand: { alignItems: 'center' },
   logoWord: { fontFamily: fonts.serifMedium, fontSize: 38, letterSpacing: 6 },
-  logoSub: { fontFamily: fonts.sans, fontSize: 11.5, letterSpacing: 4, marginTop: 18 },
-  taglineBlock: { width: '100%' },
-  tagline: { fontFamily: fonts.serif, fontSize: 22, textAlign: 'center', lineHeight: 28 },
+  logoSub: {
+    fontFamily: fonts.sans,
+    fontSize: 11.5,
+    letterSpacing: 4,
+    marginTop: 18,
+  },
+  tagline: {
+    fontFamily: fonts.serif,
+    fontSize: 22,
+    textAlign: 'center',
+    lineHeight: 28,
+  },
   ctaStack: { width: '100%', gap: spacing.md },
   tabRow: {
-    flexDirection: 'row', gap: 4,
-    padding: 4, borderRadius: 100,
+    flexDirection: 'row',
+    gap: 4,
+    padding: 4,
+    borderRadius: 100,
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
   tabBtn: { flex: 1, paddingVertical: 10, borderRadius: 100, alignItems: 'center' },
   tabBtnText: { fontFamily: fonts.sansBold, fontSize: 13, fontWeight: '600' },
   input: {
-    fontFamily: fonts.sans, fontSize: 15,
-    borderWidth: 1, borderRadius: radius.md,
-    paddingHorizontal: 18, paddingVertical: 14,
+    fontFamily: fonts.sans,
+    fontSize: 15,
+    borderWidth: 1,
+    borderRadius: radius.md,
+    paddingHorizontal: 18,
+    paddingVertical: 14,
   },
   btn: { paddingVertical: 16, borderRadius: 100, alignItems: 'center' },
-  btnGhost: { paddingVertical: 15, borderRadius: 100, borderWidth: 1, alignItems: 'center' },
+  btnGhost: {
+    paddingVertical: 15,
+    borderRadius: 100,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
   btnText: { fontFamily: fonts.sansBold, fontSize: 15, fontWeight: '600' },
-  foot: { fontFamily: fonts.sans, fontSize: 11.5, textAlign: 'center', marginTop: 8, lineHeight: 16 },
+  foot: {
+    fontFamily: fonts.sans,
+    fontSize: 11.5,
+    textAlign: 'center',
+    marginTop: 8,
+    lineHeight: 16,
+  },
 });
