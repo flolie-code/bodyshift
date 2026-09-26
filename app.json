@@ -48,6 +48,13 @@
         {
           "cameraPermission": "BodyShift verwendet die Kamera für KI-Mahlzeit-Analyse und Barcode-Scans."
         }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/adaptive-icon.png",
+          "color": "#143A3F"
+        }
       ]
     ],
     "experiments": {

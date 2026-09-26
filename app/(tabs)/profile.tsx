@@ -112,6 +112,13 @@ export default function ProfileScreen() {
           colors={colors}
         />
         <MenuCard
+          icon="🔔"
+          title="Reminder von Jana"
+          sub="Wasser, Bewegung, Motivation"
+          onPress={() => router.push('/einstellungen')}
+          colors={colors}
+        />
+        <MenuCard
           icon="💡"
           title="Behandlungs-Termine"
           sub="Kommt bald"

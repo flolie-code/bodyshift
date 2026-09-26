@@ -16,6 +16,8 @@ import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
 import { DayRing } from '@/components/DayRing';
 import { JanaCard } from '@/components/JanaCard';
+import { FadeInView } from '@/components/FadeInView';
+import { AnimatedPress } from '@/components/AnimatedPress';
 import { listRecipes, type Recipe } from '@/lib/recipes';
 import { useHomeData } from '@/hooks/useHomeData';
 import { getJanaMessage } from '@/lib/jana';
@@ -113,27 +115,31 @@ export default function HomeScreen() {
         </View>
 
         {/* Jana-Nachricht — die persoenliche Ansprache */}
-        <JanaCard message={janaMessage} colors={colors} />
+        <FadeInView delay={0}>
+          <JanaCard message={janaMessage} colors={colors} />
+        </FadeInView>
 
         {/* Foto-Tracker als prominenter Primaerbutton */}
-        <Pressable
-          style={[styles.primaryBtn, { backgroundColor: colors.accent }]}
-          onPress={() => router.push('/ki-foto')}
-        >
-          <Text style={styles.primaryIcon}>📷</Text>
-          <View style={{ flex: 1 }}>
-            <Text style={[styles.primaryTitle, { color: colors.brandInk }]}>
-              Mahlzeit scannen
-            </Text>
-            <Text style={[styles.primarySub, { color: colors.brandInk + 'CC' }]}>
-              Foto machen — Jana rechnet den Rest aus
-            </Text>
-          </View>
-          <Text style={[styles.primaryArrow, { color: colors.brandInk }]}>›</Text>
-        </Pressable>
+        <FadeInView delay={60}>
+          <AnimatedPress
+            style={[styles.primaryBtn, { backgroundColor: colors.accent }]}
+            onPress={() => router.push('/ki-foto')}
+          >
+            <Text style={styles.primaryIcon}>📷</Text>
+            <View style={{ flex: 1 }}>
+              <Text style={[styles.primaryTitle, { color: colors.brandInk }]}>
+                Mahlzeit scannen
+              </Text>
+              <Text style={[styles.primarySub, { color: colors.brandInk + 'CC' }]}>
+                Foto machen — Jana rechnet den Rest aus
+              </Text>
+            </View>
+            <Text style={[styles.primaryArrow, { color: colors.brandInk }]}>›</Text>
+          </AnimatedPress>
+        </FadeInView>
 
         {/* Kalorien-Hero */}
-        <View style={[styles.kcalCard, { backgroundColor: colors.surface }]}>
+        <FadeInView delay={120} style={[styles.kcalCard, { backgroundColor: colors.surface }]}>
           <View style={styles.kcalRingRow}>
             <CalorieRing
               consumed={consumed}
@@ -188,10 +194,11 @@ export default function HomeScreen() {
               inkMute={colors.inkMute}
             />
           </View>
-        </View>
+        </FadeInView>
 
         {/* Wochenkonto — kompakter */}
-        <Pressable
+        <FadeInView delay={180}>
+        <AnimatedPress
           style={[styles.weekCard, { backgroundColor: colors.surface }]}
           onPress={() => router.push('/wochenkonto')}
         >
@@ -219,11 +226,13 @@ export default function HomeScreen() {
               />
             ))}
           </View>
-        </Pressable>
+        </AnimatedPress>
+        </FadeInView>
 
         {/* Rezept des Tages */}
         {recipeOfDay && (
-          <Pressable
+          <FadeInView delay={240}>
+          <AnimatedPress
             style={[styles.recipeCard, { backgroundColor: colors.surface }]}
             onPress={() => router.push(`/recipe/${recipeOfDay.slug}`)}
           >
@@ -261,7 +270,8 @@ export default function HomeScreen() {
                 {recipeOfDay.minutes ? ` · ${recipeOfDay.minutes} Min` : ''}
               </Text>
             </View>
-          </Pressable>
+          </AnimatedPress>
+          </FadeInView>
         )}
       </ScrollView>
     </SafeAreaView>
