@@ -48,6 +48,17 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const apiKey = Deno.env.get('ANTHROPIC_API_KEY');
+    if (!apiKey) {
+      return json(
+        {
+          error:
+            'ANTHROPIC_API_KEY fehlt. Bitte in Supabase Edge Function Secrets setzen.',
+        },
+        500
+      );
+    }
+
     const { imageBase64 } = (await req.json()) as RequestBody;
 
     if (!imageBase64) {
@@ -127,7 +138,18 @@ Deno.serve(async (req) => {
     });
   } catch (err) {
     console.error('analyze-meal error:', err);
-    return json({ error: (err as Error).message }, 500);
+    const msg = (err as Error).message ?? String(err);
+    // Bei API-Key-Problemen einen klaren Hinweis geben
+    if (msg.includes('401') || msg.includes('403') || msg.includes('invalid_api_key')) {
+      return json(
+        {
+          error: msg,
+          hint: 'Anthropic-API-Key pruefen: Supabase Dashboard > Edge Functions > Secrets > ANTHROPIC_API_KEY',
+        },
+        500
+      );
+    }
+    return json({ error: msg }, 500);
   }
 });
 

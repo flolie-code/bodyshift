@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>BodyShift Companion — App herunterladen</title>
+<meta name="description" content="Lade die BodyShift-Companion-App als APK direkt aufs Android-Handy — kein Play Store noetig.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #F5F0E7;
+    --ink: #14211F;
+    --ink-mute: #6B6F6A;
+    --line: #E4DED0;
+    --brand: #143A3F;
+    --accent: #D96A3B;
+    --success: #4E8A5E;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #14181A;
+      --ink: #EEE9DE;
+      --ink-mute: #8A8F8B;
+      --line: #2F3436;
+      --brand: #4FA5A8;
+      --accent: #E88A5F;
+      --success: #7BC48A;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14181A;
+    --ink: #EEE9DE;
+    --ink-mute: #8A8F8B;
+    --line: #2F3436;
+    --brand: #4FA5A8;
+    --accent: #E88A5F;
+    --success: #7BC48A;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 40px 20px 60px;
+    max-width: 720px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+  .brand-line {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 26px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .brand-line em { color: var(--accent); font-style: normal; }
+  .kicker {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--ink-mute);
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+    text-wrap: balance;
+    font-weight: 500;
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--ink-mute);
+    margin-bottom: 32px;
+    max-width: 520px;
+  }
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 28px;
+    background: var(--brand);
+    color: #F5F0E7;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(20, 58, 63, 0.25);
+    transition: transform 0.15s ease-out, box-shadow 0.15s ease-out;
+  }
+  .download-btn:hover, .download-btn:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 22px rgba(20, 58, 63, 0.32);
+  }
+  .download-btn .arrow { font-size: 20px; opacity: 0.85; }
+  .meta {
+    color: var(--ink-mute);
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    letter-spacing: -0.3px;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+  }
+  .steps li {
+    counter-increment: step;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px 22px 18px 62px;
+    position: relative;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .steps li { background: #1E2325; }
+  }
+  :root[data-theme="dark"] .steps li { background: #1E2325; }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    background: var(--brand);
+    color: #F5F0E7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .steps strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .steps small {
+    display: block;
+    color: var(--ink-mute);
+    font-size: 13.5px;
+    margin-top: 4px;
+  }
+  .callout {
+    margin-top: 40px;
+    padding: 20px 24px;
+    background: rgba(217, 106, 59, 0.10);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+  }
+  .callout strong { color: var(--accent); }
+  .callout p { margin-top: 4px; color: var(--ink); }
+  .foot {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-mute);
+    font-size: 12.5px;
+    text-align: center;
+  }
+  .foot a { color: var(--brand); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="brand-line">BODY<em>SHIFT</em></div>
+<div class="kicker">KOERPER NEU DENKEN</div>
+
+<h1>Deine App zum <em style="color: var(--accent); font-style: normal;">Wunschgewicht</em>.</h1>
+<p class="lead">
+  Kalorien-Tracker, Wochenkonto, KI-Foto-Analyse, Rezepte und dein pers&ouml;nlicher Coach Jana &mdash; direkt am Android-Handy.
+</p>
+
+<a class="download-btn" href="{APK_DOWNLOAD_URL}" download>
+  📥 App herunterladen (.apk)
+  <span class="arrow">›</span>
+</a>
+<div class="meta">Version 1.0.0 &middot; f&uuml;r Android 8 und aufw&auml;rts &middot; ca. 45 MB</div>
+
+<h2>So installierst du</h2>
+<ol class="steps">
+  <li>
+    <strong>Datei herunterladen</strong>
+    <small>Tippe oben auf den Button. Der Download startet automatisch, die APK landet in deinem Downloads-Ordner.</small>
+  </li>
+  <li>
+    <strong>&bdquo;Aus unbekannten Quellen&ldquo; erlauben</strong>
+    <small>Android fragt beim ersten Mal, ob du Apps aus dieser Quelle installieren darfst. Tippe auf &bdquo;Einstellungen&ldquo; und aktiviere den Schalter f&uuml;r deinen Browser (oder die Dateien-App).</small>
+  </li>
+  <li>
+    <strong>APK &ouml;ffnen und installieren</strong>
+    <small>Tippe auf die heruntergeladene Datei &mdash; ein Fenster zeigt dir Details und einen &bdquo;Installieren&ldquo;-Button.</small>
+  </li>
+  <li>
+    <strong>Konto anlegen und loslegen</strong>
+    <small>Beim ersten Start registrierst du dich mit Vor- und Nachname und Email. Danach f&uuml;hrt Jana dich durchs Onboarding.</small>
+  </li>
+</ol>
+
+<div class="callout">
+  <strong>Sicher?</strong>
+  <p>Ja. Die App wird von der Body Shift FLB GmbH signiert und &uuml;ber unseren gesch&uuml;tzten Server ausgeliefert. Deine Daten liegen verschl&uuml;sselt in einem europ&auml;ischen Rechenzentrum (Frankfurt).</p>
+</div>
+
+<div class="callout">
+  <strong>iPhone-Nutzer?</strong>
+  <p>Die iOS-Version folgt in K&uuml;rze. Melde dich bei uns, wir informieren dich, sobald sie verf&uuml;gbar ist.</p>
+</div>
+
+<h2>Fragen?</h2>
+<p style="color: var(--ink-mute); font-size: 14.5px;">
+  Schreib uns an <a href="mailto:app@bodyshift-abnehmen.at" style="color: var(--brand);">app@bodyshift-abnehmen.at</a> &mdash; wir helfen dir binnen 24 Stunden weiter.
+</p>
+
+<div class="foot">
+  &copy; Body Shift FLB GmbH &middot; <a href="/datenschutz">Datenschutz</a> &middot; <a href="/impressum">Impressum</a>
+</div>
+
+</body>
+</html>

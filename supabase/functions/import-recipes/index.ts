@@ -1,12 +1,12 @@
 // Supabase Edge Function: import-recipes
 //
-// Holt Rezepte von Spoonacular, übersetzt Titel/Zutaten/Schritte
-// via Claude auf Deutsch (mit Bezug zu BodyShift-Vibe), speichert in Supabase.
+// Holt Rezepte von Spoonacular, uebersetzt Titel/Zutaten/Schritte
+// via Claude (Haiku 4.5, guenstig + schnell), speichert in Supabase.
 //
-// Einmaliger Aufruf pro Import-Batch. Rezepte danach in Supabase gecached.
+// Einmaliger Aufruf pro Import-Batch. Rezepte werden in Supabase gecached.
 //
 // Aufruf: POST mit { query?: string, count?: number, minProtein?: number }
-// z.B. { "query": "high protein", "count": 50, "minProtein": 25 }
+// z.B. { "query": "high protein", "count": 40, "minProtein": 20 }
 //
 // Deploy: supabase functions deploy import-recipes
 // Secrets: supabase secrets set SPOONACULAR_API_KEY=... ANTHROPIC_API_KEY=sk-ant-...
@@ -20,7 +20,6 @@ const anthropic = new Anthropic({
 
 const SPOONACULAR_KEY = Deno.env.get('SPOONACULAR_API_KEY') ?? '';
 
-// Service-Role-Client — darf ohne RLS in `recipes` schreiben
 const supabase = createClient(
   Deno.env.get('SUPABASE_URL') ?? '',
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
@@ -32,6 +31,7 @@ interface ImportRequest {
   minProtein?: number;
   maxCarbs?: number;
   diet?: string;
+  skipDuplicates?: boolean;
 }
 
 interface SpoonacularRecipe {
@@ -64,8 +64,8 @@ interface TranslatedRecipe {
   tags_de: string[];
 }
 
-const TRANSLATION_SYSTEM = `Du bist der Content-Editor der BodyShift Companion App (Deutsch/Österreich).
-Übersetze englische Rezepte auf klares, alltagstaugliches Deutsch — kein AI-Sprech, kein "Chef-Deutsch".
+const TRANSLATION_SYSTEM = `Du bist der Content-Editor der BodyShift Companion App (Deutsch/Oesterreich).
+Uebersetze englische Rezepte auf klares, alltagstaugliches Deutsch. Kein AI-Sprech, kein Chef-Deutsch.
 Wortwahl: BodyShift ist Premium-Wellness, keine Fitness-Bro-App. Motivierend, aber ruhig.
 
 Antworte AUSSCHLIESSLICH mit validem JSON in genau diesem Format:
@@ -78,14 +78,18 @@ Antworte AUSSCHLIESSLICH mit validem JSON in genau diesem Format:
     "Schritt 1 als kompletter Satz.",
     "Schritt 2 als kompletter Satz."
   ],
-  "category_de": "Frühstück|Mittagessen|Abendessen|Snack|Süßes",
-  "tags_de": ["eiweißreich", "schnell", "vegetarisch"]
+  "category_de": "Fruehstueck|Mittagessen|Abendessen|Snack|Suesses",
+  "tags_de": ["eiweissreich", "schnell", "vegetarisch"]
 }
 
 Regeln:
-- Einheiten in metrisch (g, ml, EL, TL, Stück). Nie cups, tbsp, oz.
-- Titel unter 45 Zeichen wenn möglich.
-- Tags aus dieser Liste wählen: eiweißreich, low-carb, vegetarisch, vegan, schnell (≤15 Min), meal-prep, süßes, herzhaft, gefühl-satt, keto-friendly.`;
+- Einheiten in metrisch (g, ml, EL, TL, Stueck). Nie cups, tbsp, oz.
+- Titel unter 45 Zeichen wenn moeglich.
+- Tags aus dieser Liste waehlen: eiweissreich, low-carb, vegetarisch, vegan, schnell, meal-prep, suesses, herzhaft, gefuehl-satt, keto-friendly.`;
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
 
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
@@ -98,10 +102,16 @@ Deno.serve(async (req) => {
     minProtein = 15,
     maxCarbs,
     diet,
+    skipDuplicates = true,
   }: ImportRequest = await req.json().catch(() => ({}));
 
   if (!SPOONACULAR_KEY) {
     return json({ error: 'SPOONACULAR_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
+  }
+
+  const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
+  if (!anthropicKey) {
+    return json({ error: 'ANTHROPIC_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
   }
 
   try {
@@ -123,23 +133,42 @@ Deno.serve(async (req) => {
       `https://api.spoonacular.com/recipes/complexSearch?${params}`
     );
     if (!spoonRes.ok) {
-      throw new Error(`Spoonacular ${spoonRes.status}: ${await spoonRes.text()}`);
+      const text = await spoonRes.text();
+      return json({ error: `Spoonacular ${spoonRes.status}: ${text.slice(0, 300)}` }, 500);
     }
     const spoonData = await spoonRes.json();
-    const recipes: SpoonacularRecipe[] = spoonData.results ?? [];
+    let recipes: SpoonacularRecipe[] = spoonData.results ?? [];
 
     if (recipes.length === 0) {
-      return json({ imported: 0, message: 'Keine Rezepte gefunden' });
+      return json({ imported: 0, skipped: 0, total: 0, message: 'Keine Rezepte gefunden' });
     }
 
-    // 2. Übersetzen + Nährwerte extrahieren + in Supabase upserten
-    const results: Array<{ id: number; status: string; error?: string }> = [];
+    // Duplikate rausfiltern (bereits importierte Rezepte anhand source_id)
+    let skipped = 0;
+    if (skipDuplicates) {
+      const sourceIds = recipes.map((r) => String(r.id));
+      const { data: existing } = await supabase
+        .from('recipes')
+        .select('source_id')
+        .in('source_id', sourceIds);
+      const existingIds = new Set((existing ?? []).map((r) => r.source_id));
+      const filtered = recipes.filter((r) => !existingIds.has(String(r.id)));
+      skipped = recipes.length - filtered.length;
+      recipes = filtered;
+    }
+
+    if (recipes.length === 0) {
+      return json({ imported: 0, skipped, total: skipped, message: 'Alle Rezepte bereits importiert' });
+    }
+
+    // 2. Uebersetzen (seriell mit kurzer Pause gegen Rate-Limits)
+    const results: Array<{ id: number; status: string; title?: string; error?: string }> = [];
+    let firstError: string | null = null;
 
     for (const recipe of recipes) {
       try {
         const translated = await translateRecipe(recipe);
         const nutrients = extractNutrients(recipe);
-
         const slug = slugify(translated.title_de) + '-' + recipe.id;
 
         const { error } = await supabase.from('recipes').upsert(
@@ -165,33 +194,59 @@ Deno.serve(async (req) => {
           { onConflict: 'slug' }
         );
 
-        results.push({
-          id: recipe.id,
-          status: error ? 'error' : 'imported',
-          error: error?.message,
-        });
+        if (error) {
+          results.push({ id: recipe.id, status: 'db-error', error: error.message });
+          if (!firstError) firstError = `DB-Fehler bei "${translated.title_de}": ${error.message}`;
+        } else {
+          results.push({ id: recipe.id, status: 'imported', title: translated.title_de });
+        }
       } catch (err) {
-        results.push({
-          id: recipe.id,
-          status: 'error',
-          error: (err as Error).message,
-        });
+        const msg = (err as Error).message ?? String(err);
+        results.push({ id: recipe.id, status: 'error', error: msg });
+        if (!firstError) firstError = `Uebersetzung fehlgeschlagen bei ID ${recipe.id}: ${msg}`;
+
+        // Bei Auth/Rate-Limit-Fehler abbrechen (macht keinen Sinn 40x zu versuchen)
+        if (msg.includes('401') || msg.includes('403') || msg.includes('invalid_api_key')) {
+          return json(
+            {
+              imported: results.filter((r) => r.status === 'imported').length,
+              skipped,
+              total: recipes.length,
+              aborted: true,
+              firstError: msg,
+              hint: 'Anthropic-API-Key pruefen (Supabase Secrets > ANTHROPIC_API_KEY)',
+              results,
+            },
+            500
+          );
+        }
       }
+
+      // Kurze Pause gegen Rate-Limits (Anthropic Tier 1 = 50 RPM = 1200ms)
+      await sleep(600);
     }
 
     const imported = results.filter((r) => r.status === 'imported').length;
-    return json({ imported, total: recipes.length, results });
+    return json({
+      imported,
+      skipped,
+      total: recipes.length,
+      firstError,
+      results,
+    });
   } catch (err) {
     console.error('import-recipes error:', err);
-    return json({ error: (err as Error).message }, 500);
+    return json({ error: (err as Error).message ?? String(err) }, 500);
   }
 });
 
 async function translateRecipe(recipe: SpoonacularRecipe): Promise<TranslatedRecipe> {
   const ingredientsRaw = recipe.extendedIngredients
-    .map((i) => `- ${i.amount} ${i.unit} ${i.name} (original: "${i.original}")`)
+    .slice(0, 25)
+    .map((i) => `- ${i.amount} ${i.unit} ${i.name} (${i.original})`)
     .join('\n');
   const stepsRaw = (recipe.analyzedInstructions[0]?.steps ?? [])
+    .slice(0, 15)
     .map((s, i) => `${i + 1}. ${s.step}`)
     .join('\n');
   const dishTypes = (recipe.dishTypes ?? []).join(', ');
@@ -207,22 +262,26 @@ ${ingredientsRaw}
 Zubereitungsschritte:
 ${stepsRaw}
 
-Übersetze auf klares Deutsch. Antworte nur mit dem JSON-Objekt.`;
+Uebersetze auf klares Deutsch. Antworte nur mit dem JSON-Objekt, keine Markdown-Fences.`;
 
-  // Sonnet 5 für hochwertige Übersetzung — ~0,01€ pro Rezept
+  // Haiku 4.5 - schnell, guenstig (~0,001 EUR pro Rezept), fuer Uebersetzung ausreichend
   const response = await anthropic.messages.create({
-    model: 'claude-sonnet-5',
+    model: 'claude-haiku-4-5',
     max_tokens: 2048,
     system: TRANSLATION_SYSTEM,
     messages: [{ role: 'user', content: userMsg }],
   });
 
   const block = response.content[0];
-  if (block.type !== 'text') {
-    throw new Error('Unerwarteter Antworttyp');
+  if (!block || block.type !== 'text') {
+    throw new Error('Unerwarteter Antworttyp von Claude');
   }
   const cleaned = block.text.replace(/```json\n?|```/g, '').trim();
-  return JSON.parse(cleaned) as TranslatedRecipe;
+  try {
+    return JSON.parse(cleaned) as TranslatedRecipe;
+  } catch {
+    throw new Error('JSON-Parse fehlgeschlagen — Antwort: ' + cleaned.slice(0, 200));
+  }
 }
 
 function extractNutrients(recipe: SpoonacularRecipe): {
