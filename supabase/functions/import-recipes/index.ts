@@ -92,34 +92,44 @@ function sleep(ms: number): Promise<void> {
 }
 
 Deno.serve(async (req) => {
-  if (req.method !== 'POST') {
-    return json({ error: 'POST erforderlich' }, 405);
-  }
-
-  const {
-    query = 'healthy',
-    count = 20,
-    minProtein = 15,
-    maxCarbs,
-    diet,
-    skipDuplicates = true,
-  }: ImportRequest = await req.json().catch(() => ({}));
-
-  if (!SPOONACULAR_KEY) {
-    return json({ error: 'SPOONACULAR_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
-  }
-
-  const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
-  if (!anthropicKey) {
-    return json({ error: 'ANTHROPIC_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
-  }
-
+  // Outer try/catch — faengt ALLES ab, damit die Function nie ohne
+  // JSON-Body abschmiert.
   try {
+    if (req.method !== 'POST') {
+      return json({ error: 'POST erforderlich' }, 405);
+    }
+
+    const {
+      query = 'healthy',
+      count = 10,
+      minProtein = 15,
+      maxCarbs,
+      diet,
+      skipDuplicates = true,
+    }: ImportRequest = await req.json().catch(() => ({}));
+
+    // Edge-Function-Timeout schuetzt uns vor Halbfertig-States:
+    // > 15 Rezepte laufen typischerweise in Timeout.
+    const safeCount = Math.min(count, 15);
+
+    if (!SPOONACULAR_KEY) {
+      return json({ error: 'SPOONACULAR_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
+    }
+
+    const anthropicKey = Deno.env.get('ANTHROPIC_API_KEY');
+    if (!anthropicKey) {
+      return json({ error: 'ANTHROPIC_API_KEY fehlt (in Supabase Secrets setzen)' }, 500);
+    }
+    if (!Deno.env.get('SUPABASE_URL') || !Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')) {
+      return json({ error: 'SUPABASE_URL oder SUPABASE_SERVICE_ROLE_KEY fehlt' }, 500);
+    }
+
+    try {
     // 1. Rezepte von Spoonacular ziehen
     const params = new URLSearchParams({
       apiKey: SPOONACULAR_KEY,
       query,
-      number: String(Math.min(count, 100)),
+      number: String(safeCount),
       addRecipeInformation: 'true',
       addRecipeNutrition: 'true',
       fillIngredients: 'true',
@@ -222,8 +232,8 @@ Deno.serve(async (req) => {
         }
       }
 
-      // Kurze Pause gegen Rate-Limits (Anthropic Tier 1 = 50 RPM = 1200ms)
-      await sleep(600);
+      // Kurze Pause gegen Rate-Limits — kleiner damit wir im Timeout bleiben
+      await sleep(200);
     }
 
     const imported = results.filter((r) => r.status === 'imported').length;
@@ -234,9 +244,26 @@ Deno.serve(async (req) => {
       firstError,
       results,
     });
-  } catch (err) {
-    console.error('import-recipes error:', err);
-    return json({ error: (err as Error).message ?? String(err) }, 500);
+    } catch (err) {
+      console.error('import-recipes inner error:', err);
+      return json(
+        {
+          error: (err as Error).message ?? String(err),
+          stack: (err as Error).stack?.slice(0, 500),
+        },
+        500
+      );
+    }
+  } catch (outerErr) {
+    // Deno-Runtime-Crash (Import-Fehler, Module load failure, etc.)
+    console.error('import-recipes outer error:', outerErr);
+    return json(
+      {
+        error: 'Function crashed: ' + ((outerErr as Error).message ?? String(outerErr)),
+        stack: (outerErr as Error).stack?.slice(0, 500),
+      },
+      500
+    );
   }
 });
 
