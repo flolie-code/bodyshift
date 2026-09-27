@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
 import { WORKOUTS, workoutOfDay } from '@/lib/workouts';
-import { HACKS } from '@/lib/hacks';
+import { HACKS, hackForNow, CATEGORY_META } from '@/lib/hacks';
 
 export default function WorkoutsScreen() {
   const { colors } = useTheme();
@@ -60,18 +60,40 @@ export default function WorkoutsScreen() {
         </View>
 
         {/* Hacks */}
-        <Text style={[styles.sectionTitle, { color: colors.ink, marginTop: 24 }]}>
-          Alltags-Hacks
-        </Text>
-        {HACKS.map((h) => (
+        <View style={styles.hackHead}>
+          <Text style={[styles.sectionTitle, { color: colors.ink, marginTop: 0 }]}>
+            Alltags-Hacks
+          </Text>
+          <Pressable onPress={() => router.push('/hacks')} hitSlop={8}>
+            <Text style={[styles.sectionLink, { color: colors.brand }]}>
+              Alle {HACKS.length} →
+            </Text>
+          </Pressable>
+        </View>
+
+        {HACKS.slice(0, 6).map((h) => (
           <View key={h.id} style={[styles.hackCard, { backgroundColor: colors.surface }]}>
             <Text style={[styles.hackNum, { color: colors.accent }]}>{h.number}</Text>
             <View style={{ flex: 1 }}>
               <Text style={[styles.hackTitle, { color: colors.ink }]}>{h.title}</Text>
               <Text style={[styles.hackBody, { color: colors.inkSoft }]}>{h.body}</Text>
+              <View style={[styles.effectPill, { backgroundColor: colors.accentSoft }]}>
+                <Text style={[styles.effectText, { color: colors.accent }]}>
+                  {CATEGORY_META[h.category].emoji} {h.effect}
+                </Text>
+              </View>
             </View>
           </View>
         ))}
+
+        <Pressable
+          style={[styles.moreBtn, { backgroundColor: colors.surface, borderColor: colors.line }]}
+          onPress={() => router.push('/hacks')}
+        >
+          <Text style={[styles.moreBtnText, { color: colors.brand }]}>
+            ✨ Alle {HACKS.length} Hacks nach Kategorie
+          </Text>
+        </Pressable>
 
         <Text style={[styles.footNote, { color: colors.inkMute }]}>
           Tipp: 3–4× die Woche reicht. Regeneration ist Teil des Trainings.
@@ -144,6 +166,18 @@ const styles = StyleSheet.create({
     letterSpacing: 0.3,
   },
 
+  hackHead: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
+    marginTop: 24,
+    marginBottom: 10,
+  },
+  sectionLink: {
+    fontFamily: fonts.sansBold,
+    fontSize: 12.5,
+    fontWeight: '600',
+  },
   hackCard: {
     flexDirection: 'row',
     gap: 14,
@@ -155,6 +189,31 @@ const styles = StyleSheet.create({
   hackNum: { fontFamily: fonts.serifMedium, fontSize: 22, opacity: 0.85 },
   hackTitle: { fontFamily: fonts.serifMedium, fontSize: 14 },
   hackBody: { fontFamily: fonts.sans, fontSize: 12.5, marginTop: 2, lineHeight: 17 },
+  effectPill: {
+    alignSelf: 'flex-start',
+    marginTop: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 100,
+  },
+  effectText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 10.5,
+    fontWeight: '600',
+    letterSpacing: 0.2,
+  },
+  moreBtn: {
+    marginTop: 6,
+    padding: 14,
+    borderRadius: radius.md,
+    borderWidth: 1,
+    alignItems: 'center',
+  },
+  moreBtnText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 14,
+    fontWeight: '600',
+  },
 
   footNote: {
     fontFamily: fonts.sans,

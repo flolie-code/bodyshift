@@ -28,6 +28,7 @@ export default function RootLayout() {
         <Stack.Screen name="ki-foto" options={{ presentation: 'modal' }} />
         <Stack.Screen name="workout/[id]" options={{ presentation: 'card' }} />
         <Stack.Screen name="einstellungen" options={{ presentation: 'card' }} />
+        <Stack.Screen name="hacks" options={{ presentation: 'card' }} />
       </Stack>
     </GestureHandlerRootView>
   );
