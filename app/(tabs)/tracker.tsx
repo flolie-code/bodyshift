@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { FOODS, searchFoods, scaleFoodTo, type FoodItem } from '@/lib/foodDatabase';
 import {
   View,
   Text,
@@ -219,9 +220,12 @@ function MealBlock({
   return (
     <View style={[styles.mealBlock, { backgroundColor: colors.surface }]}>
       <View style={styles.mealHead}>
-        <Text style={[styles.mealTitle, { color: colors.ink }]}>
-          {mealTypeIcon(type)} {mealTypeName(type)}
-        </Text>
+        <View style={styles.mealTitleWrap}>
+          <Text style={styles.mealEmoji}>{mealTypeIcon(type)}</Text>
+          <Text style={[styles.mealTitle, { color: colors.ink }]} numberOfLines={1}>
+            {mealTypeName(type)}
+          </Text>
+        </View>
         <Text style={[styles.mealSum, { color: colors.brand }]}>
           {sumKcal}
           <Text style={{ color: colors.inkMute, fontSize: 11 }}> kcal</Text>
@@ -267,42 +271,67 @@ function AddMealModal({
   onClose: () => void;
   onSaved: () => void;
 }) {
-  const [name, setName] = useState('');
-  const [kcal, setKcal] = useState('');
-  const [protein, setProtein] = useState('');
-  const [carbs, setCarbs] = useState('');
-  const [fat, setFat] = useState('');
+  const [query, setQuery] = useState('');
+  const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
+  const [grams, setGrams] = useState('');
+  const [customName, setCustomName] = useState('');
+  const [customKcal, setCustomKcal] = useState('');
   const [saving, setSaving] = useState(false);
+  const [mode, setMode] = useState<'search' | 'custom'>('search');
+
+  const suggestions = useMemo(() => searchFoods(query), [query]);
+  const scaled = selectedFood && grams
+    ? scaleFoodTo(selectedFood, Number(grams) || 0)
+    : null;
 
   const reset = () => {
-    setName('');
-    setKcal('');
-    setProtein('');
-    setCarbs('');
-    setFat('');
+    setQuery('');
+    setSelectedFood(null);
+    setGrams('');
+    setCustomName('');
+    setCustomKcal('');
+    setMode('search');
+  };
+
+  const selectFood = (food: FoodItem) => {
+    setSelectedFood(food);
+    setGrams(String(food.defaultPortion ?? 100));
+    setQuery('');
   };
 
   const save = async () => {
-    if (!name.trim()) {
-      Alert.alert('Fehlt', 'Bitte Namen eingeben');
-      return;
-    }
-    const kcalNum = Number(kcal);
-    if (!kcalNum || kcalNum <= 0) {
-      Alert.alert('Fehlt', 'Bitte Kalorien eingeben');
-      return;
-    }
     setSaving(true);
     try {
-      await addMeal({
-        name: name.trim(),
-        mealType,
-        kcal: kcalNum,
-        proteinG: protein ? Number(protein) : undefined,
-        carbsG: carbs ? Number(carbs) : undefined,
-        fatG: fat ? Number(fat) : undefined,
-        source: 'manual',
-      });
+      if (mode === 'custom') {
+        if (!customName.trim() || !customKcal || Number(customKcal) <= 0) {
+          Alert.alert('Fehlt', 'Bitte Name und Kalorien eingeben');
+          setSaving(false);
+          return;
+        }
+        await addMeal({
+          name: customName.trim(),
+          mealType,
+          kcal: Number(customKcal),
+          source: 'manual',
+        });
+      } else {
+        if (!selectedFood || !scaled) {
+          Alert.alert('Fehlt', 'Bitte ein Lebensmittel und die Menge auswaehlen');
+          setSaving(false);
+          return;
+        }
+        const g = Number(grams);
+        await addMeal({
+          name: `${selectedFood.name} (${g} g)`,
+          mealType,
+          kcal: scaled.kcal,
+          proteinG: scaled.protein,
+          carbsG: scaled.carbs,
+          fatG: scaled.fat,
+          amountGrams: g,
+          source: 'manual',
+        });
+      }
       reset();
       onSaved();
     } catch (err) {
@@ -329,68 +358,182 @@ function AddMealModal({
             <View style={{ width: 60 }} />
           </View>
 
-          <ScrollView contentContainerStyle={{ padding: 20, gap: 12 }}>
-            <Text style={[styles.label, { color: colors.inkMute }]}>Was hast du gegessen?</Text>
-            <TextInput
-              style={[styles.input, { color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
-              placeholder="z.B. Skyr mit Beeren"
-              placeholderTextColor={colors.inkMute}
-              value={name}
-              onChangeText={setName}
-              autoCapitalize="sentences"
-            />
-
-            <Text style={[styles.label, { color: colors.inkMute, marginTop: 8 }]}>Kalorien *</Text>
-            <TextInput
-              style={[styles.input, { color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
-              placeholder="0"
-              placeholderTextColor={colors.inkMute}
-              value={kcal}
-              onChangeText={setKcal}
-              keyboardType="number-pad"
-            />
-
-            <Text style={[styles.label, { color: colors.inkMute, marginTop: 8 }]}>Makros (optional)</Text>
-            <View style={{ flexDirection: 'row', gap: 8 }}>
-              <TextInput
-                style={[styles.input, { flex: 1, color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
-                placeholder="Protein g"
-                placeholderTextColor={colors.inkMute}
-                value={protein}
-                onChangeText={setProtein}
-                keyboardType="decimal-pad"
-              />
-              <TextInput
-                style={[styles.input, { flex: 1, color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
-                placeholder="Carbs g"
-                placeholderTextColor={colors.inkMute}
-                value={carbs}
-                onChangeText={setCarbs}
-                keyboardType="decimal-pad"
-              />
-              <TextInput
-                style={[styles.input, { flex: 1, color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
-                placeholder="Fett g"
-                placeholderTextColor={colors.inkMute}
-                value={fat}
-                onChangeText={setFat}
-                keyboardType="decimal-pad"
-              />
+          <ScrollView contentContainerStyle={{ padding: 20, gap: 12 }} keyboardShouldPersistTaps="handled">
+            {/* Mode-Toggle: Suche vs Freier Eintrag */}
+            <View style={[styles.tabRow, { backgroundColor: colors.surfaceAlt }]}>
+              <Pressable
+                onPress={() => setMode('search')}
+                style={[styles.tabBtn, mode === 'search' && { backgroundColor: colors.brand }]}
+              >
+                <Text style={[styles.tabBtnText, { color: mode === 'search' ? colors.brandInk : colors.inkSoft }]}>
+                  🔍 Suchen
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={() => setMode('custom')}
+                style={[styles.tabBtn, mode === 'custom' && { backgroundColor: colors.brand }]}
+              >
+                <Text style={[styles.tabBtnText, { color: mode === 'custom' ? colors.brandInk : colors.inkSoft }]}>
+                  ✏️ Eigener Eintrag
+                </Text>
+              </Pressable>
             </View>
+
+            {mode === 'search' ? (
+              <>
+                {!selectedFood ? (
+                  <>
+                    <TextInput
+                      style={[styles.input, { color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
+                      placeholder="z.B. Skyr, Haferflocken, Apfel..."
+                      placeholderTextColor={colors.inkMute}
+                      value={query}
+                      onChangeText={setQuery}
+                      autoFocus
+                      autoCapitalize="none"
+                    />
+
+                    {suggestions.length > 0 ? (
+                      <View style={[styles.suggestList, { backgroundColor: colors.surface }]}>
+                        {suggestions.map((f, i) => (
+                          <Pressable
+                            key={f.id}
+                            onPress={() => selectFood(f)}
+                            style={[
+                              styles.suggestRow,
+                              i > 0 && { borderTopColor: colors.lineSoft, borderTopWidth: 1 },
+                            ]}
+                          >
+                            <Text style={{ fontSize: 20 }}>{f.emoji ?? '🍽️'}</Text>
+                            <View style={{ flex: 1 }}>
+                              <Text style={[styles.suggestName, { color: colors.ink }]}>{f.name}</Text>
+                              <Text style={[styles.suggestMeta, { color: colors.inkMute }]}>
+                                {f.kcalPer100} kcal · {f.proteinPer100}g Protein pro 100g
+                              </Text>
+                            </View>
+                            <Text style={[styles.suggestArrow, { color: colors.brand }]}>›</Text>
+                          </Pressable>
+                        ))}
+                      </View>
+                    ) : query.length >= 2 ? (
+                      <View style={[styles.emptyCard, { backgroundColor: colors.surfaceAlt }]}>
+                        <Text style={[styles.emptyText, { color: colors.inkSoft }]}>
+                          Kein Treffer. Probier einen anderen Begriff oder wechsle zu "Eigener Eintrag".
+                        </Text>
+                      </View>
+                    ) : (
+                      <View style={[styles.emptyCard, { backgroundColor: colors.surfaceAlt }]}>
+                        <Text style={[styles.emptyText, { color: colors.inkSoft }]}>
+                          Tippe mindestens 2 Buchstaben. Die App kennt {FOODS.length}+ Lebensmittel.
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {/* Ausgewaehltes Lebensmittel + Portions-Auswahl */}
+                    <View style={[styles.selectedCard, { backgroundColor: colors.surface }]}>
+                      <View style={styles.selectedHead}>
+                        <Text style={{ fontSize: 30 }}>{selectedFood.emoji ?? '🍽️'}</Text>
+                        <View style={{ flex: 1 }}>
+                          <Text style={[styles.selectedName, { color: colors.ink }]}>{selectedFood.name}</Text>
+                          <Text style={[styles.selectedMeta, { color: colors.inkMute }]}>
+                            {selectedFood.kcalPer100} kcal / 100 g
+                          </Text>
+                        </View>
+                        <Pressable onPress={() => setSelectedFood(null)} hitSlop={10}>
+                          <Text style={[styles.changeText, { color: colors.brand }]}>Aendern</Text>
+                        </Pressable>
+                      </View>
+
+                      <Text style={[styles.label, { color: colors.inkMute, marginTop: 12 }]}>
+                        WIE VIEL (in Gramm)
+                      </Text>
+                      <View style={{ flexDirection: 'row', gap: 8, marginTop: 4 }}>
+                        {[50, 100, selectedFood.defaultPortion ?? 150, 200, 300].filter((v, i, a) => a.indexOf(v) === i).map((g) => (
+                          <Pressable
+                            key={g}
+                            onPress={() => setGrams(String(g))}
+                            style={[
+                              styles.gramChip,
+                              {
+                                backgroundColor: Number(grams) === g ? colors.brand : colors.surfaceAlt,
+                              },
+                            ]}
+                          >
+                            <Text style={[styles.gramChipText, { color: Number(grams) === g ? colors.brandInk : colors.ink }]}>
+                              {g}g
+                            </Text>
+                          </Pressable>
+                        ))}
+                      </View>
+
+                      <TextInput
+                        style={[styles.input, { color: colors.ink, backgroundColor: colors.surfaceAlt, borderColor: colors.line, marginTop: 10 }]}
+                        placeholder="Eigene Menge in Gramm"
+                        placeholderTextColor={colors.inkMute}
+                        value={grams}
+                        onChangeText={setGrams}
+                        keyboardType="number-pad"
+                      />
+
+                      {scaled && (
+                        <View style={[styles.scaledPreview, { backgroundColor: colors.accentSoft }]}>
+                          <Text style={[styles.scaledKcal, { color: colors.accent }]}>
+                            {scaled.kcal} kcal
+                          </Text>
+                          <Text style={[styles.scaledMacros, { color: colors.accent }]}>
+                            P {scaled.protein}g · K {scaled.carbs}g · F {scaled.fat}g
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                {/* Eigener Eintrag Mode */}
+                <Text style={[styles.label, { color: colors.inkMute }]}>Name *</Text>
+                <TextInput
+                  style={[styles.input, { color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
+                  placeholder="z.B. Oma's Apfelstrudel"
+                  placeholderTextColor={colors.inkMute}
+                  value={customName}
+                  onChangeText={setCustomName}
+                  autoCapitalize="sentences"
+                />
+
+                <Text style={[styles.label, { color: colors.inkMute, marginTop: 8 }]}>Kalorien *</Text>
+                <TextInput
+                  style={[styles.input, { color: colors.ink, backgroundColor: colors.surface, borderColor: colors.line }]}
+                  placeholder="0"
+                  placeholderTextColor={colors.inkMute}
+                  value={customKcal}
+                  onChangeText={setCustomKcal}
+                  keyboardType="number-pad"
+                />
+              </>
+            )}
 
             <Pressable
               onPress={save}
-              disabled={saving}
-              style={[styles.saveBtn, { backgroundColor: colors.brand }]}
+              disabled={saving || (mode === 'search' && !selectedFood)}
+              style={[
+                styles.saveBtn,
+                {
+                  backgroundColor: colors.brand,
+                  opacity: (mode === 'search' && !selectedFood) || saving ? 0.5 : 1,
+                },
+              ]}
             >
               <Text style={[styles.saveBtnText, { color: colors.brandInk }]}>
-                {saving ? 'Speichere...' : 'Hinzufügen'}
+                {saving ? 'Speichere...' : 'Hinzufuegen'}
               </Text>
             </Pressable>
 
             <Text style={[styles.hint, { color: colors.inkMute }]}>
-              Tipp: Später kannst du via KI-Foto, Barcode-Scan oder Sprache erfassen.
-              Manueller Eintrag geht schon jetzt.
+              Tipp: Fuer Fertigprodukte oder Rezepte gehts noch schneller ueber den 📷 KI-Foto-Button.
             </Text>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -426,9 +569,11 @@ const styles = StyleSheet.create({
   },
   mealHead: {
     flexDirection: 'row', justifyContent: 'space-between',
-    alignItems: 'baseline', marginBottom: 10,
+    alignItems: 'center', marginBottom: 10, gap: 8,
   },
-  mealTitle: { fontFamily: fonts.serifMedium, fontSize: 16 },
+  mealTitleWrap: { flexDirection: 'row', alignItems: 'center', gap: 8, flex: 1 },
+  mealEmoji: { fontSize: 20 },
+  mealTitle: { fontFamily: fonts.serifMedium, fontSize: 16, flexShrink: 1 },
   mealSum: { fontFamily: fonts.serifMedium, fontSize: 15 },
   foodRow: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
@@ -463,6 +608,109 @@ const styles = StyleSheet.create({
   hint: {
     fontFamily: fonts.sans, fontSize: 11.5, textAlign: 'center',
     marginTop: 8, lineHeight: 16,
+  },
+  tabRow: {
+    flexDirection: 'row',
+    padding: 4,
+    borderRadius: 100,
+    gap: 4,
+    marginBottom: 4,
+  },
+  tabBtn: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 100,
+    alignItems: 'center',
+  },
+  tabBtnText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  suggestList: {
+    borderRadius: radius.md,
+    overflow: 'hidden',
+  },
+  suggestRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    padding: 14,
+  },
+  suggestName: {
+    fontFamily: fonts.sansBold,
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  suggestMeta: {
+    fontFamily: fonts.sans,
+    fontSize: 11.5,
+    marginTop: 2,
+  },
+  suggestArrow: {
+    fontFamily: fonts.serif,
+    fontSize: 22,
+  },
+  emptyCard: {
+    padding: 20,
+    borderRadius: radius.md,
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontFamily: fonts.sans,
+    fontSize: 13,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  selectedCard: {
+    padding: 16,
+    borderRadius: radius.lg,
+  },
+  selectedHead: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  selectedName: {
+    fontFamily: fonts.serifMedium,
+    fontSize: 17,
+  },
+  selectedMeta: {
+    fontFamily: fonts.sans,
+    fontSize: 12,
+    marginTop: 2,
+  },
+  changeText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 12.5,
+    fontWeight: '600',
+  },
+  gramChip: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 100,
+    alignItems: 'center',
+  },
+  gramChipText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  scaledPreview: {
+    marginTop: 14,
+    padding: 12,
+    borderRadius: radius.md,
+    alignItems: 'center',
+    gap: 2,
+  },
+  scaledKcal: {
+    fontFamily: fonts.serifMedium,
+    fontSize: 24,
+  },
+  scaledMacros: {
+    fontFamily: fonts.sansBold,
+    fontSize: 12,
+    fontWeight: '600',
   },
   fab: {
     position: 'absolute',
