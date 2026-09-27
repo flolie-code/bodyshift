@@ -115,9 +115,14 @@ export default function HomeScreen() {
           </Pressable>
         </View>
 
-        {/* Jana-Nachricht — die persoenliche Ansprache */}
+        {/* Jana-Nachricht — tap fuehrt in den KI-Chat */}
         <FadeInView delay={0}>
-          <JanaCard message={janaMessage} colors={colors} />
+          <AnimatedPress onPress={() => router.push('/coach')}>
+            <JanaCard message={janaMessage} colors={colors} />
+            <Text style={[styles.chatHint, { color: colors.brand }]}>
+              💬 Tippen um mit Jana zu chatten
+            </Text>
+          </AnimatedPress>
         </FadeInView>
 
         {/* Foto-Tracker als prominenter Primaerbutton */}
@@ -482,4 +487,14 @@ const styles = StyleSheet.create({
   recipeBody: { padding: 14 },
   recipeTitle: { fontFamily: fonts.serifMedium, fontSize: 17, marginBottom: 4 },
   recipeMeta: { fontFamily: fonts.sans, fontSize: 12 },
+
+  chatHint: {
+    fontFamily: fonts.sansBold,
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.4,
+    textAlign: 'right',
+    marginTop: 4,
+    marginRight: 4,
+  },
 });

@@ -29,6 +29,7 @@ export default function RootLayout() {
         <Stack.Screen name="workout/[id]" options={{ presentation: 'card' }} />
         <Stack.Screen name="einstellungen" options={{ presentation: 'card' }} />
         <Stack.Screen name="hacks" options={{ presentation: 'card' }} />
+        <Stack.Screen name="coach" options={{ presentation: 'card' }} />
       </Stack>
     </GestureHandlerRootView>
   );
