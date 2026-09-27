@@ -11,7 +11,7 @@
  */
 
 export type PaletteVariant = 'current' | 'creme' | 'petrol' | 'terra';
-export const PALETTE_VARIANT: PaletteVariant = 'current';
+export const PALETTE_VARIANT: PaletteVariant = 'creme';
 
 export type ColorPalette = {
   bg: string;
