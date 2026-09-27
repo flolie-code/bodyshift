@@ -102,7 +102,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <LinearGradient colors={[colors.brand, '#0f2f33']} style={{ flex: 1 }}>
+    <LinearGradient colors={[colors.brand, colors.brandDeep]} style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1 }} edges={['top']}>
         <Animated.View style={[styles.container, containerStyle]}>
           {/* Brand-Block - shrinkt smooth wenn Tastatur kommt */}

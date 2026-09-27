@@ -109,9 +109,9 @@ export default function OnboardingScreen() {
             <Text style={[styles.summaryUnit, { color: colors.inkMute }]}> kcal</Text>
           </Text>
           <View style={[styles.macroRow, { borderTopColor: colors.lineSoft }]}>
-            <MacroChip label="Protein" value={macros.protein} color={colors.protein} />
-            <MacroChip label="Carbs" value={macros.carbs} color={colors.carbs} />
-            <MacroChip label="Fett" value={macros.fat} color={colors.fat} />
+            <MacroChip label="Protein" value={macros.protein} color={colors.protein} labelColor={colors.inkMute} />
+            <MacroChip label="Carbs" value={macros.carbs} color={colors.carbs} labelColor={colors.inkMute} />
+            <MacroChip label="Fett" value={macros.fat} color={colors.fat} labelColor={colors.inkMute} />
           </View>
           <Text style={[styles.summaryFoot, { color: colors.accent }]}>
             Ziel: {Math.abs(targetWeight - currentWeight).toFixed(1)} kg in ca. {goal.weeksToGoal} Wochen — sanft &amp; nachhaltig
@@ -183,10 +183,20 @@ function NumberField({ label, value, unit, min, max, step = 1, onChange, colors 
   );
 }
 
-function MacroChip({ label, value, color }: { label: string; value: number; color: string }) {
+function MacroChip({
+  label,
+  value,
+  color,
+  labelColor,
+}: {
+  label: string;
+  value: number;
+  color: string;
+  labelColor: string;
+}) {
   return (
     <View style={styles.macroChip}>
-      <Text style={[styles.macroChipLabel, { color: '#8A928E' }]}>{label.toUpperCase()}</Text>
+      <Text style={[styles.macroChipLabel, { color: labelColor }]}>{label.toUpperCase()}</Text>
       <Text style={[styles.macroChipValue, { color }]}>{value}g</Text>
     </View>
   );

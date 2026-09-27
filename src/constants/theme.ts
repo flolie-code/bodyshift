@@ -26,6 +26,7 @@ export type ColorPalette = {
   lineSoft: string;
   brand: string;
   brand2: string;
+  brandDeep: string; // dunklere Version fuer Gradient-Endpunkte
   brandInk: string;
   accent: string;
   accentSoft: string;
@@ -51,6 +52,7 @@ const currentLight: ColorPalette = {
   lineSoft: '#EAE3D3',
   brand: '#143A3F',
   brand2: '#2C6E70',
+  brandDeep: '#0F2F33',
   brandInk: '#F7F3EA',
   accent: '#D96A3B',
   accentSoft: '#F4CEB8',
@@ -74,6 +76,7 @@ const currentDark: ColorPalette = {
   lineSoft: '#22302E',
   brand: '#4FA5A8',
   brand2: '#7BC4C6',
+  brandDeep: '#2C6E70',
   brandInk: '#0E1817',
   accent: '#E88A5F',
   accentSoft: '#6B3B23',
@@ -99,6 +102,7 @@ const cremeLight: ColorPalette = {
   lineSoft: '#EEE7D8',
   brand: '#7BA098',
   brand2: '#95B6AD',
+  brandDeep: '#5D847C',
   brandInk: '#F5F0E7',
   accent: '#C9663A',
   accentSoft: '#F1D0BB',
@@ -122,6 +126,7 @@ const cremeDark: ColorPalette = {
   lineSoft: '#2A2E28',
   brand: '#95B6AD',
   brand2: '#B0CDC4',
+  brandDeep: '#7BA098',
   brandInk: '#181A17',
   accent: '#E8875B',
   accentSoft: '#5C3320',
@@ -147,6 +152,7 @@ const petrolLight: ColorPalette = {
   lineSoft: '#EEE9DC',
   brand: '#4A7A80',
   brand2: '#6C9CA1',
+  brandDeep: '#345E63',
   brandInk: '#FBFAF7',
   accent: '#D96A3B',
   accentSoft: '#F4CEB8',
@@ -170,6 +176,7 @@ const petrolDark: ColorPalette = {
   lineSoft: '#222D2F',
   brand: '#6C9CA1',
   brand2: '#95BDC1',
+  brandDeep: '#4A7A80',
   brandInk: '#0F1516',
   accent: '#E88A5F',
   accentSoft: '#6B3B23',
@@ -195,6 +202,7 @@ const terraLight: ColorPalette = {
   lineSoft: '#EDE4D0',
   brand: '#C9663A',
   brand2: '#DE855D',
+  brandDeep: '#A24E2A',
   brandInk: '#FBF7EE',
   accent: '#B8916A',
   accentSoft: '#F1D0BB',
@@ -218,6 +226,7 @@ const terraDark: ColorPalette = {
   lineSoft: '#2A2620',
   brand: '#DE855D',
   brand2: '#E9A583',
+  brandDeep: '#C9663A',
   brandInk: '#171412',
   accent: '#DABE9A',
   accentSoft: '#5C3320',

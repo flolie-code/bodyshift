@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 import { useLocalSearchParams, router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getRecipe, type Recipe } from '@/lib/recipes';
+import { addMeal, suggestMealType } from '@/lib/meals';
 import { useTheme } from '@/hooks/useTheme';
 import { fonts, radius, spacing } from '@/constants/theme';
 
@@ -13,6 +14,29 @@ export default function RecipeDetailScreen() {
   const { colors } = useTheme();
   const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(true);
+  const [adding, setAdding] = useState(false);
+
+  async function addRecipeToJournal(r: Recipe) {
+    setAdding(true);
+    try {
+      await addMeal({
+        name: r.title,
+        mealType: suggestMealType(),
+        kcal: r.kcal ?? 0,
+        proteinG: r.protein_g ?? undefined,
+        carbsG: r.carbs_g ?? undefined,
+        fatG: r.fat_g ?? undefined,
+        source: 'recipe',
+      });
+      Alert.alert('Notiert', `${r.title} wurde deinem Tagebuch hinzugefuegt.`, [
+        { text: 'Ok', onPress: () => router.back() },
+      ]);
+    } catch (e) {
+      Alert.alert('Fehler', (e as Error).message);
+    } finally {
+      setAdding(false);
+    }
+  }
 
   useEffect(() => {
     if (!slug) return;
@@ -59,7 +83,7 @@ export default function RecipeDetailScreen() {
           <SafeAreaView style={styles.heroSafe}>
             <View style={styles.heroTop}>
               <Pressable style={styles.iconBtn} onPress={() => router.back()}>
-                <Text style={styles.iconBtnText}>←</Text>
+                <Text style={[styles.iconBtnText, { color: colors.brand }]}>←</Text>
               </Pressable>
             </View>
             <View style={styles.heroBottom}>
@@ -75,10 +99,10 @@ export default function RecipeDetailScreen() {
 
         <View style={[styles.body, { backgroundColor: colors.bg }]}>
           <View style={styles.nutritionStrip}>
-            <NutritionStat n={recipe.kcal} label="kcal" color={colors.brand} bg={colors.surface} />
-            <NutritionStat n={recipe.protein_g} label="Protein" unit="g" color={colors.protein} bg={colors.surface} />
-            <NutritionStat n={recipe.carbs_g} label="Carbs" unit="g" color={colors.carbs} bg={colors.surface} />
-            <NutritionStat n={recipe.fat_g} label="Fett" unit="g" color={colors.fat} bg={colors.surface} />
+            <NutritionStat n={recipe.kcal} label="kcal" color={colors.brand} bg={colors.surface} muteColor={colors.inkMute} />
+            <NutritionStat n={recipe.protein_g} label="Protein" unit="g" color={colors.protein} bg={colors.surface} muteColor={colors.inkMute} />
+            <NutritionStat n={recipe.carbs_g} label="Carbs" unit="g" color={colors.carbs} bg={colors.surface} muteColor={colors.inkMute} />
+            <NutritionStat n={recipe.fat_g} label="Fett" unit="g" color={colors.fat} bg={colors.surface} muteColor={colors.inkMute} />
           </View>
 
           <SectionTitle colors={colors}>Zutaten</SectionTitle>
@@ -103,8 +127,14 @@ export default function RecipeDetailScreen() {
             ))}
           </View>
 
-          <Pressable style={[styles.addBtn, { backgroundColor: colors.accent }]}>
-            <Text style={styles.addBtnText}>＋ Zum Tagebuch hinzufügen</Text>
+          <Pressable
+            style={[styles.addBtn, { backgroundColor: colors.accent, opacity: adding ? 0.6 : 1 }]}
+            onPress={() => addRecipeToJournal(recipe)}
+            disabled={adding}
+          >
+            <Text style={styles.addBtnText}>
+              {adding ? 'Speichere...' : '＋ Zum Tagebuch hinzufügen'}
+            </Text>
           </Pressable>
         </View>
       </ScrollView>
@@ -119,11 +149,11 @@ function HeroTag({ children }: { children: React.ReactNode }) {
     </View>
   );
 }
-function NutritionStat({ n, label, unit = '', color, bg }: { n: number | null; label: string; unit?: string; color: string; bg: string }) {
+function NutritionStat({ n, label, unit = '', color, bg, muteColor }: { n: number | null; label: string; unit?: string; color: string; bg: string; muteColor: string }) {
   return (
     <View style={[styles.nStat, { backgroundColor: bg }]}>
       <Text style={[styles.nStatVal, { color }]}>{n ?? '–'}{unit && n != null ? unit : ''}</Text>
-      <Text style={styles.nStatLbl}>{label.toUpperCase()}</Text>
+      <Text style={[styles.nStatLbl, { color: muteColor }]}>{label.toUpperCase()}</Text>
     </View>
   );
 }
@@ -144,7 +174,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255,0.9)',
     alignItems: 'center', justifyContent: 'center',
   },
-  iconBtnText: { fontSize: 18, fontWeight: '600', color: '#143A3F' },
+  iconBtnText: { fontSize: 18, fontWeight: '600' },
   heroBottom: {},
   heroTitle: { fontFamily: fonts.serifMedium, fontSize: 24, color: '#fff', marginBottom: 8, lineHeight: 30 },
   heroTagRow: { flexDirection: 'row', gap: 6, flexWrap: 'wrap' },
@@ -154,7 +184,7 @@ const styles = StyleSheet.create({
   nutritionStrip: { flexDirection: 'row', gap: 8, marginBottom: 20 },
   nStat: { flex: 1, borderRadius: 12, padding: 10, alignItems: 'center' },
   nStatVal: { fontFamily: fonts.serifMedium, fontSize: 16 },
-  nStatLbl: { fontFamily: fonts.sansBold, fontSize: 10, letterSpacing: 0.8, color: '#8A928E', marginTop: 2, fontWeight: '600' },
+  nStatLbl: { fontFamily: fonts.sansBold, fontSize: 10, letterSpacing: 0.8, marginTop: 2, fontWeight: '600' },
   sectionTitle: { fontFamily: fonts.serifMedium, fontSize: 18, marginTop: 20, marginBottom: 10 },
   ingredientList: {},
   ingredientRow: {
