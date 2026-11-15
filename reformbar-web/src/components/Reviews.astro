@@ -9,7 +9,7 @@ const loop = [...reviews, ...reviews, ...reviews];
       <h2 class="display rev-title" id="rev-h" data-reveal>Was unsere<br />Kund:innen <span class="script">sagen.</span></h2>
       <div class="rev-meta" data-reveal style="--d:.1s">
         <div class="rev-stars" aria-label="5 von 5 Sternen">★★★★★</div>
-        <p>Echte Google-Bewertungen<br />unserer Kund:innen</p>
+        <p>{reviews.length} echte Google-Bewertungen<br />unserer Kund:innen</p>
         <div class="rev-ctrl">
           <button type="button" data-rev-prev aria-label="Vorherige Bewertungen">←</button>
           <button type="button" data-rev-next aria-label="Nächste Bewertungen">→</button>
@@ -33,6 +33,7 @@ const loop = [...reviews, ...reviews, ...reviews];
       </figure>
     ))}
   </div>
+  <p class="wrap rev-note">Individuelle Erfahrungen – Ergebnisse können von Person zu Person variieren.</p>
 </section>
 
 <script>
@@ -120,6 +121,7 @@ const loop = [...reviews, ...reviews, ...reviews];
   .rev-top strong { font-size: 15.5px; }
   .rev-top span { font-size: 12px; color: var(--mute); }
   .rev-g { color: var(--blue); opacity: 0.8; }
+  .rev-note { font-size: 12px; opacity: .65; margin-top: 22px; }
   .rev-card blockquote { font-size: 15.5px; line-height: 1.62; color: #2e2c28; }
   @media (max-width: 1000px) { .rev-track { --n: 2; } }
   @media (max-width: 640px) {

@@ -8,7 +8,7 @@ export const site = {
   region: 'Steiermark',
   street: 'Ungarstraße 2–4',
   zip: '8330',
-  phone: '+43 676 307 38 60',
+  phone: '0676 30 73 860',
   phoneHref: '+436763073860',
   whatsapp: '436763073860',
   email: 'studio@reformbar.at',
@@ -191,22 +191,19 @@ export const services: Service[] = [
   },
 ];
 
-// Echte Google-Bewertungen (Originalwortlaut)
+// Echte Google-Bewertungen (Originalwortlaut, Vorname + Initial soweit bekannt)
 export const reviews = [
-  {
-    name: 'Bern S.',
-    text: 'Nach dem ersten Mal hatte ich schon unglaubliche Ergebnisse erzielt. Die beste Entscheidung die ich treffen konnte um endlich an Umfang und Gewicht zu verlieren. Wenig Aufwand - großartige Ergebnisse. Vielen Dank!',
-  },
-  {
-    name: 'Beate',
-    text: 'Tolles Programm, Modernste Geräte, sehr nettes Personal, rundum perfekte Betreuung! Danke! Sehr zu empfehlen - und das Konzept funktioniert toll und einfach!',
-  },
-  {
-    name: 'Iris P.',
-    text: 'Ich hab ein besseres Körpergefühl, kann viel besser schlafen und hab schon viele Zentimeter und einige Kilos verloren nach nur 8 Behandlungen. Ich bin sehr zufrieden.',
-  },
-  {
-    name: 'S. F.',
-    text: 'Ich möchte mich recht herzlich bedanken, auf Anraten einer Bekannten hab ich euch gefunden, so ein liebes Team, fühle mich sehr gut aufgehoben und sehe schon die ersten Resultate. Top!',
-  },
+  { name: 'Bern S.', text: 'Nach dem ersten Mal hatte ich schon unglaubliche Ergebnisse erzielt. Die beste Entscheidung die ich treffen konnte um endlich an Umfang und Gewicht zu verlieren. Wenig Aufwand - großartige Ergebnisse. Vielen Dank!' },
+  { name: 'Beate', text: 'Tolles Programm, Modernste Geräte, sehr nettes Personal, rundum perfekte Betreuung! Danke! Sehr zu empfehlen - und das Konzept funktioniert toll und einfach!' },
+  { name: 'Iris P.', text: 'Ich hab ein besseres Körpergefühl, kann viel besser schlafen und hab schon viele Zentimeter und einige Kilos verloren nach nur 8 Behandlungen. Ich bin sehr zufrieden.' },
+  { name: 'S. F.', text: 'Ich möchte mich recht herzlich bedanken, auf Anraten einer Bekannten hab ich euch gefunden, so ein liebes Team, fühle mich sehr gut aufgehoben und sehe schon die ersten Resultate. Top!' },
+  { name: 'B. W.', text: 'Ich habe erst drei Einheiten hinter mir, aber die Kleidung sitzt bereits um einiges lockerer 🤩 Hosen, die nicht mehr zugingen, gehen wieder zu. Man wird super unterstützt und motiviert. So findet man wieder leichter zurück in alte Routinen.' },
+  { name: 'Claudia', text: 'Ein kleines aber feines Studio, mit sehr kompetenten und freundlichen Menschen die dort arbeiten. Die Behandlungen sind der Hammer, ich habe bei der 1.Sitzung mehr als 3 cm verloren, nach der 5. passte ich wieder in ein Kleid das schon ewig zu eng war 🤩 es funktioniert wirklich also einfach ausprobieren 👍🏻' },
+  { name: 'Maria W.', text: 'Ich bin total begeistert! Kann endlich wieder mein Lieblingskleid tragen, dass mir in letzter Zeit viel zu eng geworden ist. Danke auch für die kompetente Betreuung während der ganzen Zeit. Ich kann es auf jeden Fall weiterempfehlen!' },
+  { name: 'Cornelia', text: 'Hallo, nach der 4. Behandlung waren meine Rückenschmerzen wie weg geblasen! Danke dem Team :)' },
+  { name: 'Renate', text: 'Ich hätte es nie gedacht das ich mit 18 Behandlungen 22cm Bauch und 21cm Oberschenkel abgenommen habe. Danke liebes Team' },
+  { name: 'Gabi', text: 'Bin total happy. Insgesamt 21 cm am Bauch und 11 cm an den Beinen. Passe endlich wieder in meine „älteren Klamotten". Danke an das tolle Team' },
+  { name: 'Daniel', text: 'Ich kann diese Methode nur empfehlen. Habe bereits mit 6 Einheiten 8 kg verloren. Am Bauchumfang bereits 8 cm. Der Service ist extrem freundlich und hilfsbereit.' },
+  { name: 'Isabella', text: 'Ich bin total Überrascht wie Erfolgreich diese Behandlungen wirken (natürlich in Kombination von Essensumstellung). Nach 6 Behandlung über 10 cm Bauchumfang verloren.' },
+  { name: 'Marion', text: 'Ich bin super zufrieden mit diesem Studio. Man fühlt sich in einem angenehmen Ambiente sehr wohl und man wird von den Mitarbeitern nett umsorgt. Bereits nach dem 5. Mal schon ersichtliche Abnahme. Kann ich nur empfehlen.👍' },
 ];
