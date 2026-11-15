@@ -17,7 +17,7 @@ Je Logo-Ordner
   JPG             nur Varianten mit Farbfläche, 3000 px
 
 Farben
-  Königsblau  #00288A  RGB 0/40/138     CMYK 100/75/2/18
+  Königsblau  #1A2DB8  RGB 26/45/184     CMYK 86/76/0/28
   Champagner  #F8E1C5  RGB 248/225/197  CMYK 2/11/22/0
   (CMYK/Pantone sind Annäherungen – vor Auflagendruck Proof machen.)
 

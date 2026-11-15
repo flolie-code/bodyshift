@@ -6,14 +6,14 @@ export const site = {
   tagline: 'Boutique Studio für Reformer Pilates, Bodyforming & Yoga in Feldbach',
   city: 'Feldbach',
   region: 'Steiermark',
-  // TODO: genaue Studio-Adresse in Feldbach eintragen
-  street: '',
+  street: 'Ungarstraße 2–4',
   zip: '8330',
-  phone: '+43 676 38 06 222',
-  phoneHref: '+436763806222',
-  whatsapp: '436763806222',
-  email: 'kontakt@bodyshift.at',
+  phone: '+43 676 307 38 60',
+  phoneHref: '+436763073860',
+  whatsapp: '436763073860',
+  email: 'studio@reformbar.at',
   hours: 'Termine nach Vereinbarung',
+  opening: 'Eröffnung: Freitag, 15. Jänner 2027, 18 Uhr',
   company: {
     name: 'Body Shift FLB GmbH',
     street: 'Breitenweg 9',
@@ -67,7 +67,7 @@ export const services: Service[] = [
       { q: 'Wie buche ich eine Reformer-Einheit?', a: 'Wähle im Kalender deinen Wunschtag und schick uns deine Anfrage – wir bestätigen deinen Platz persönlich.' },
     ],
     calendar: true,
-    image: '/img/reformer.webp',
+    image: '/img/reformer-klasse.webp',
     seoTitle: 'Reformer Pilates in Feldbach – Kleingruppen im Boutique Studio',
     seoDescription:
       'Reformer Pilates in Feldbach: Ganzkörpertraining in kleinen Gruppen, persönlich angeleitet. Jetzt Wunschtermin im Kalender der Reformbar anfragen.',
@@ -92,7 +92,7 @@ export const services: Service[] = [
       { q: 'Wie buche ich Bodyforming?', a: 'Wähle im Kalender deinen Wunschtag aus und sende uns deine Anfrage – wir melden uns mit einer Bestätigung.' },
     ],
     calendar: true,
-    image: '/img/towel.webp',
+    image: '/img/bodyforming.webp',
     seoTitle: 'Bodyforming in Feldbach – gezielte Körperformung mit Plan',
     seoDescription:
       'Bodyforming in Feldbach: das neue Konzept der Reformbar für gezielte Körperformung – persönlich betreut und individuell abgestimmt. Jetzt Termin anfragen.',
@@ -115,7 +115,7 @@ export const services: Service[] = [
       { q: 'Muss ich eine eigene Matte mitbringen?', a: 'Nein, Matten und Hilfsmittel stehen im Studio bereit.' },
     ],
     calendar: false,
-    image: '/img/yoga.webp',
+    image: '/img/yoga-flow.webp',
     seoTitle: 'Yoga in Feldbach – ruhige Flows im Boutique Studio',
     seoDescription:
       'Yoga in Feldbach: fließende Einheiten für Beweglichkeit, Atem und Ruhe – in kleinen Gruppen in der Reformbar. Jetzt Platz anfragen.',
@@ -138,7 +138,7 @@ export const services: Service[] = [
       { q: 'Ist Matten-Pilates anstrengend?', a: 'Es ist fordernd, aber kontrolliert. Du bestimmst die Intensität über die Übungsvariante.' },
     ],
     calendar: false,
-    image: '/img/socks.webp',
+    image: '/img/matten-pilates.webp',
     seoTitle: 'Matten-Pilates in Feldbach – starke Mitte, bessere Haltung',
     seoDescription:
       'Matten-Pilates in Feldbach: Training für tiefe Rumpfmuskulatur und aufrechte Haltung in der Reformbar. Jetzt Platz anfragen.',
@@ -161,7 +161,7 @@ export const services: Service[] = [
       { q: 'Ersetzt das Training eine ärztliche Behandlung?', a: 'Nein. Bei Beschwerden sprich bitte zuerst mit deiner Ärztin oder deinem Arzt. Unser Training ist eine sinnvolle Ergänzung.' },
     ],
     calendar: false,
-    image: '/img/lockers.webp',
+    image: '/img/beckenboden.webp',
     seoTitle: 'Beckenbodentraining in Feldbach – Stabilität von innen',
     seoDescription:
       'Beckenbodentraining in Feldbach: sanfter, gezielter Aufbau der Körpermitte in der Reformbar – diskret und persönlich. Jetzt Termin anfragen.',
@@ -184,7 +184,7 @@ export const services: Service[] = [
       { q: 'Wie vereinbare ich einen Termin?', a: 'Schick uns eine kurze Anfrage mit deinem Wunschzeitraum – wir melden uns persönlich bei dir.' },
     ],
     calendar: false,
-    image: '/img/bottle.webp',
+    image: '/img/coaching.webp',
     seoTitle: '1:1 Coaching in Feldbach – Personal Training in der Reformbar',
     seoDescription:
       '1:1 Coaching in Feldbach: persönliches Training am Reformer, auf der Matte oder im Yoga – ganz auf dein Ziel abgestimmt. Jetzt anfragen.',
@@ -194,7 +194,7 @@ export const services: Service[] = [
 // Echte Google-Bewertungen (Originalwortlaut)
 export const reviews = [
   {
-    name: 'Bern Sitz',
+    name: 'Bern S.',
     text: 'Nach dem ersten Mal hatte ich schon unglaubliche Ergebnisse erzielt. Die beste Entscheidung die ich treffen konnte um endlich an Umfang und Gewicht zu verlieren. Wenig Aufwand - großartige Ergebnisse. Vielen Dank!',
   },
   {
