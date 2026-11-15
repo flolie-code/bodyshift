@@ -1,0 +1,15 @@
+REFORMBAR FLYER – IN CANVA ÖFFNEN UND ANPASSEN
+
+1. canva.com öffnen > oben "Hochladen" (bzw. "Erstellen" > "Importieren").
+2. Datei "Reformbar_Flyer_A5_beidseitig_DRUCK_3mm-Beschnitt.pdf" hochladen.
+   Canva macht daraus ein Design mit 2 Seiten (Vorder- und Rückseite).
+   Alle Texte sind einzeln anklickbar und änderbar.
+3. Bild tauschen: Bild anklicken > löschen > eigenes Bild aus dem Ordner "Bilder"
+   oder ein neues Foto hineinziehen.
+   - Die Dateien "..._mit_Verlauf.png" laufen bereits weich in den Hintergrund aus.
+   - Für ein eigenes Foto mit Verlauf: in Canva Foto einfügen > "Bearbeiten" >
+     "Effekte" > "Verblassen"/"Fade", oder Foto in einen Verlaufsrahmen legen.
+4. Schriften: Montserrat (Überschriften) und Inter (Text) – beide gibt es in Canva.
+5. Farben: Königsblau #1A2DB8 · Hintergrund Creme #FBF5EC
+6. Drucken: "Teilen" > "Herunterladen" > "PDF für Druck" > "Schnittmarken und
+   Anschnitt" anhaken. Format A5 (148 x 210 mm), beidseitig 4/4-farbig.
