@@ -1,0 +1,52 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../data/site';
+const c = site.company;
+---
+<Legal title="Impressum | Reformbar Feldbach" description="Impressum der Reformbar – ein Studio der Body Shift FLB GmbH." heading="Impressum">
+  <p>Informationspflicht laut § 5 E-Commerce-Gesetz, § 14 Unternehmensgesetzbuch, § 63 Gewerbeordnung und Offenlegungspflicht laut § 25 Mediengesetz.</p>
+
+  <h2>Medieninhaber und Betreiber</h2>
+  <p>
+    <strong>{c.name}</strong><br />
+    {c.street}<br />{c.zip} {c.city}<br />{c.country}
+  </p>
+  <p>
+    Telefon: <a href={`tel:${site.phoneHref}`}>{site.phone}</a><br />
+    E-Mail: <a href={`mailto:${site.email}`}>{site.email}</a>
+  </p>
+  <p>„Reformbar“ ist ein Studio der {c.name} am Standort {site.zip} {site.city}.</p>
+
+  <h2>Unternehmensdaten</h2>
+  <dl>
+    <dt>Vollständiger Firmenname</dt><dd>{c.name}</dd>
+    <dt>Rechtsform</dt><dd>Gesellschaft mit beschränkter Haftung (GmbH)</dd>
+    <dt>Geschäftsführer</dt><dd>{c.ceo}</dd>
+    <dt>Sitz / Ort der Gewerbeberechtigung</dt><dd>{c.street}, {c.zip} {c.city}, {c.country}</dd>
+    <dt>UID-Nummer</dt><dd>{c.uid}</dd>
+    <dt>Firmenbuchnummer</dt><dd>{c.fn}</dd>
+    <dt>Unternehmensgegenstand</dt><dd>{c.purpose}</dd>
+    <dt>Kammerzugehörigkeit</dt><dd>{c.chamber}</dd>
+    <dt>Aufsichtsbehörde</dt><dd>{c.authority}</dd>
+    <dt>Anwendbare Vorschriften</dt><dd>Gewerbeordnung 1994, abrufbar unter <a href="https://www.ris.bka.gv.at" rel="noopener" target="_blank">www.ris.bka.gv.at</a></dd>
+  </dl>
+
+  <h2>Blattlinie</h2>
+  <p>Diese Website informiert über das Angebot und die Leistungen des Studios Reformbar in Feldbach.</p>
+
+  <h2>Haftungsausschluss</h2>
+  <h3>Inhalt des Onlineangebotes</h3>
+  <p>Der Autor übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen den Autor, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen verursacht wurden, sind grundsätzlich ausgeschlossen, sofern seitens des Autors kein nachweislich vorsätzliches oder grob fahrlässiges Verschulden vorliegt. Alle Angebote sind freibleibend und unverbindlich. Der Autor behält es sich ausdrücklich vor, Teile der Seiten oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.</p>
+  <h3>Verweise und Links</h3>
+  <p>Bei direkten oder indirekten Verweisen auf fremde Internetseiten (Links), die außerhalb des Verantwortungsbereiches des Autors liegen, würde eine Haftungsverpflichtung ausschließlich in dem Fall in Kraft treten, in dem der Autor von den Inhalten Kenntnis hat und es ihm technisch möglich und zumutbar wäre, die Nutzung im Falle rechtswidriger Inhalte zu verhindern. Der Autor erklärt hiermit ausdrücklich, dass zum Zeitpunkt der Linksetzung keine illegalen Inhalte auf den zu verlinkenden Seiten erkennbar waren. Auf die aktuelle und zukünftige Gestaltung, die Inhalte oder die Urheberschaft der verlinkten Seiten hat der Autor keinerlei Einfluss. Deshalb distanziert er sich hiermit ausdrücklich von allen Inhalten aller verlinkten Seiten, die nach der Linksetzung verändert wurden.</p>
+  <h3>Urheber- und Kennzeichenrecht</h3>
+  <p>Der Autor ist bestrebt, in allen Publikationen die Urheberrechte der verwendeten Grafiken und Texte zu beachten, von ihm selbst erstellte Grafiken und Texte zu nutzen oder auf lizenzfreie Grafiken und Texte zurückzugreifen. Alle innerhalb des Internetangebotes genannten und ggf. durch Dritte geschützten Marken- und Warenzeichen unterliegen uneingeschränkt den Bestimmungen des jeweils gültigen Kennzeichenrechts und den Besitzrechten der jeweiligen eingetragenen Eigentümer. Das Copyright für veröffentlichte, vom Autor selbst erstellte Objekte bleibt allein beim Autor der Seiten. Eine Vervielfältigung oder Verwendung solcher Grafiken und Texte in anderen elektronischen oder gedruckten Publikationen ist ohne ausdrückliche Zustimmung des Autors nicht gestattet.</p>
+  <h3>Rechtswirksamkeit dieses Haftungsausschlusses</h3>
+  <p>Dieser Haftungsausschluss ist als Teil des Internetangebotes zu betrachten, von dem aus auf diese Seite verwiesen wurde. Sofern Teile oder einzelne Formulierungen dieses Textes der geltenden Rechtslage nicht, nicht mehr oder nicht vollständig entsprechen sollten, bleiben die übrigen Teile des Dokumentes in ihrem Inhalt und ihrer Gültigkeit davon unberührt.</p>
+
+  <h2>Online-Streitbeilegung</h2>
+  <p>Verbraucher haben die Möglichkeit, Beschwerden an die Online-Streitbeilegungsplattform der EU zu richten: <a href="https://ec.europa.eu/odr/" rel="noopener" target="_blank">ec.europa.eu/odr</a>. Sie können allfällige Beschwerden auch an die oben angegebene E-Mail-Adresse richten.</p>
+
+  <h2>Datenschutz</h2>
+  <p>Informationen zur Verarbeitung personenbezogener Daten finden Sie in unserer <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+</Legal>

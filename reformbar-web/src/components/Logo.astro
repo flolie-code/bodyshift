@@ -1,0 +1,9 @@
+---
+import logo from '../data/logo.json';
+interface Props { class?: string; }
+const { class: cls = '' } = Astro.props;
+---
+<svg class={`logo-svg ${cls}`} viewBox={`0 0 ${logo.logo.w} ${logo.logo.h}`} role="img" aria-label="Reformbar">
+  <path fill="currentColor" d={logo.logo.reform} />
+  <path fill="var(--logo-accent, currentColor)" d={logo.logo.bar} />
+</svg>

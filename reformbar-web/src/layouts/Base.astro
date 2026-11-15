@@ -1,0 +1,298 @@
+---
+import '@fontsource/montserrat/800.css';
+import '@fontsource/allison/400.css';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import { site, services } from '../data/site';
+import Logo from '../components/Logo.astro';
+import Bar from '../components/Bar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: object[];
+  noindex?: boolean;
+  hideCta?: boolean;
+}
+const { title, description, schema = [], noindex = false, hideCta = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImage = new URL('/og.jpg', site.url).href;
+
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'HealthClub',
+  '@id': site.url + '/#studio',
+  name: site.name,
+  description: site.tagline,
+  url: site.url,
+  image: ogImage,
+  telephone: site.phone,
+  email: site.email,
+  priceRange: '€€',
+  address: {
+    '@type': 'PostalAddress',
+    ...(site.street ? { streetAddress: site.street } : {}),
+    postalCode: site.zip,
+    addressLocality: site.city,
+    addressRegion: site.region,
+    addressCountry: 'AT',
+  },
+  areaServed: ['Feldbach', 'Südoststeiermark', 'Steiermark'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Angebote',
+    itemListElement: services.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: s.name, url: `${site.url}/${s.slug}/` },
+    })),
+  },
+};
+const allSchema = [business, ...schema];
+const year = new Date().getFullYear();
+---
+<!doctype html>
+<html lang="de-AT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content="#1a2db8" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_AT" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="geo.region" content="AT-6" />
+    <meta name="geo.placename" content="Feldbach" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {allSchema.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip" href="#inhalt">Zum Inhalt springen</a>
+
+    <header class="nav" data-nav>
+      <a href="/" class="nav-logo" aria-label="Reformbar – Startseite"><Logo /></a>
+      <nav class="nav-links" aria-label="Hauptnavigation">
+        <div class="has-sub">
+          <a href="/#angebot">Angebot</a>
+          <div class="sub">
+            {services.map((s) => <a href={`/${s.slug}/`}>{s.name}</a>)}
+          </div>
+        </div>
+        <a href="/das-sind-wir/">Das sind wir</a>
+        <a href="/#stimmen">Stimmen</a>
+        <a href="/kontakt/">Kontakt</a>
+      </nav>
+      <a href="/buchen/" class="btn sm nav-cta">Termin buchen</a>
+      <button class="burger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="menu" data-burger><span></span><span></span></button>
+    </header>
+
+    <div class="menu" id="menu" data-menu hidden>
+      <nav aria-label="Mobile Navigation">
+        {services.map((s, i) => <a href={`/${s.slug}/`} style={`--i:${i}`}>{s.name}</a>)}
+        <a href="/das-sind-wir/" style="--i:6">Das sind wir</a>
+        <a href="/kontakt/" style="--i:7">Kontakt</a>
+      </nav>
+      <a href="/buchen/" class="btn white" style="--i:8">Termin buchen <span class="arr">→</span></a>
+    </div>
+
+    <main id="inhalt"><slot /></main>
+
+    <footer class="footer">
+      <div class="wrap">
+        <div class="f-top">
+          <div>
+            <p class="display f-claim" aria-label="Alles ist reformbar."><span aria-hidden="true">Alles ist<br />reform</span><Bar /></p>
+            <a href="/buchen/" class="btn" data-magnetic>Termin buchen <span class="arr">→</span></a>
+          </div>
+          <div class="f-cols">
+            <div>
+              <p class="eyebrow">Angebot</p>
+              {services.map((s) => <a href={`/${s.slug}/`}>{s.name}</a>)}
+            </div>
+            <div>
+              <p class="eyebrow">Studio</p>
+              <a href="/das-sind-wir/">Das sind wir</a>
+              <a href="/buchen/">Termin buchen</a>
+              <a href="/kontakt/">Kontakt</a>
+            </div>
+            <div>
+              <p class="eyebrow">Kontakt</p>
+              <span>Reformbar · {site.zip} {site.city}</span>
+              <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+              <a href={`mailto:${site.email}`}>{site.email}</a>
+            </div>
+          </div>
+        </div>
+        <div class="f-bottom">
+          <span>© {year} {site.company.name}</span>
+          <span class="f-legal">
+            <a href="/impressum/">Impressum</a>
+            <a href="/datenschutz/">Datenschutz</a>
+            <a href="/agb/">AGB</a>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    {!hideCta && <a href="/buchen/" class="btn mobile-cta" data-mobile-cta>Termin buchen <span class="arr">→</span></a>}
+
+    <script>
+      // Navigation: Zustand beim Scrollen
+      const nav = document.querySelector<HTMLElement>('[data-nav]')!;
+      let last = 0;
+      const onScroll = () => {
+        const y = window.scrollY;
+        nav.classList.toggle('solid', y > 60);
+        nav.classList.toggle('away', y > 400 && y > last);
+        document.querySelector('[data-mobile-cta]')?.classList.toggle('show', y > 500);
+        last = y;
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      // Mobile-Menü
+      const burger = document.querySelector<HTMLButtonElement>('[data-burger]')!;
+      const menu = document.querySelector<HTMLElement>('[data-menu]')!;
+      const setMenu = (open: boolean) => {
+        menu.hidden = !open;
+        burger.setAttribute('aria-expanded', String(open));
+        burger.setAttribute('aria-label', open ? 'Menü schließen' : 'Menü öffnen');
+        document.documentElement.classList.toggle('menu-open', open);
+      };
+      burger.addEventListener('click', () => setMenu(menu.hidden));
+      menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+      document.addEventListener('keydown', (e) => e.key === 'Escape' && setMenu(false));
+
+      // Scroll-Reveal
+      const io = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+        { threshold: 0.12, rootMargin: '0px 0px -6% 0px' },
+      );
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+      const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (fine && !calm) {
+        // Magnetische Buttons
+        document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            el.style.transform = `translate(${(e.clientX - r.left - r.width / 2) * 0.25}px, ${(e.clientY - r.top - r.height / 2) * 0.35}px)`;
+          });
+          el.addEventListener('pointerleave', () => (el.style.transform = ''));
+        });
+        // Karten-Neigung
+        document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+          el.addEventListener('pointermove', (e) => {
+            const r = el.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width - 0.5;
+            const y = (e.clientY - r.top) / r.height - 0.5;
+            el.style.transform = `perspective(900px) rotateX(${-y * 5}deg) rotateY(${x * 6}deg) translateY(-4px)`;
+          });
+          el.addEventListener('pointerleave', () => (el.style.transform = ''));
+        });
+      }
+
+      // Parallax
+      if (!calm) {
+        const items = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
+        if (items.length) {
+          let ticking = false;
+          const run = () => {
+            const vh = window.innerHeight;
+            items.forEach((el) => {
+              const r = el.parentElement!.getBoundingClientRect();
+              const p = (r.top + r.height / 2 - vh / 2) / vh;
+              el.style.transform = `translate3d(0, ${p * Number(el.dataset.parallax) * -1}px, 0)`;
+            });
+            ticking = false;
+          };
+          window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(run); } }, { passive: true });
+          run();
+        }
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 22px var(--pad); color: #fff;
+    transition: transform 0.5s var(--ease), background 0.3s, color 0.3s, padding 0.3s, box-shadow 0.3s;
+  }
+  .nav.solid { background: rgba(244, 239, 231, 0.9); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); color: var(--ink); padding-block: 12px; box-shadow: 0 1px 0 rgba(22, 23, 28, 0.08); }
+  .nav.away { transform: translateY(-100%); }
+  .menu-open .nav { transform: none; background: transparent; color: #fff; box-shadow: none; backdrop-filter: none; }
+  .nav-logo { display: block; --logo-accent: var(--champ); }
+  .nav-logo .logo-svg { height: 34px; width: auto; display: block; }
+  .nav.solid .nav-logo { --logo-accent: currentColor; }
+  .menu-open .nav .nav-logo { --logo-accent: var(--champ); }
+  .nav.solid .nav-logo { color: var(--blue); }
+  .menu-open .nav .nav-logo { color: #fff; }
+  .nav-links { display: flex; gap: 34px; font-size: 14px; font-weight: 500; margin-left: auto; align-items: center; }
+  .nav-links > a, .has-sub > a { position: relative; padding: 8px 0; display: inline-block; }
+  .nav-links > a::after, .has-sub > a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease); }
+  .nav-links > a:hover::after, .has-sub:hover > a::after { transform: scaleX(1); transform-origin: left; }
+  .has-sub { position: relative; }
+  .sub { position: absolute; top: 100%; left: -18px; background: #fff; color: var(--ink); border-radius: 18px; padding: 10px; min-width: 230px; box-shadow: 0 24px 50px -20px rgba(16, 28, 133, 0.35); opacity: 0; visibility: hidden; transform: translateY(8px); transition: 0.3s var(--ease); }
+  .has-sub:hover .sub, .has-sub:focus-within .sub { opacity: 1; visibility: visible; transform: none; }
+  .sub a { display: block; padding: 10px 14px; border-radius: 10px; }
+  .sub a:hover { background: var(--cream); color: var(--blue); }
+  .nav-cta { background: #fff; color: var(--blue); }
+  .nav.solid .nav-cta { background: var(--blue); color: #fff; }
+  .burger { display: none; width: 44px; height: 44px; border-radius: 50%; position: relative; }
+  .burger span { position: absolute; left: 11px; right: 11px; height: 2px; background: currentColor; transition: 0.35s var(--ease); }
+  .burger span:first-child { top: 17px; } .burger span:last-child { top: 25px; }
+  .burger[aria-expanded='true'] span:first-child { top: 21px; transform: rotate(45deg); }
+  .burger[aria-expanded='true'] span:last-child { top: 21px; transform: rotate(-45deg); }
+
+  .menu { position: fixed; inset: 0; z-index: 90; background: var(--blue); color: #fff; padding: 110px var(--pad) 40px; display: flex; flex-direction: column; justify-content: space-between; overflow-y: auto; }
+  .menu[hidden] { display: none; }
+  .menu nav { display: flex; flex-direction: column; }
+  .menu nav a { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 8.4vw, 44px); letter-spacing: -0.04em; line-height: 1.22; }
+  .menu a { animation: menuIn 0.6s var(--ease) both; animation-delay: calc(var(--i) * 45ms); }
+  .menu .btn { margin-top: 28px; align-self: flex-start; }
+  @keyframes menuIn { from { opacity: 0; transform: translateY(24px); } }
+  .menu-open, .menu-open body { overflow: hidden; }
+
+  .footer { background: var(--cream); padding: clamp(64px, 8vw, 110px) 0 28px; border-top: 1px solid rgba(22, 23, 28, 0.1); }
+  .f-top { display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; }
+  .f-claim { font-size: clamp(44px, 6vw, 92px); color: var(--blue); text-transform: uppercase; margin-bottom: 44px; }
+  .f-claim { position: relative; display: inline-block; padding-right: 1.5em; }
+  .f-claim .bar-svg { position: absolute; height: 1.28em; width: auto; right: 0.02em; bottom: -0.34em; }
+  .f-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; font-size: 14.5px; }
+  .f-cols .eyebrow { color: var(--mute); margin-bottom: 16px; }
+  .f-cols a, .f-cols span { display: block; padding: 4px 0; }
+  .f-cols a:hover, .f-legal a:hover { color: var(--blue); }
+  .f-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(22, 23, 28, 0.12); font-size: 13px; color: var(--mute); }
+  .f-legal { display: flex; gap: 22px; }
+
+  .mobile-cta { display: none; }
+
+  @media (max-width: 900px) {
+    .nav-links, .nav-cta { display: none; }
+    .burger { display: block; }
+    .f-top { grid-template-columns: 1fr; }
+    .f-cols { grid-template-columns: 1fr 1fr; }
+    .mobile-cta { display: inline-flex; position: fixed; left: 16px; right: 16px; bottom: 14px; z-index: 80; transform: translateY(160%); transition: transform 0.5s var(--ease); box-shadow: 0 16px 34px -12px rgba(16, 28, 133, 0.6); }
+    .mobile-cta.show { transform: none; }
+    .menu-open .mobile-cta { display: none; }
+    .footer { padding-bottom: 96px; }
+  }
+</style>

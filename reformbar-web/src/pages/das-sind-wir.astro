@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import { services } from '../data/site';
+const values = [
+  { t: 'Persönlich', d: 'Kleine Gruppen und ein Team, das dich kennt. Bei uns bist du kein Mitglied mit Nummer.' },
+  { t: 'Hochwertig', d: 'Vom Reformer bis zum Handtuch: Wir achten auf jedes Detail, damit du dich wohlfühlst.' },
+  { t: 'Wirksam', d: 'Schöne Räume sind nett – Ergebnisse sind besser. Wir trainieren mit Plan und Anspruch.' },
+];
+---
+<Base
+  title="Das sind wir – Boutique Studio Reformbar in Feldbach"
+  description="Lerne die Reformbar kennen: das Boutique Studio in Feldbach für Reformer Pilates, Bodyforming und Yoga – klein, persönlich und mit hohem Anspruch."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Das sind wir</p>
+      <h1 class="display">Ein Studio wie<br />ein Lieblings<span class="script">ort.</span></h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap story">
+      <div class="story-pic"><img data-parallax="40" src="/img/reception.webp" alt="Empfangsbereich der Reformbar in Feldbach" width="1256" height="1104" /></div>
+      <div>
+        <h2 class="display h2" data-reveal>Warum es die<br />Reform<span class="script">bar</span> gibt</h2>
+        <p class="lead" data-reveal>Wir wollten einen Ort schaffen, den es in Feldbach so noch nicht gab: ein Studio, das sich nach Boutique anfühlt statt nach Fitnesskette. Ruhig, hochwertig, königsblau – und mit einem Training, das wirklich etwas verändert.</p>
+        <p class="lead" data-reveal>Der Name ist Programm: Wir sind überzeugt, dass alles <strong>reformbar</strong> ist – Haltung, Kraft, Beweglichkeit und das eigene Körpergefühl. Dafür braucht es keine Extreme, sondern gute Anleitung, Regelmäßigkeit und einen Ort, an den man gerne kommt.</p>
+        <p class="lead" data-reveal>Hinter der Reformbar steht ein kleines Team, das seit Jahren Menschen in der Steiermark auf ihrem Weg zu einem besseren Körpergefühl begleitet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="vals">
+    <div class="wrap">
+      <h2 class="display" data-reveal>Wofür wir <span class="script">stehen</span></h2>
+      <ul>
+        {values.map((v, i) => <li data-reveal style={`--d:${i * 0.08}s`}><h3 class="display">{v.t}</h3><p>{v.d}</p></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2 class="display h2" data-reveal>Unser <span class="script">Angebot</span></h2>
+      <div class="offer">
+        {services.map((s, i) => (
+          <div class="offer-row" data-reveal>
+            <span class="n">0{i + 1}</span>
+            <a class="display name" href={`/${s.slug}/`}>{s.name}</a>
+            <p>{s.short}</p>
+            <a class="pill" href={`/buchen/?angebot=${s.slug}`}>{s.calendar ? 'Kalender öffnen' : 'Termin anfragen'} <span class="arr">→</span></a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .story { display: grid; grid-template-columns: 0.8fr 1fr; gap: clamp(36px, 7vw, 110px); align-items: center; }
+  .story-pic { border-radius: 999px 999px 0 0; overflow: hidden; aspect-ratio: 4 / 5; max-width: 460px; background: var(--sand); }
+  .story-pic img { width: 100%; height: 116%; object-fit: cover; }
+  .story .h2 { margin-bottom: 28px; }
+  .story .lead { color: #3d3a35; margin-bottom: 18px; max-width: 580px; }
+  .vals { background: var(--blue); color: #fff; padding: clamp(64px, 8vw, 110px) 0; }
+  .vals h2 { font-size: clamp(34px, 5vw, 70px); margin-bottom: clamp(32px, 4vw, 52px); }
+  .vals h2 .script { color: var(--cream); font-size: 1.6em; transform: rotate(-5deg) translateY(0.1em); }
+  .vals ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .vals li { border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 26px; padding: 30px; }
+  .vals h3 { font-size: 28px; margin-bottom: 12px; }
+  .vals p { opacity: 0.85; }
+  .offer { margin-top: clamp(28px, 4vw, 48px); }
+  .offer-row { display: grid; grid-template-columns: 50px 1fr 1.1fr auto; gap: 24px; align-items: center; padding: 26px 0; border-top: 1px solid rgba(22, 23, 28, 0.14); }
+  .offer-row:last-child { border-bottom: 1px solid rgba(22, 23, 28, 0.14); }
+  .offer-row .n { font-size: 12px; letter-spacing: 0.16em; color: var(--mute); }
+  .offer-row .name { font-size: clamp(24px, 3vw, 40px); transition: color 0.3s, transform 0.4s var(--ease); display: inline-block; }
+  .offer-row:hover .name { color: var(--blue); transform: translateX(10px); }
+  .offer-row p { color: var(--mute); font-size: 15px; }
+  @media (max-width: 800px) {
+    .story, .vals ul { grid-template-columns: 1fr; }
+    .story-pic { max-width: 70%; }
+    .offer-row { grid-template-columns: 1fr; gap: 8px; }
+    .offer-row .pill { justify-self: start; margin-top: 8px; }
+  }
+</style>

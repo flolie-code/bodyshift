@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base
+  title="Kontakt – Reformbar Feldbach"
+  description="Kontakt zur Reformbar in Feldbach: Telefon, WhatsApp und E-Mail. Wir beantworten deine Fragen zu Reformer Pilates, Bodyforming, Yoga und Terminen."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Kontakt</p>
+      <h1 class="display">Schreib uns.<br />Wir sind erreich<span class="script">bar.</span></h1>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap kt">
+      <a class="kt-card" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" data-reveal data-tilt>
+        <span class="eyebrow">WhatsApp</span><strong class="display">Nachricht senden</strong><span class="arr">→</span>
+      </a>
+      <a class="kt-card blue" href={`tel:${site.phoneHref}`} data-reveal data-tilt style="--d:.07s">
+        <span class="eyebrow">Telefon</span><strong class="display">{site.phone}</strong><span class="arr">→</span>
+      </a>
+      <a class="kt-card sand" href={`mailto:${site.email}`} data-reveal data-tilt style="--d:.14s">
+        <span class="eyebrow">E-Mail</span><strong class="display">{site.email}</strong><span class="arr">→</span>
+      </a>
+    </div>
+    <div class="wrap kt-info">
+      <div data-reveal>
+        <h2 class="display">Studio</h2>
+        <p>Reformbar<br />{site.street && <>{site.street}<br /></>}{site.zip} {site.city}<br />Steiermark, Österreich</p>
+      </div>
+      <div data-reveal>
+        <h2 class="display">Zeiten</h2>
+        <p>{site.hours}.<br />Am schnellsten geht es über den <a href="/buchen/">Buchungskalender</a>.</p>
+      </div>
+      <div data-reveal>
+        <h2 class="display">Betreiber</h2>
+        <p>{site.company.name}<br />{site.company.street}, {site.company.zip} {site.company.city}<br /><a href="/impressum/">Impressum</a></p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .kt { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .kt-card { background: #fff; border-radius: 26px; padding: 30px; min-height: 230px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.5s var(--ease), box-shadow 0.5s, opacity 0.9s var(--ease); }
+  .kt-card:hover { box-shadow: 0 30px 60px -30px rgba(16, 28, 133, 0.45); }
+  .kt-card.blue { background: var(--blue); color: #fff; } .kt-card.sand { background: var(--sand); }
+  .kt-card strong { font-size: clamp(20px, 2vw, 28px); overflow-wrap: anywhere; }
+  .kt-card .arr { font-size: 22px; transition: transform 0.4s var(--ease); }
+  .kt-card:hover .arr { transform: translateX(8px); }
+  .kt-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: clamp(48px, 6vw, 80px); }
+  .kt-info h2 { color: var(--blue); font-size: 26px; margin-bottom: 12px; }
+  .kt-info p { color: #3d3a35; }
+  .kt-info a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+  @media (max-width: 800px) { .kt, .kt-info { grid-template-columns: 1fr; } .kt-card { min-height: 170px; } }
+</style>

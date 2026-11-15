@@ -1,0 +1,25 @@
+REFORMBAR – BRAND KIT
+=====================
+
+Inhalt
+  01_Hauptlogo             REFORM + bar (7 Farbvarianten)
+  02_Hauptlogo_mit_Claim   mit "REFORMER PILATES | BODYFORMING | YOGA"
+  03_Signet                R + bar – für Profilbilder, Icons, Stempel
+  04_Schriftzug_bar        "bar" allein als Schmuckelement
+  05_Icons_Social          App-Icons, Profilbilder (1080 px), Favicons
+  Reformbar_Brand-Sheet.pdf  Farben, Schutzzone, Regeln
+
+Je Logo-Ordner
+  SVG_Vektor      Vektor für Web, Canva, Stick, Folienplot
+  PDF_Vektor_RGB  Vektor für Bildschirm / Office
+  Druck_CMYK      Vektor-PDF und EPS in CMYK für die Druckerei
+  PNG             transparent, 4000 px und 1200 px Breite
+  JPG             nur Varianten mit Farbfläche, 3000 px
+
+Farben
+  Königsblau  #00288A  RGB 0/40/138     CMYK 100/75/2/18
+  Champagner  #F8E1C5  RGB 248/225/197  CMYK 2/11/22/0
+  (CMYK/Pantone sind Annäherungen – vor Auflagendruck Proof machen.)
+
+Alle Dateien enthalten bereits die Schutzzone (halbe R-Höhe rundum).
+Schriften sind in Pfade umgewandelt – es muss nichts installiert werden.

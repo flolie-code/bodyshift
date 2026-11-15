@@ -1,0 +1,201 @@
+---
+import Base from '../layouts/Base.astro';
+import { services, site } from '../data/site';
+const cfg = {
+  wa: site.whatsapp,
+  mail: site.email,
+  days: site.bookableWeekdays,
+  services: services.map((s) => ({ slug: s.slug, name: s.name, calendar: s.calendar })),
+};
+---
+<Base
+  title="Termin buchen – Reformer Pilates & Bodyforming | Reformbar Feldbach"
+  description="Wunschtermin für Reformer Pilates, Bodyforming, Yoga und mehr in der Reformbar Feldbach anfragen: Tag im Kalender wählen, Zeitfenster angeben, abschicken."
+  hideCta
+>
+  <section class="page-hero bk-hero">
+    <div class="wrap">
+      <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Termin buchen</p>
+      <h1 class="display">Dein Platz an<br />der <span class="script">bar.</span></h1>
+    </div>
+  </section>
+
+  <section class="section bk-sec">
+    <div class="wrap">
+      <form class="bk" data-bk novalidate>
+        <div class="bk-main">
+          <fieldset>
+            <legend><span>1</span> Angebot wählen</legend>
+            <div class="chips" data-services>
+              {services.map((s) => (
+                <label>
+                  <input type="radio" name="angebot" value={s.slug} />
+                  <span>{s.name}{s.calendar && <em>Kalender</em>}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span>2</span> Wunschtag wählen</legend>
+            <div class="cal">
+              <div class="cal-head">
+                <button type="button" data-prev aria-label="Vorheriger Monat">←</button>
+                <strong data-month aria-live="polite"></strong>
+                <button type="button" data-next aria-label="Nächster Monat">→</button>
+              </div>
+              <div class="cal-dow" aria-hidden="true"><span>Mo</span><span>Di</span><span>Mi</span><span>Do</span><span>Fr</span><span>Sa</span><span>So</span></div>
+              <div class="cal-grid" data-grid></div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><span>3</span> Zeitfenster</legend>
+            <div class="chips">
+              {['Früh (bis 9 Uhr)', 'Vormittag', 'Mittag', 'Nachmittag', 'Abend (ab 17 Uhr)'].map((t) => (
+                <label><input type="radio" name="zeit" value={t} /><span>{t}</span></label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+
+        <aside class="bk-side">
+          <h2 class="display">Deine Anfrage</h2>
+          <dl>
+            <div><dt>Angebot</dt><dd data-out="angebot">–</dd></div>
+            <div><dt>Wunschtag</dt><dd data-out="tag">–</dd></div>
+            <div><dt>Zeitfenster</dt><dd data-out="zeit">–</dd></div>
+          </dl>
+          <label class="fld">Dein Name<input type="text" name="name" autocomplete="name" required /></label>
+          <label class="fld">Telefon (für die Bestätigung)<input type="tel" name="tel" autocomplete="tel" /></label>
+          <label class="fld">Nachricht (optional)<textarea name="msg" rows="2"></textarea></label>
+          <p class="bk-err" data-err role="alert" hidden></p>
+          <button type="button" class="btn white" data-send="wa">Per WhatsApp anfragen <span class="arr">→</span></button>
+          <button type="button" class="btn line-w" data-send="mail">Per E-Mail anfragen</button>
+          <p class="bk-note">Wir bestätigen deinen Termin persönlich. Deine Angaben werden erst übermittelt, wenn du die Nachricht in WhatsApp bzw. deinem Mailprogramm absendest. Mehr dazu in der <a href="/datenschutz/">Datenschutzerklärung</a>.</p>
+        </aside>
+      </form>
+    </div>
+  </section>
+  <script type="application/json" id="bk-cfg" set:html={JSON.stringify(cfg)} />
+</Base>
+
+<script>
+  const cfg = JSON.parse(document.getElementById('bk-cfg')!.textContent!);
+  const form = document.querySelector<HTMLFormElement>('[data-bk]')!;
+  const grid = form.querySelector<HTMLElement>('[data-grid]')!;
+  const monthEl = form.querySelector<HTMLElement>('[data-month]')!;
+  const err = form.querySelector<HTMLElement>('[data-err]')!;
+  const out = (k: string, v: string) => (form.querySelector<HTMLElement>(`[data-out="${k}"]`)!.textContent = v || '–');
+
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const min = new Date(today); min.setDate(min.getDate() + 1);
+  const max = new Date(today); max.setDate(max.getDate() + 60);
+  let view = new Date(min.getFullYear(), min.getMonth(), 1);
+  let picked: Date | null = null;
+  const fmtLong = new Intl.DateTimeFormat('de-AT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const fmtMonth = new Intl.DateTimeFormat('de-AT', { month: 'long', year: 'numeric' });
+
+  function render() {
+    monthEl.textContent = fmtMonth.format(view);
+    grid.innerHTML = '';
+    const offset = (new Date(view.getFullYear(), view.getMonth(), 1).getDay() + 6) % 7;
+    const count = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    for (let i = 0; i < offset; i++) grid.appendChild(document.createElement('span'));
+    for (let d = 1; d <= count; d++) {
+      const date = new Date(view.getFullYear(), view.getMonth(), d);
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = String(d);
+      const dow = date.getDay() || 7;
+      const ok = date >= min && date <= max && cfg.days.includes(dow);
+      b.disabled = !ok;
+      b.setAttribute('aria-label', fmtLong.format(date) + (ok ? '' : ' – nicht verfügbar'));
+      if (picked && +picked === +date) { b.classList.add('on'); b.setAttribute('aria-pressed', 'true'); }
+      b.addEventListener('click', () => { picked = date; out('tag', fmtLong.format(date)); render(); });
+      grid.appendChild(b);
+    }
+    form.querySelector<HTMLButtonElement>('[data-prev]')!.disabled = view <= new Date(min.getFullYear(), min.getMonth(), 1);
+    form.querySelector<HTMLButtonElement>('[data-next]')!.disabled = new Date(view.getFullYear(), view.getMonth() + 1, 1) > max;
+  }
+  form.querySelector('[data-prev]')!.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+  form.querySelector('[data-next]')!.addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
+  render();
+
+  const serviceName = () => cfg.services.find((s: any) => s.slug === (form.elements.namedItem('angebot') as RadioNodeList).value)?.name || '';
+  form.addEventListener('change', () => {
+    out('angebot', serviceName());
+    out('zeit', (form.elements.namedItem('zeit') as RadioNodeList).value);
+  });
+
+  // Vorauswahl über ?angebot=…
+  const pre = new URLSearchParams(location.search).get('angebot') || 'reformer-pilates';
+  const radio = form.querySelector<HTMLInputElement>(`input[name="angebot"][value="${CSS.escape(pre)}"]`) || form.querySelector<HTMLInputElement>('input[name="angebot"]')!;
+  radio.checked = true;
+  out('angebot', serviceName());
+
+  form.querySelectorAll<HTMLButtonElement>('[data-send]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+      const tel = (form.elements.namedItem('tel') as HTMLInputElement).value.trim();
+      const msg = (form.elements.namedItem('msg') as HTMLTextAreaElement).value.trim();
+      const zeit = (form.elements.namedItem('zeit') as RadioNodeList).value;
+      const missing = [!picked && 'Wunschtag', !zeit && 'Zeitfenster', !name && 'Name'].filter(Boolean);
+      if (missing.length) { err.textContent = 'Bitte noch ergänzen: ' + missing.join(', ') + '.'; err.hidden = false; return; }
+      err.hidden = true;
+      const lines = [
+        'Hallo Reformbar-Team! Ich möchte gerne einen Termin anfragen:', '',
+        `Angebot: ${serviceName()}`, `Wunschtag: ${fmtLong.format(picked!)}`, `Zeitfenster: ${zeit}`, `Name: ${name}`,
+        tel && `Telefon: ${tel}`, msg && `Nachricht: ${msg}`,
+      ];
+      const text = lines.filter((l, i) => i === 1 || (typeof l === 'string' && l !== '')).join('\n');
+      const url = btn.dataset.send === 'wa'
+        ? `https://wa.me/${cfg.wa}?text=${encodeURIComponent(text)}`
+        : `mailto:${cfg.mail}?subject=${encodeURIComponent('Terminanfrage ' + serviceName())}&body=${encodeURIComponent(text)}`;
+      window.open(url, btn.dataset.send === 'wa' ? '_blank' : '_self', 'noopener');
+    }),
+  );
+</script>
+
+<style>
+  .bk-hero { padding-bottom: clamp(90px, 10vw, 140px); }
+  .bk-sec { padding-top: 0; margin-top: clamp(-70px, -6vw, -40px); position: relative; }
+  .bk { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: start; }
+  .bk-main { background: #fff; border-radius: 28px; padding: clamp(22px, 3vw, 40px); box-shadow: 0 40px 80px -50px rgba(16, 28, 133, 0.5); }
+  fieldset { border: 0; margin-bottom: 38px; min-width: 0; }
+  fieldset:last-child { margin-bottom: 0; }
+  legend { font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; font-size: 22px; display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+  legend span { width: 30px; height: 30px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; font-size: 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips label { position: relative; cursor: pointer; }
+  .chips input { position: absolute; opacity: 0; inset: 0; }
+  .chips span { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px; border-radius: 99px; background: var(--cream); font-size: 14.5px; font-weight: 500; transition: 0.25s var(--ease); }
+  .chips em { font-style: normal; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700; color: var(--blue); background: #fff; padding: 3px 8px; border-radius: 99px; }
+  .chips label:hover span { background: var(--sand); }
+  .chips input:checked + span { background: var(--blue); color: #fff; }
+  .chips input:focus-visible + span { outline: 3px solid #ffb703; outline-offset: 2px; }
+  .cal { max-width: 480px; }
+  .cal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .cal-head strong { font-size: 17px; text-transform: capitalize; }
+  .cal-head button { width: 42px; height: 42px; border-radius: 50%; background: var(--cream); transition: 0.25s; }
+  .cal-head button:hover:not(:disabled) { background: var(--blue); color: #fff; }
+  .cal-head button:disabled { opacity: 0.3; cursor: default; }
+  .cal-dow, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+  .cal-dow span { text-align: center; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mute); padding-bottom: 8px; }
+  .cal-grid :global(button) { aspect-ratio: 1; border-radius: 50%; font-size: 15px; font-weight: 500; background: var(--cream); transition: 0.2s var(--ease); }
+  .cal-grid :global(button:hover:not(:disabled)) { background: var(--sand); transform: scale(1.08); }
+  .cal-grid :global(button:disabled) { background: transparent; color: #c5beb2; cursor: default; }
+  .cal-grid :global(button.on) { background: var(--blue); color: #fff; transform: scale(1.08); }
+
+  .bk-side { background: var(--blue-d); color: #fff; border-radius: 28px; padding: clamp(22px, 3vw, 36px); position: sticky; top: 90px; display: flex; flex-direction: column; gap: 12px; }
+  .bk-side h2 { font-size: 30px; margin-bottom: 6px; }
+  .bk-side dl { margin-bottom: 10px; }
+  .bk-side dl div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px solid rgba(255, 255, 255, 0.22); font-size: 14.5px; }
+  .bk-side dt { opacity: 0.7; } .bk-side dd { font-weight: 600; text-align: right; }
+  .fld { font-size: 12.5px; opacity: 0.95; display: flex; flex-direction: column; gap: 6px; }
+  .fld input, .fld textarea { font: inherit; font-size: 16px; padding: 13px 16px; border-radius: 14px; border: 0; background: rgba(255, 255, 255, 0.14); color: #fff; resize: vertical; }
+  .fld input:focus, .fld textarea:focus { outline: 2px solid #fff; }
+  .bk-err { background: #fff; color: #b3261e; border-radius: 12px; padding: 10px 14px; font-size: 14px; }
+  .bk-note { font-size: 12px; opacity: 0.75; line-height: 1.55; margin-top: 6px; }
+  .bk-note a { text-decoration: underline; }
+  @media (max-width: 900px) { .bk { grid-template-columns: 1fr; } .bk-side { position: static; } }
+</style>

@@ -1,0 +1,212 @@
+// Zentrale Inhalte der Website – hier lassen sich Texte, Kontakt und Bewertungen schnell ändern.
+
+export const site = {
+  name: 'Reformbar',
+  url: 'https://reformbar.at',
+  tagline: 'Boutique Studio für Reformer Pilates, Bodyforming & Yoga in Feldbach',
+  city: 'Feldbach',
+  region: 'Steiermark',
+  // TODO: genaue Studio-Adresse in Feldbach eintragen
+  street: '',
+  zip: '8330',
+  phone: '+43 676 38 06 222',
+  phoneHref: '+436763806222',
+  whatsapp: '436763806222',
+  email: 'kontakt@bodyshift.at',
+  hours: 'Termine nach Vereinbarung',
+  company: {
+    name: 'Body Shift FLB GmbH',
+    street: 'Breitenweg 9',
+    zip: '8042',
+    city: 'Graz',
+    country: 'Österreich',
+    uid: 'ATU83995458',
+    fn: '671575k',
+    ceo: 'Florian Lienhart',
+    purpose: 'Betrieb eines Fitnessstudios (Zurverfügungstellen von Fitnessgeräten)',
+    chamber: 'WKO für Steiermark',
+    authority: 'Magistrat der Stadt Graz',
+  },
+  // Wochentage, an denen Wunschtermine angefragt werden können (1 = Montag … 6 = Samstag)
+  bookableWeekdays: [1, 2, 3, 4, 5],
+};
+
+export type Service = {
+  slug: string;
+  name: string;
+  short: string;
+  claim: string;
+  intro: string;
+  benefits: { title: string; text: string }[];
+  forWhom: string[];
+  faq: { q: string; a: string }[];
+  calendar: boolean;
+  image: string;
+  seoTitle: string;
+  seoDescription: string;
+};
+
+export const services: Service[] = [
+  {
+    slug: 'reformer-pilates',
+    name: 'Reformer Pilates',
+    short: 'Kraft, Länge und Haltung am Reformer – präzise angeleitet in der Kleingruppe.',
+    claim: 'Stark aus der Mitte.',
+    intro:
+      'Am Reformer trainierst du mit Federwiderstand statt mit schweren Gewichten. Das fordert die tiefe Muskulatur, schont die Gelenke und sorgt für eine aufrechte Haltung. In unserer Kleingruppe korrigieren wir jede Bewegung – so spürst du den Unterschied schon nach wenigen Einheiten.',
+    benefits: [
+      { title: 'Ganzkörpertraining', text: 'Jede Einheit fordert Bauch, Rücken, Beine und Arme – fließend und kontrolliert.' },
+      { title: 'Gelenkschonend', text: 'Der Federwiderstand führt die Bewegung und lässt sich fein an dein Level anpassen.' },
+      { title: 'Kleine Gruppen', text: 'Wenige Reformer, viel Aufmerksamkeit: Wir sehen, was du brauchst.' },
+      { title: 'Für jedes Level', text: 'Ob Einsteiger:in oder Fortgeschrittene – jede Übung hat mehrere Varianten.' },
+    ],
+    forWhom: ['Du willst Kraft aufbauen, ohne zu pumpen', 'Du sitzt viel und möchtest deine Haltung verbessern', 'Du suchst ein Training, das fordert und trotzdem guttut'],
+    faq: [
+      { q: 'Brauche ich Vorerfahrung für Reformer Pilates?', a: 'Nein. Wir erklären dir den Reformer in Ruhe und passen Widerstand und Übungen an dein Level an.' },
+      { q: 'Was soll ich zur Einheit mitbringen?', a: 'Bequeme Sportkleidung, rutschfeste Socken und etwas zu trinken. Alles andere findest du im Studio.' },
+      { q: 'Wie buche ich eine Reformer-Einheit?', a: 'Wähle im Kalender deinen Wunschtag und schick uns deine Anfrage – wir bestätigen deinen Platz persönlich.' },
+    ],
+    calendar: true,
+    image: '/img/reformer.webp',
+    seoTitle: 'Reformer Pilates in Feldbach – Kleingruppen im Boutique Studio',
+    seoDescription:
+      'Reformer Pilates in Feldbach: Ganzkörpertraining in kleinen Gruppen, persönlich angeleitet. Jetzt Wunschtermin im Kalender der Reformbar anfragen.',
+  },
+  {
+    slug: 'bodyforming',
+    name: 'Bodyforming',
+    short: 'Unser neues Konzept für gezielte Körperformung – individuell auf dich abgestimmt.',
+    claim: 'Form, die bleibt.',
+    intro:
+      'Bodyforming in der Reformbar ist ein neu gedachtes Konzept für alle, die ihren Körper gezielt formen und straffen möchten. Wir starten mit einem persönlichen Gespräch, legen gemeinsam dein Ziel fest und begleiten dich Schritt für Schritt – mit einem Programm, das zu deinem Alltag passt.',
+    benefits: [
+      { title: 'Persönlicher Plan', text: 'Dein Programm richtet sich nach deinem Ziel und deinem Ausgangspunkt – nicht umgekehrt.' },
+      { title: 'Gezielt statt pauschal', text: 'Wir arbeiten an den Zonen, die dir wichtig sind.' },
+      { title: 'Laufende Begleitung', text: 'Wir halten deine Fortschritte fest und passen das Programm regelmäßig an.' },
+      { title: 'Kombinierbar', text: 'Lässt sich ideal mit Reformer Pilates oder Yoga verbinden.' },
+    ],
+    forWhom: ['Du möchtest deinen Körper gezielt formen', 'Du wünschst dir persönliche Betreuung statt Massenabfertigung', 'Du willst ein Programm, das sich in deinen Alltag einfügt'],
+    faq: [
+      { q: 'Wie läuft der erste Termin ab?', a: 'Wir nehmen uns Zeit für ein persönliches Gespräch, besprechen dein Ziel und zeigen dir, wie dein Programm aussehen kann.' },
+      { q: 'Für wen ist Bodyforming geeignet?', a: 'Für alle, die gezielt an ihrer Figur arbeiten möchten. Ob es zu dir passt, klären wir gemeinsam beim ersten Termin.' },
+      { q: 'Wie buche ich Bodyforming?', a: 'Wähle im Kalender deinen Wunschtag aus und sende uns deine Anfrage – wir melden uns mit einer Bestätigung.' },
+    ],
+    calendar: true,
+    image: '/img/towel.webp',
+    seoTitle: 'Bodyforming in Feldbach – gezielte Körperformung mit Plan',
+    seoDescription:
+      'Bodyforming in Feldbach: das neue Konzept der Reformbar für gezielte Körperformung – persönlich betreut und individuell abgestimmt. Jetzt Termin anfragen.',
+  },
+  {
+    slug: 'yoga',
+    name: 'Yoga',
+    short: 'Ruhige Flows für Beweglichkeit, Atem und einen klaren Kopf.',
+    claim: 'Ankommen. Durchatmen.',
+    intro:
+      'Unsere Yoga-Einheiten verbinden fließende Bewegung mit bewusster Atmung. Du wirst beweglicher, baust Spannung ab und nimmst dir Zeit, die nur dir gehört – in einem Raum, der Ruhe ausstrahlt.',
+    benefits: [
+      { title: 'Mehr Beweglichkeit', text: 'Sanfte Dehnung und Mobilisation für den ganzen Körper.' },
+      { title: 'Weniger Stress', text: 'Atem und Bewegung bringen dein Nervensystem zur Ruhe.' },
+      { title: 'Achtsame Anleitung', text: 'Wir bieten Varianten an – du entscheidest, wie weit du gehst.' },
+    ],
+    forWhom: ['Du suchst einen Ausgleich zum Alltag', 'Du möchtest beweglicher werden', 'Du willst Yoga in kleiner Runde statt im vollen Kursraum'],
+    faq: [
+      { q: 'Ist Yoga auch für Anfänger:innen geeignet?', a: 'Ja. Wir zeigen jede Haltung in mehreren Varianten, sodass du in deinem Tempo üben kannst.' },
+      { q: 'Muss ich eine eigene Matte mitbringen?', a: 'Nein, Matten und Hilfsmittel stehen im Studio bereit.' },
+    ],
+    calendar: false,
+    image: '/img/yoga.webp',
+    seoTitle: 'Yoga in Feldbach – ruhige Flows im Boutique Studio',
+    seoDescription:
+      'Yoga in Feldbach: fließende Einheiten für Beweglichkeit, Atem und Ruhe – in kleinen Gruppen in der Reformbar. Jetzt Platz anfragen.',
+  },
+  {
+    slug: 'matten-pilates',
+    name: 'Matten-Pilates',
+    short: 'Die Basis: tiefe Mitte, starke Haltung, bewusste Bewegung.',
+    claim: 'Die Basis für alles.',
+    intro:
+      'Matten-Pilates ist die Grundlage der Pilates-Methode: Du trainierst mit dem eigenen Körpergewicht, stärkst deine tiefe Rumpfmuskulatur und lernst, dich präzise und bewusst zu bewegen. Ideal als Einstieg – und als Ergänzung zum Reformer.',
+    benefits: [
+      { title: 'Starke Mitte', text: 'Gezieltes Training für Bauch, Rücken und Beckenboden.' },
+      { title: 'Bessere Haltung', text: 'Du richtest dich auf – im Training und im Alltag.' },
+      { title: 'Überall anwendbar', text: 'Was du auf der Matte lernst, nimmst du mit nach Hause.' },
+    ],
+    forWhom: ['Du möchtest Pilates von Grund auf lernen', 'Du willst deinen Rücken stärken', 'Du suchst die perfekte Ergänzung zum Reformer'],
+    faq: [
+      { q: 'Was ist der Unterschied zu Reformer Pilates?', a: 'Auf der Matte arbeitest du mit dem eigenen Körpergewicht, am Reformer zusätzlich mit Federwiderstand. Beide Formen ergänzen sich ideal.' },
+      { q: 'Ist Matten-Pilates anstrengend?', a: 'Es ist fordernd, aber kontrolliert. Du bestimmst die Intensität über die Übungsvariante.' },
+    ],
+    calendar: false,
+    image: '/img/socks.webp',
+    seoTitle: 'Matten-Pilates in Feldbach – starke Mitte, bessere Haltung',
+    seoDescription:
+      'Matten-Pilates in Feldbach: Training für tiefe Rumpfmuskulatur und aufrechte Haltung in der Reformbar. Jetzt Platz anfragen.',
+  },
+  {
+    slug: 'beckenbodentraining',
+    name: 'Beckenbodentraining',
+    short: 'Sanft und wirksam – Stabilität von innen heraus.',
+    claim: 'Stabil von innen.',
+    intro:
+      'Ein kräftiger Beckenboden gibt Halt, entlastet den Rücken und sorgt für ein sicheres Körpergefühl. In unserem Beckenbodentraining lernst du, diese oft vergessene Muskulatur wahrzunehmen und gezielt zu stärken – diskret, ruhig und ohne Leistungsdruck.',
+    benefits: [
+      { title: 'Mehr Stabilität', text: 'Der Beckenboden ist das Fundament deiner Körpermitte.' },
+      { title: 'Diskret & persönlich', text: 'Wir nehmen uns Zeit für deine Fragen und dein Tempo.' },
+      { title: 'Alltagstauglich', text: 'Du lernst Übungen, die du jederzeit selbst anwenden kannst.' },
+    ],
+    forWhom: ['Du möchtest deine Körpermitte stärken', 'Du willst nach einer Schwangerschaft wieder Stabilität aufbauen', 'Du möchtest vorbeugen und dich sicher fühlen'],
+    faq: [
+      { q: 'Für wen ist Beckenbodentraining sinnvoll?', a: 'Für Frauen und Männer jeden Alters – zur Vorbeugung genauso wie zum gezielten Aufbau.' },
+      { q: 'Ersetzt das Training eine ärztliche Behandlung?', a: 'Nein. Bei Beschwerden sprich bitte zuerst mit deiner Ärztin oder deinem Arzt. Unser Training ist eine sinnvolle Ergänzung.' },
+    ],
+    calendar: false,
+    image: '/img/lockers.webp',
+    seoTitle: 'Beckenbodentraining in Feldbach – Stabilität von innen',
+    seoDescription:
+      'Beckenbodentraining in Feldbach: sanfter, gezielter Aufbau der Körpermitte in der Reformbar – diskret und persönlich. Jetzt Termin anfragen.',
+  },
+  {
+    slug: 'personal-coaching',
+    name: '1:1 Coaching',
+    short: 'Deine Einheit, dein Tempo, deine Ziele – ungeteilte Aufmerksamkeit.',
+    claim: 'Nur du. Nur dein Ziel.',
+    intro:
+      'Im 1:1 Coaching gehört die ganze Einheit dir. Wir arbeiten an deinem persönlichen Ziel – ob Technik am Reformer, Haltung, Beweglichkeit oder der Wiedereinstieg nach einer Pause. Jede Übung wird auf dich abgestimmt.',
+    benefits: [
+      { title: 'Volle Aufmerksamkeit', text: 'Eine Trainerin, ein Mensch, ein Ziel.' },
+      { title: 'Flexible Termine', text: 'Wir finden eine Zeit, die in deinen Kalender passt.' },
+      { title: 'Schneller Fortschritt', text: 'Direkte Korrektur bringt dich rascher voran.' },
+    ],
+    forWhom: ['Du hast ein konkretes Ziel', 'Du möchtest sicher einsteigen, bevor du in die Gruppe gehst', 'Du schätzt Ruhe und Privatsphäre beim Training'],
+    faq: [
+      { q: 'Was kann ich im 1:1 Coaching trainieren?', a: 'Alles aus unserem Angebot – Reformer, Matte, Yoga oder Beckenboden – genau auf dein Ziel abgestimmt.' },
+      { q: 'Wie vereinbare ich einen Termin?', a: 'Schick uns eine kurze Anfrage mit deinem Wunschzeitraum – wir melden uns persönlich bei dir.' },
+    ],
+    calendar: false,
+    image: '/img/bottle.webp',
+    seoTitle: '1:1 Coaching in Feldbach – Personal Training in der Reformbar',
+    seoDescription:
+      '1:1 Coaching in Feldbach: persönliches Training am Reformer, auf der Matte oder im Yoga – ganz auf dein Ziel abgestimmt. Jetzt anfragen.',
+  },
+];
+
+// Echte Google-Bewertungen (Originalwortlaut)
+export const reviews = [
+  {
+    name: 'Bern Sitz',
+    text: 'Nach dem ersten Mal hatte ich schon unglaubliche Ergebnisse erzielt. Die beste Entscheidung die ich treffen konnte um endlich an Umfang und Gewicht zu verlieren. Wenig Aufwand - großartige Ergebnisse. Vielen Dank!',
+  },
+  {
+    name: 'Beate',
+    text: 'Tolles Programm, Modernste Geräte, sehr nettes Personal, rundum perfekte Betreuung! Danke! Sehr zu empfehlen - und das Konzept funktioniert toll und einfach!',
+  },
+  {
+    name: 'Iris P.',
+    text: 'Ich hab ein besseres Körpergefühl, kann viel besser schlafen und hab schon viele Zentimeter und einige Kilos verloren nach nur 8 Behandlungen. Ich bin sehr zufrieden.',
+  },
+  {
+    name: 'S. F.',
+    text: 'Ich möchte mich recht herzlich bedanken, auf Anraten einer Bekannten hab ich euch gefunden, so ein liebes Team, fühle mich sehr gut aufgehoben und sehe schon die ersten Resultate. Top!',
+  },
+];

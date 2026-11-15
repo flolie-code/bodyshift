@@ -1,0 +1,134 @@
+---
+import Base from '../layouts/Base.astro';
+import { services, site } from '../data/site';
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { service: s.slug }, props: { s } }));
+}
+const { s } = Astro.props;
+const others = services.filter((o) => o.slug !== s.slug);
+const cta = s.calendar ? 'Kalender öffnen' : 'Termin anfragen';
+const schema = [
+  {
+    '@context': 'https://schema.org', '@type': 'Service', name: s.name, description: s.seoDescription,
+    url: `${site.url}/${s.slug}/`, areaServed: 'Feldbach', provider: { '@id': site.url + '/#studio' },
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'FAQPage',
+    mainEntity: s.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Startseite', item: site.url + '/' },
+      { '@type': 'ListItem', position: 2, name: s.name, item: `${site.url}/${s.slug}/` },
+    ],
+  },
+];
+---
+<Base title={`${s.seoTitle} | Reformbar`} description={s.seoDescription} schema={schema}>
+  <section class="page-hero">
+    <div class="wrap sh">
+      <div>
+        <p class="eyebrow crumb"><a href="/">Reformbar</a> &nbsp;/&nbsp; Angebot</p>
+        <h1 class="display">{s.name}<br /><span class="in-feld">in Feld<span class="script">bach</span></span></h1>
+        <p class="lead sh-lead">{s.short}</p>
+        <a href={`/buchen/?angebot=${s.slug}`} class="btn white" data-magnetic>{cta} <span class="arr">→</span></a>
+      </div>
+      <div class="sh-arch"><img data-parallax="50" src={s.image} alt={`${s.name} in der Reformbar Feldbach`} width="800" height="900" fetchpriority="high" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap intro">
+      <h2 class="display h2" data-reveal>{s.claim}</h2>
+      <p class="lead" data-reveal style="--d:.1s">{s.intro}</p>
+    </div>
+    <div class="wrap">
+      <ul class="bens">
+        {s.benefits.map((b, i) => (
+          <li data-reveal style={`--d:${i * 0.07}s`}><span class="display">0{i + 1}</span><h3>{b.title}</h3><p>{b.text}</p></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="for">
+    <div class="wrap for-in">
+      <h2 class="display" data-reveal>Das passt zu dir, <span class="script">wenn …</span></h2>
+      <ul>
+        {s.forWhom.map((f, i) => <li data-reveal style={`--d:${i * 0.08}s`}>{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap faq-in">
+      <h2 class="display h2" data-reveal>Häufige <span class="script">Fragen</span></h2>
+      <div>
+        {s.faq.map((f) => (
+          <details data-reveal>
+            <summary>{f.q}<span aria-hidden="true">+</span></summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+        <a href={`/buchen/?angebot=${s.slug}`} class="btn" style="margin-top:32px" data-magnetic>{cta} <span class="arr">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="more">
+    <div class="wrap">
+      <p class="eyebrow">Weitere Angebote</p>
+      <div class="more-list">
+        {others.map((o) => <a href={`/${o.slug}/`} class="display">{o.name}<span class="arr">→</span></a>)}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sh { display: grid; grid-template-columns: 1fr clamp(240px, 30vw, 420px); gap: 40px; align-items: end; }
+  .crumb { opacity: 0.75; margin-bottom: 26px; }
+  .crumb a { text-decoration: underline; text-underline-offset: 3px; }
+  .page-hero { padding-bottom: 0; }
+  .page-hero h1 { font-size: clamp(40px, 7.4vw, 112px); }
+  .in-feld { font-size: 0.5em; letter-spacing: -0.03em; opacity: 0.95; white-space: nowrap; }
+  .in-feld .script { font-size: 1.9em; margin-left: -0.04em; }
+  .sh-lead { max-width: 480px; margin: 28px 0 32px; opacity: 0.9; }
+  .sh > div:first-child { padding-bottom: clamp(50px, 7vw, 90px); }
+  .sh-arch { overflow: hidden; border-radius: 999px 999px 0 0; aspect-ratio: 5 / 6; background: var(--blue-d); }
+  .sh-arch img { width: 100%; height: 116%; object-fit: cover; }
+  .intro { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 90px); margin-bottom: clamp(40px, 5vw, 64px); align-items: start; }
+  .intro .lead { color: #3d3a35; }
+  .bens { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .bens li { background: #fff; border-radius: 26px; padding: 28px; }
+  .bens span { color: var(--blue); font-size: 34px; display: block; margin-bottom: 22px; }
+  .bens h3 { font-family: var(--display); font-weight: 800; letter-spacing: -0.03em; font-size: 21px; margin-bottom: 8px; line-height: 1.15; }
+  .bens p { color: var(--mute); font-size: 15px; }
+  .for { background: var(--blue); color: #fff; padding: clamp(64px, 8vw, 110px) 0; }
+  .for-in { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 90px); align-items: center; }
+  .for h2 { font-size: clamp(34px, 5vw, 70px); }
+  .for h2 .script { color: var(--cream); font-size: 1.6em; transform: rotate(-5deg) translateY(0.1em); }
+  .for ul { list-style: none; }
+  .for li { padding: 22px 0 22px 44px; border-top: 1px solid rgba(255, 255, 255, 0.25); font-size: clamp(17px, 1.6vw, 21px); position: relative; }
+  .for li:last-child { border-bottom: 1px solid rgba(255, 255, 255, 0.25); }
+  .for li::before { content: '✓'; position: absolute; left: 0; top: 22px; width: 26px; height: 26px; border-radius: 50%; background: var(--cream); color: var(--blue); display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+  .faq-in { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(28px, 6vw, 90px); align-items: start; }
+  details { border-top: 1px solid rgba(22, 23, 28, 0.15); }
+  details:last-of-type { border-bottom: 1px solid rgba(22, 23, 28, 0.15); }
+  summary { list-style: none; cursor: pointer; padding: 24px 0; font-weight: 600; font-size: clamp(16px, 1.4vw, 19px); display: flex; justify-content: space-between; gap: 20px; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { color: var(--blue); font-size: 26px; line-height: 1; transition: transform 0.35s var(--ease); flex: none; }
+  details[open] summary span { transform: rotate(45deg); }
+  details p { padding: 0 40px 24px 0; color: var(--mute); }
+  .more { padding: 0 0 clamp(64px, 8vw, 110px); }
+  .more .eyebrow { color: var(--mute); margin-bottom: 18px; }
+  .more-list { display: flex; flex-wrap: wrap; gap: 10px; }
+  .more-list a { font-size: clamp(16px, 1.6vw, 22px); padding: 14px 22px; border-radius: 99px; background: #fff; color: var(--blue); display: inline-flex; gap: 10px; align-items: center; transition: 0.3s var(--ease); letter-spacing: -0.03em; }
+  .more-list a:hover { background: var(--blue); color: #fff; }
+  @media (max-width: 800px) {
+    .sh, .intro, .for-in, .faq-in { grid-template-columns: 1fr; }
+    .sh > div:first-child { padding-bottom: 0; }
+    .sh-arch { width: 70%; margin-left: auto; }
+  }
+</style>
