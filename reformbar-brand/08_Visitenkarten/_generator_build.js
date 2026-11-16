@@ -30,22 +30,24 @@ const back=`<div class="p" style="background:${CR}">
 </div>
 <svg viewBox="0 0 91 61" style="position:absolute;inset:0;width:91mm;height:61mm"><g transform="translate(${M+3-523*s2} ${M+3-733.5*s2}) scale(${s2})">${logoB}</g></svg>
 <div class="qr" style="left:${BX+3+(BW-18)/2}mm;top:${3+15.5}mm"><div class="tile">${qr}</div><div class="cap tr">SCANNEN &amp; MEHR</div></div>
-<div class="list" style="left:${M+3}mm;top:${base2+3}mm;height:${55-M-base2}mm">${row('tel','0676 30 73 860')}${row('mail','studio@reformbar.at')}${row('web','reformbar.at')}${row('pin','Ungarstraße 2–4, 8330 Feldbach')}</div></div>`;
+<div class="list" style="left:${M+3}mm;top:${base2+3}mm;height:${55-M-base2}mm"><div class="svc"><div class="tr">Reformer Pilates<i>·</i>Bodyforming</div><div class="tr">Yoga<i>·</i>Matten-Pilates</div><div class="tr">Beckenboden<i>·</i>1:1 Coaching</div></div><div class="rows">${row('tel','0676 30 73 860')}${row('mail','studio@reformbar.at')}${row('web','reformbar.at')}${row('pin','Ungarstraße 2–4, 8330 Feldbach')}</div></div></div>`;
 const css=`@page{size:91mm 61mm;margin:0}*{box-sizing:border-box;margin:0;padding:0}html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .p{width:91mm;height:61mm;position:relative;overflow:hidden;page-break-after:always;font-family:Inter,sans-serif;color:${BLUE}}
 .tr{text-box:trim-both cap alphabetic}
 .tag{position:absolute;left:0;right:0;text-align:center;font-family:Montserrat;font-weight:700;font-size:5.3pt;letter-spacing:.26em;color:${CH}}
-.list{position:absolute;display:flex;flex-direction:column;justify-content:space-between;padding-top:6mm}
+.list{position:absolute;display:flex;flex-direction:column;justify-content:space-between;padding-top:5.1mm}
+.svc{display:flex;flex-direction:column;gap:1.9mm;font-family:Montserrat;font-weight:800;font-size:6.4pt;letter-spacing:-.005em}.svc i{font-style:normal;color:#8C95DD;margin:0 1.4mm}
+.rows{display:flex;flex-direction:column;gap:2.1mm}
 .row{display:flex;align-items:center;gap:2.6mm}
-.row i{width:3.8mm;height:3.8mm;border-radius:50%;background:${BLUE};display:flex;align-items:center;justify-content:center;flex:none}.row i svg{width:2.1mm;height:2.1mm}
-.row span{font-size:6.8pt;font-weight:600}
+.row i{width:3.3mm;height:3.3mm;border-radius:50%;background:${BLUE};display:flex;align-items:center;justify-content:center;flex:none}.row i svg{width:1.8mm;height:1.8mm}
+.row span{font-size:6.2pt;font-weight:500}
 .qr{position:absolute;width:18mm;text-align:center}.tile{background:#fff;border-radius:1.6mm;padding:1.6mm}.cap{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.14em;color:${CH};margin-top:2.6mm;white-space:nowrap}`;
 const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
 (async()=>{const br=await chromium.launch();const pg=await br.newPage();
 await pg.setContent(head+front+back+'</body></html>',{waitUntil:'networkidle'});await pg.evaluate(()=>document.fonts.ready);
 await pg.pdf({path:`${OUT}/Reformbar_Visitenkarte_85x55_DRUCK_3mm-Beschnitt.pdf`,width:'91mm',height:'61mm',printBackground:true});
 const v=await br.newPage({deviceScaleFactor:600/96});
-for(const [h,name,crop] of [[front,'Vorderseite',1],[back,'Rueckseite',1],[front,'Canva_Vorderseite_mit_Beschnitt',0],[back,'Canva_Rueckseite_mit_Beschnitt',0]]){
+for(const [h,name,crop] of [[front,'Vorderseite',1],[back,'Rueckseite',1]]){
  await v.setContent(head+`<div class="w" style="width:${crop?85:91}mm;height:${crop?55:61}mm;overflow:hidden;position:relative"><div style="position:absolute;left:${crop?-3:0}mm;top:${crop?-3:0}mm">${h}</div></div></body></html>`,{waitUntil:'networkidle'});await v.evaluate(()=>document.fonts.ready);
  await v.locator('.w').screenshot({path:`${OUT}/${crop?'Vorschau_'+name:name}.png`});}
 await br.close();})();

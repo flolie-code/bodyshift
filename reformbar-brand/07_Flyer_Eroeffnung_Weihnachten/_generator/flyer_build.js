@@ -7,7 +7,7 @@ const imgF=b64(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf.png'),imgB=b64(D+'/Bi
 const QD='/opt/node22/lib/node_modules/npm/node_modules/qrcode-terminal/vendor/QRCode';const QR=require(QD),EC=require(QD+'/QRErrorCorrectLevel');
 const q=new QR(-1,EC.M);q.addData('https://reformbar.at');q.make();const n=q.getModuleCount();let r='';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(q.isDark(y,x))r+=`<rect x="${x}" y="${y}" width="1.03" height="1.03"/>`;
 const qr=`<svg viewBox="-1.5 -1.5 ${n+3} ${n+3}" style="width:100%;height:auto;display:block"><rect x="-1.5" y="-1.5" width="${n+3}" height="${n+3}" rx="1.2" fill="#fff"/><g fill="#1A2DB8">${r}</g></svg>`;
-const G=7; // Absatzabstand mm (Vorderseite)
+const G=6; // Absatzabstand mm (Vorderseite)
 const css=`@page{size:154mm 216mm;margin:0}*{margin:0;padding:0;box-sizing:border-box}
 html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .page{width:154mm;height:216mm;position:relative;overflow:hidden;background:#FBF5EC;color:#1A2DB8;font-family:Inter,sans-serif;page-break-after:always}
@@ -43,14 +43,14 @@ const footer=`<div class="abs rule"></div>
 // --- Vorderseite: Claim-Logo
 const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,base1=rt1+cap1;
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
-const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:19.5mm;width:115mm" src="${imgF}"><div class="t">
+const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:0;width:154mm" src="${imgF}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
  ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.62" stroke-linejoin="round">ALLES IST</text>
  ${t1} fill="#FBF5EC">ALLES IST</text>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MORE</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
- <div class="h1 tr" id="fh" style="font-size:17.6mm;line-height:1.05;margin-left:-.7mm">NEU-<br>ERÖFFNUNG</div>
+ <div class="h1 tr" id="fh" style="font-size:16mm;line-height:1.05;margin-left:-.6mm">NEU-<br>ERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
  <div class="para tr" style="width:118mm">Komm vorbei und lerne unser neues Studio kennen. Kleine Gruppen, persönliche Betreuung, ein Ort zum Wohlfühlen.</div>
  <div class="chips"><span>Reformer Pilates</span><span>Bodyforming</span><span>Yoga</span><span>Matten-Pilates</span><span>Beckenbodentraining</span><span>1:1 Coaching</span></div>
@@ -77,7 +77,7 @@ const mm=v=>v*96/25.4;
 function place(){
  const P=id=>document.getElementById(id);
  const fh=P('fh').getBoundingClientRect(), fp=P('front').getBoundingClientRect();
- P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.16)/0.84)*115*1520/2400))+'px';
+ P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
  const iw=mm(90.6), k=iw/1792; const ib=P('imgB');
  ib.style.left=(mm(3+73.6))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
