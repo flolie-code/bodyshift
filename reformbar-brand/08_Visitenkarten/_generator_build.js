@@ -17,20 +17,29 @@ const front=`<div class="p" style="background:${BLUE}"><svg viewBox="0 0 91 61" 
 <g transform="translate(${x0+3-523*s} ${rt+3-733.5*s}) scale(${s})">${logoW}</g></svg>
 <div class="tag tr" style="top:${tagTop+3}mm">REFORMER PILATES · BODYFORMING &amp; MORE</div></div>`;
 // Rückseite
-const M=6.5,s2=30/8368,cap2=1000*s2,base2=M+cap2;
-const row=(k,v)=>`<div class="row"><b class="tr">${k}</b><span class="tr">${v}</span></div>`;
-const back=`<div class="p" style="background:${CR}"><svg viewBox="0 0 91 61" style="position:absolute;inset:0;width:91mm;height:61mm"><g transform="translate(${M+3-523*s2} ${M+3-733.5*s2}) scale(${s2})">${logoB}</g></svg>
-<div class="qr" style="right:${M+3}mm;top:${M+3}mm">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
-<div class="list" style="left:${M+3}mm;top:${base2+3}mm;height:${55-M-base2}mm">${row('TELEFON','0676 30 73 860')}${row('E-MAIL','studio@reformbar.at')}${row('WEB','reformbar.at')}${row('STUDIO','Ungarstraße 2–4, 8330 Feldbach')}</div></div>`;
+const M=6.5,s2=30/8368,cap2=1000*s2,base2=M+cap2,BW=26,BX=85-BW;
+const barPath=(fs.readFileSync(B+'/01_Hauptlogo/SVG_Vektor/reformbar_hauptlogo_blau.svg','utf8').match(/<path[^>]*d="([^"]+)"/g)[1]).match(/d="([^"]+)"/)[1];
+const ic={tel:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+mail:'<rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>',
+web:'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+pin:'<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>'};
+const row=(k,v)=>`<div class="row"><i><svg viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ic[k]}</svg></i><span class="tr">${v}</span></div>`;
+const back=`<div class="p" style="background:${CR}">
+<div style="position:absolute;left:${BX+3}mm;top:0;right:0;bottom:0;background:${BLUE};overflow:hidden">
+ <svg viewBox="6300 400 2700 1900" style="position:absolute;width:44mm;right:-9mm;bottom:-10mm;opacity:.22"><path fill="${CH}" d="${barPath}"/></svg>
+</div>
+<svg viewBox="0 0 91 61" style="position:absolute;inset:0;width:91mm;height:61mm"><g transform="translate(${M+3-523*s2} ${M+3-733.5*s2}) scale(${s2})">${logoB}</g></svg>
+<div class="qr" style="left:${BX+3+(BW-18)/2}mm;top:${3+15.5}mm"><div class="tile">${qr}</div><div class="cap tr">SCANNEN &amp; MEHR</div></div>
+<div class="list" style="left:${M+3}mm;top:${base2+3}mm;height:${55-M-base2}mm">${row('tel','0676 30 73 860')}${row('mail','studio@reformbar.at')}${row('web','reformbar.at')}${row('pin','Ungarstraße 2–4, 8330 Feldbach')}</div></div>`;
 const css=`@page{size:91mm 61mm;margin:0}*{box-sizing:border-box;margin:0;padding:0}html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .p{width:91mm;height:61mm;position:relative;overflow:hidden;page-break-after:always;font-family:Inter,sans-serif;color:${BLUE}}
 .tr{text-box:trim-both cap alphabetic}
 .tag{position:absolute;left:0;right:0;text-align:center;font-family:Montserrat;font-weight:700;font-size:5.3pt;letter-spacing:.26em;color:${CH}}
-.list{position:absolute;display:flex;flex-direction:column;justify-content:space-between;padding-top:7.6mm}
-.row{display:grid;grid-template-columns:14mm auto;align-items:baseline}
-.row b{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.22em;color:#4B59C4}
-.row span{font-size:7pt;font-weight:600}
-.qr{position:absolute;width:17mm;text-align:center}.qr div{font-family:Montserrat;font-weight:700;font-size:4pt;letter-spacing:.08em;margin-top:2mm;white-space:nowrap}`;
+.list{position:absolute;display:flex;flex-direction:column;justify-content:space-between;padding-top:6mm}
+.row{display:flex;align-items:center;gap:2.6mm}
+.row i{width:3.8mm;height:3.8mm;border-radius:50%;background:${BLUE};display:flex;align-items:center;justify-content:center;flex:none}.row i svg{width:2.1mm;height:2.1mm}
+.row span{font-size:6.8pt;font-weight:600}
+.qr{position:absolute;width:18mm;text-align:center}.tile{background:#fff;border-radius:1.6mm;padding:1.6mm}.cap{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.14em;color:${CH};margin-top:2.6mm;white-space:nowrap}`;
 const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
 (async()=>{const br=await chromium.launch();const pg=await br.newPage();
 await pg.setContent(head+front+back+'</body></html>',{waitUntil:'networkidle'});await pg.evaluate(()=>document.fonts.ready);
