@@ -33,7 +33,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
-.qr{position:absolute;right:8mm;top:7.6mm;width:19mm;text-align:center}.qr div{font-family:Montserrat;font-weight:700;font-size:5.2pt;letter-spacing:.2em;margin-top:1.4mm}
+.qr{position:absolute;right:8mm;top:7.6mm;width:23mm;text-align:center}.qr div{font-family:Montserrat;font-weight:700;font-size:5.2pt;letter-spacing:.2em;margin-top:1.4mm}
 `;
 const footer=`<div class="abs rule"></div>
 <div class="abs" style="left:8mm;top:194.5mm"><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div>
@@ -57,15 +57,15 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
 const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:90.6mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
-<div class="qr">${qr}<div class="tr">WEBSITE</div></div>
+<div class="qr">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
 <div class="stack" id="bs" style="top:${base2}mm;height:${190-base2}mm;justify-content:space-evenly">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:13mm;line-height:1.0;margin-left:-.5mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair"><div class="ey tr">UNSERE WEIHNACHTSPAKETE</div><div class="para tr" style="width:66mm">Liebevoll verpackt in unserer Geschenkbox – mit exklusiven Reformbar-Goodies wie Socken, Handtuch oder Trinkflasche.</div></div>
+ <div class="pair"><div class="ey tr">GESCHENKIDEEN &amp; GESCHENKBOXEN</div><div class="para tr" style="width:68mm">Gutscheine, Kombipakete oder unsere fixfertige Geschenkbox – liebevoll verpackt und individuell auf Wunsch abgestimmt.</div></div>
  <div class="pill" style="position:relative;z-index:2">ERHÄLTLICH AB 15. DEZEMBER</div>
  <div class="cards" id="cards">
-  <div class="card"><div class="k tr">PAKET 01</div><div class="n tr">Kennenlernen</div><div class="d tr">Eine Einheit Reformer Pilates oder Bodyforming – der perfekte Einstieg.</div><div class="l"></div><div class="p tr">Preis auf Anfrage</div></div>
-  <div class="card"><div class="k tr">PAKET 02</div><div class="n tr">Starter</div><div class="d tr">Mehrere Einheiten nach Wahl – für einen starken Start ins neue Jahr.</div><div class="l"></div><div class="p tr">Preis auf Anfrage</div></div>
-  <div class="card"><div class="k tr">PAKET 03</div><div class="n tr">Signature</div><div class="d tr">Reformer, Bodyforming &amp; mehr kombiniert – das Rundum-Geschenk.</div><div class="l"></div><div class="p tr">Preis auf Anfrage</div></div>
+  <div class="card"><div class="k tr">GUTSCHEINE</div><div class="n tr">Probetraining</div><div class="d tr">Gutscheine für Probetrainings und Probeeinheiten – Reformer Pilates, Bodyforming, Yoga &amp; mehr.</div></div>
+  <div class="card"><div class="k tr">KOMBIPAKETE</div><div class="n tr">Nach Wunsch</div><div class="d tr">Verschiedene Kombipakete – individuell zusammengestellt für jedes Budget.</div></div>
+  <div class="card"><div class="k tr">GESCHENKBOX</div><div class="n tr">Fixfertig</div><div class="d tr">Schön verpackt mit Trinkflasche, Pilates-Socken &amp; Goodies – bereit zum Verschenken.</div></div>
  </div>
  <div class="ord"><b class="tr">BESTELLEN</b><span class="tr">telefonisch unter 0676 30 73 860 oder per Mail an studio@reformbar.at</span><b class="tr">ABHOLEN</b><span class="tr">in unserem Studio in der Ungarstraße 2–4, 8330 Feldbach</span></div>
 </div>${footer}</div></div>`;
