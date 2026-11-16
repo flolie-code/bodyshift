@@ -2,12 +2,12 @@ const fs=require('fs');const {chromium}=require('playwright');
 const B='/home/user/bodyshift/reformbar-brand',D=B+'/07_Flyer_Eroeffnung_Weihnachten',OUT=process.env.OUT||__dirname;
 const logo=fs.readFileSync(B+'/01_Hauptlogo/SVG_Vektor/reformbar_hauptlogo_blau.svg','utf8').replace(/<\?xml[^>]*>/,'').replace(/<title>.*?<\/title>/,'').replace(/<svg [^>]*>/,'').replace('</svg>','');
 const b64=f=>'data:image/png;base64,'+fs.readFileSync(f).toString('base64');
-const imgF=b64(D+'/Bilder/Vorderseite_Bild_mit_Verlauf.png'),imgB=b64(D+'/Bilder/Rueckseite_Geschenkbox_mit_Verlauf.png');
+const imgF=b64(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf.png'),imgB=b64(D+'/Bilder/Rueckseite_Geschenkbox_mit_Verlauf.png');
 // QR
 const QD='/opt/node22/lib/node_modules/npm/node_modules/qrcode-terminal/vendor/QRCode';const QR=require(QD),EC=require(QD+'/QRErrorCorrectLevel');
 const q=new QR(-1,EC.M);q.addData('https://reformbar.at');q.make();const n=q.getModuleCount();let r='';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(q.isDark(y,x))r+=`<rect x="${x}" y="${y}" width="1.03" height="1.03"/>`;
 const qr=`<svg viewBox="-1.5 -1.5 ${n+3} ${n+3}" style="width:100%;height:auto;display:block"><rect x="-1.5" y="-1.5" width="${n+3}" height="${n+3}" rx="1.2" fill="#fff"/><g fill="#1A2DB8">${r}</g></svg>`;
-const G=8; // Absatzabstand mm (Vorderseite)
+const G=7; // Absatzabstand mm (Vorderseite)
 const css=`@page{size:154mm 216mm;margin:0}*{margin:0;padding:0;box-sizing:border-box}
 html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .page{width:154mm;height:216mm;position:relative;overflow:hidden;background:#FBF5EC;color:#1A2DB8;font-family:Inter,sans-serif;page-break-after:always}
@@ -30,6 +30,8 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .n{font-family:Montserrat;font-weight:800;font-size:11pt;margin-top:3mm}
 .card .d{font-size:7.3pt;line-height:3.6mm;color:#4B59C4;margin-top:3mm;flex:1}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
+.card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
+.star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
@@ -41,7 +43,7 @@ const footer=`<div class="abs rule"></div>
 // --- Vorderseite: Claim-Logo
 const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,base1=rt1+cap1;
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
-const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:0;width:154mm" src="${imgF}"><div class="t">
+const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:19.5mm;width:115mm" src="${imgF}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
  ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.62" stroke-linejoin="round">ALLES IST</text>
  ${t1} fill="#FBF5EC">ALLES IST</text>
@@ -63,9 +65,9 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
  <div class="pair"><div class="ey tr">GESCHENKIDEEN &amp; GESCHENKBOXEN</div><div class="para tr" style="width:68mm">Gutscheine, Kombipakete oder unsere fixfertige Geschenkbox – liebevoll verpackt und individuell auf Wunsch abgestimmt.</div></div>
  <div class="pill" style="position:relative;z-index:2">ERHÄLTLICH AB 15. DEZEMBER</div>
  <div class="cards" id="cards">
+  <div class="card hot"><div class="star tr">★ BELIEBTESTES GESCHENK</div><div class="k tr">GESCHENKBOX</div><div class="n tr">Fixfertig</div><div class="d tr">Schön verpackt mit Trinkflasche, Pilates-Socken &amp; Goodies – bereit zum Verschenken.</div></div>
   <div class="card"><div class="k tr">GUTSCHEINE</div><div class="n tr">Probetraining</div><div class="d tr">Gutscheine für Probetrainings und Probeeinheiten – Reformer Pilates, Bodyforming, Yoga &amp; mehr.</div></div>
   <div class="card"><div class="k tr">KOMBIPAKETE</div><div class="n tr">Nach Wunsch</div><div class="d tr">Verschiedene Kombipakete – individuell zusammengestellt für jedes Budget.</div></div>
-  <div class="card"><div class="k tr">GESCHENKBOX</div><div class="n tr">Fixfertig</div><div class="d tr">Schön verpackt mit Trinkflasche, Pilates-Socken &amp; Goodies – bereit zum Verschenken.</div></div>
  </div>
  <div class="ord"><b class="tr">BESTELLEN</b><span class="tr">telefonisch unter 0676 30 73 860 oder per Mail an studio@reformbar.at</span><b class="tr">ABHOLEN</b><span class="tr">in unserem Studio in der Ungarstraße 2–4, 8330 Feldbach</span></div>
 </div>${footer}</div></div>`;
@@ -75,7 +77,7 @@ const mm=v=>v*96/25.4;
 function place(){
  const P=id=>document.getElementById(id);
  const fh=P('fh').getBoundingClientRect(), fp=P('front').getBoundingClientRect();
- P('imgF').style.top=(fh.top-fp.top-mm(80.2))+'px';
+ P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.16)/0.84)*115*1520/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
  const iw=mm(90.6), k=iw/1792; const ib=P('imgB');
  ib.style.left=(mm(3+73.6))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
