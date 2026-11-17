@@ -52,7 +52,7 @@ const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,bas
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
 const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:0;width:154mm" src="${imgF}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
- ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.62" stroke-linejoin="round">ALLES IST</text>
+ ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.4" stroke-linejoin="round">ALLES IST</text>
  ${t1} fill="#FBF5EC">ALLES IST</text>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
@@ -64,7 +64,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Gezielte Körperformung mit persönlichem Plan.</div></div>
   <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
  </div>
- <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>1:1 Coaching</span></div></div>
+ <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
 </div>${footer}</div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
