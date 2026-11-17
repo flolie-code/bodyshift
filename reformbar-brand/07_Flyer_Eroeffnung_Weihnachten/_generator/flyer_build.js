@@ -20,11 +20,11 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .para{font-size:8.4pt;line-height:4.72mm;color:#4B59C4}
 .chips{display:flex;flex-wrap:wrap;gap:1.7mm;width:110mm}
 .chips span{height:6.2mm;border:.3mm solid #CCCEE8;background:#FDFBF6;border-radius:3.1mm;padding:0 3.1mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.1pt}
-.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:1.6mm}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:0}
 .pc{background:#fff;border-radius:3.2mm;padding:4.6mm 4mm 4mm;display:flex;flex-direction:column;gap:2.4mm;position:relative}
 .pc .pn{font-family:Montserrat;font-weight:800;font-size:9.2pt;letter-spacing:-.01em;white-space:nowrap}
 .pc .pd{font-size:7pt;line-height:3.5mm;color:#4B59C4}
-.pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}
+.pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}.pc.warm{background:#F8E1C5}.pc.warm .pd{color:#1A2DB8}
 .more{display:flex;align-items:center;gap:3.4mm}.more b{font-family:Montserrat;font-weight:800;font-size:5.6pt;letter-spacing:.24em;white-space:nowrap}
 .more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
@@ -60,8 +60,8 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <div class="h1 tr" id="fh" style="font-size:14.5mm;line-height:1.05;margin-left:-.5mm">NEU-<br>ERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
  <div class="pillars">
-  <div class="pc"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
-  <div class="pc hot"><div class="star tr">★ UNSER HERZSTÜCK</div><div class="pn tr">Bodyforming</div><div class="pd tr">Gezielte Körperformung mit persönlichem Plan.</div></div>
+  <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
+  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Gezielte Körperformung mit persönlichem Plan.</div></div>
   <div class="pc"><div class="pn tr">Beckenbodenstuhl</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
  </div>
  <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Beckenbodentraining</span><span>1:1 Coaching</span></div></div>
