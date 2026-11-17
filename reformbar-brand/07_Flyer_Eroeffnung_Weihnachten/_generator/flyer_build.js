@@ -6,7 +6,7 @@ const imgF=b64(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf.png'),imgB=b64(D+'/Bi
 // QR
 const QD='/opt/node22/lib/node_modules/npm/node_modules/qrcode-terminal/vendor/QRCode';const QR=require(QD),EC=require(QD+'/QRErrorCorrectLevel');
 const q=new QR(-1,EC.M);q.addData('https://reformbar.at');q.make();const n=q.getModuleCount();let r='';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(q.isDark(y,x))r+=`<rect x="${x}" y="${y}" width="1.03" height="1.03"/>`;
-const qr=`<svg viewBox="-1.5 -1.5 ${n+3} ${n+3}" style="width:100%;height:auto;display:block"><rect x="-1.5" y="-1.5" width="${n+3}" height="${n+3}" rx="1.2" fill="#fff"/><g fill="#1A2DB8">${r}</g></svg>`;
+const qr=`<svg viewBox="-1.5 -1.5 ${n+3} ${n+3}" style="width:100%;height:auto;display:block"><g fill="#1A2DB8">${r}</g></svg>`;
 const G=5.5; // Absatzabstand mm (Vorderseite)
 const css=`@page{size:154mm 216mm;margin:0}*{margin:0;padding:0;box-sizing:border-box}
 html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -72,7 +72,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
 <div class="qr">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
 <div class="stack" id="bs" style="top:${base2}mm;height:${190-base2}mm;justify-content:space-evenly">
- <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:13mm;line-height:1.0;margin-left:-.5mm">SCHENK<br>BEWEGUNG.</div></div>
+ <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:13mm;line-height:1.0;margin-left:-.5mm">GESCHENK<br>GESUCHT?</div></div>
  <div class="pair"><div class="ey tr">GESCHENKIDEEN &amp; GESCHENKBOXEN</div><div class="para tr" style="width:68mm">Gutscheine, Kombipakete oder unsere fixfertige Geschenkbox – liebevoll verpackt und individuell auf Wunsch abgestimmt.</div></div>
  <div class="pill" style="position:relative;z-index:2">ERHÄLTLICH AB 15. DEZEMBER</div>
  <div class="cards" id="cards">
@@ -114,17 +114,17 @@ for(const [id,name] of [['front','Vorderseite'],['back','Rueckseite']]){const r=
 if(process.env.POSTER){
  const k=594/148;
  const big='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf_4K.png').toString('base64');
- const gift='data:image/jpeg;base64,'+fs.readFileSync(D+'/Bilder/Rueckseite_Geschenkbox_original.jpg').toString('base64');
+ const gift='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Poster_Geschenkbox_auf_Blau.png').toString('base64');
  const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:6mm 11mm 6.5mm}
- .gb .row{display:grid;grid-template-columns:1fr 25mm;gap:6mm;align-items:center}
+ .gb .row{position:relative;z-index:1;display:grid;grid-template-columns:1fr 38mm;gap:6mm;align-items:center}
  .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.3em;color:#F8E1C5}
  .gb .tag{background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:6.2pt;letter-spacing:.06em;padding:1.6mm 2.8mm;border-radius:3mm;white-space:nowrap}
  .gb .ti{font-family:Montserrat;font-weight:800;font-size:16pt;letter-spacing:-.03em;margin-top:3.4mm}
  .gb .tx{font-size:7.8pt;line-height:4.1mm;color:#F8E1C5;margin-top:3mm}
  .gb .tx b{color:#fff;font-weight:600}
- .gb img{width:25mm;height:25mm;object-fit:cover;object-position:62% 62%;border-radius:3mm;display:block}
- .gb .hr{height:.25mm;background:rgba(255,255,255,.25);margin:4.6mm 0 4mm}
- .gb .ft{display:flex;justify-content:space-between;font-size:7.6pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
+ .gb .gi{position:absolute;right:0;top:0;height:35mm;width:auto;display:block;z-index:0}
+ .gb .hr{position:relative;z-index:1;height:.25mm;background:rgba(255,255,255,.25);margin:4.6mm 0 4mm}
+ .gb .ft{position:relative;z-index:1;display:flex;justify-content:space-between;font-size:7.6pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
  .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:4.4pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
  const poster=`<div class="page" id="front"><img class="abs" id="imgP" style="left:0;width:154mm" src="${big}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
@@ -143,9 +143,9 @@ if(process.env.POSTER){
 </div></div>
 <div class="gb" id="gb"><div class="row"><div>
   <div class="ey2"><b class="tr">WEIHNACHTEN 2026</b><span class="tag tr">AB 15. DEZEMBER ERHÄLTLICH</span></div>
-  <div class="ti tr">Schenk Bewegung.</div>
-  <div class="tx tr">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
- </div><img src="${gift}"></div>
+  <div class="ti tr">Noch ein Geschenk gesucht?</div>
+  <div class="tx tr" style="max-width:88mm">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
+ </div><div></div></div><img class="gi" src="${gift}">
  <div class="hr"></div>
  <div class="ft"><span class="tr"><b>Ungarstraße 2–4</b> · 8330 Feldbach</span><span class="tr"><b>0676 30 73 860</b> · studio@reformbar.at · <b>reformbar.at</b></span></div>
 </div></div>`;
