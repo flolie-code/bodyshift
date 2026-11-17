@@ -24,7 +24,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pc{background:#fff;border-radius:3.2mm;padding:4.6mm 4mm 4mm;display:flex;flex-direction:column;gap:2.4mm;position:relative}
 .pc .pn{font-family:Montserrat;font-weight:800;font-size:9.2pt;letter-spacing:-.01em;white-space:nowrap}
 .pc .pd{font-size:7pt;line-height:3.5mm;color:#4B59C4}
-.pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}.pc.warm{background:#F8E1C5}.pc.warm .pd{color:#1A2DB8}
+.pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}.pc.warm{background:#fff;box-shadow:inset 0 0 0 .55mm #1A2DB8}.pc.warm .pd{color:#1A2DB8}
 .more{display:flex;align-items:center;gap:3.4mm}.more b{font-family:Montserrat;font-weight:800;font-size:5.6pt;letter-spacing:.24em;white-space:nowrap}
 .more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
@@ -55,7 +55,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.62" stroke-linejoin="round">ALLES IST</text>
  ${t1} fill="#FBF5EC">ALLES IST</text>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
-<div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MORE</div>
+<div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
  <div class="h1 tr" id="fh" style="font-size:14.5mm;line-height:1.05;margin-left:-.5mm">NEU-<br>ERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
