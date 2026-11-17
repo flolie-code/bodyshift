@@ -52,8 +52,8 @@ const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,bas
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
 const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:0;width:154mm" src="${imgF}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
- <defs><mask id="ai" maskUnits="userSpaceOnUse" x="-10" y="-10" width="170" height="60"><rect x="-10" y="-10" width="170" height="60" fill="#fff"/>${t1} fill="#000">ALLES IST</text></mask></defs>
- ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.4" stroke-linejoin="round" mask="url(#ai)">ALLES IST</text>
+ __ALLESIST__
+
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
@@ -95,7 +95,13 @@ function place(){
 }
 </script>`;
 (async()=>{const br=await chromium.launch();
-const html=head+front+back+fix+'</body></html>';fs.writeFileSync(OUT+'/flyer.html',html);
+// "ALLES IST"-Kontur als hochaufgelöstes transparentes PNG (PDF-Viewer stellen SVG-Masken unzuverlässig dar)
+const op=await br.newPage({deviceScaleFactor:10});
+await op.setContent(head.replace('<body>','<body style="margin:0;background:transparent">')+`<svg id="o" viewBox="6 6 64 12" style="width:64mm;height:12mm;display:block"><defs><mask id="ai" maskUnits="userSpaceOnUse" x="0" y="0" width="80" height="30"><rect x="0" y="0" width="80" height="30" fill="#fff"/>${t1} fill="#000">ALLES IST</text></mask></defs>${t1} fill="none" stroke="#1A2DB8" stroke-width="0.4" stroke-linejoin="round" mask="url(#ai)">ALLES IST</text></svg></body></html>`,{waitUntil:'networkidle'});
+await op.evaluate(()=>document.fonts.ready);
+const outlinePng=(await op.locator('#o').screenshot({omitBackground:true})).toString('base64');
+fs.writeFileSync(OUT+'/alles_ist_kontur.png',Buffer.from(outlinePng,'base64'));
+const html=(head+front+back+fix+'</body></html>').replace('__ALLESIST__',`<image href="data:image/png;base64,${outlinePng}" x="6" y="6" width="64" height="12"/>`);fs.writeFileSync(OUT+'/flyer.html',html);
 const p=await br.newPage();await p.setContent(html,{waitUntil:'networkidle'});await p.evaluate(()=>document.fonts.ready);await p.evaluate(()=>place());
 // report gaps
 console.log((await p.evaluate(()=>[...document.querySelectorAll('#fs>*,#bs>*')].map(e=>{const r=e.getBoundingClientRect();return e.parentNode.id+' '+(r.top*25.4/96).toFixed(1)+'-'+(r.bottom*25.4/96).toFixed(1)}))).join('\n'));
