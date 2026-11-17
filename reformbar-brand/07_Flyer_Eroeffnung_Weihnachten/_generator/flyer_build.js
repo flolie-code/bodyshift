@@ -7,7 +7,7 @@ const imgF=b64(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf.png'),imgB=b64(D+'/Bi
 const QD='/opt/node22/lib/node_modules/npm/node_modules/qrcode-terminal/vendor/QRCode';const QR=require(QD),EC=require(QD+'/QRErrorCorrectLevel');
 const q=new QR(-1,EC.M);q.addData('https://reformbar.at');q.make();const n=q.getModuleCount();let r='';for(let y=0;y<n;y++)for(let x=0;x<n;x++)if(q.isDark(y,x))r+=`<rect x="${x}" y="${y}" width="1.03" height="1.03"/>`;
 const qr=`<svg viewBox="-1.5 -1.5 ${n+3} ${n+3}" style="width:100%;height:auto;display:block"><rect x="-1.5" y="-1.5" width="${n+3}" height="${n+3}" rx="1.2" fill="#fff"/><g fill="#1A2DB8">${r}</g></svg>`;
-const G=6; // Absatzabstand mm (Vorderseite)
+const G=5.5; // Absatzabstand mm (Vorderseite)
 const css=`@page{size:154mm 216mm;margin:0}*{margin:0;padding:0;box-sizing:border-box}
 html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .page{width:154mm;height:216mm;position:relative;overflow:hidden;background:#FBF5EC;color:#1A2DB8;font-family:Inter,sans-serif;page-break-after:always}
@@ -20,6 +20,13 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .para{font-size:8.4pt;line-height:4.72mm;color:#4B59C4}
 .chips{display:flex;flex-wrap:wrap;gap:1.7mm;width:110mm}
 .chips span{height:6.2mm;border:.3mm solid #CCCEE8;background:#FDFBF6;border-radius:3.1mm;padding:0 3.1mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.1pt}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:3mm;margin-top:1.6mm}
+.pc{background:#fff;border-radius:3.2mm;padding:4.6mm 4mm 4mm;display:flex;flex-direction:column;gap:2.4mm;position:relative}
+.pc .pn{font-family:Montserrat;font-weight:800;font-size:9.2pt;letter-spacing:-.01em;white-space:nowrap}
+.pc .pd{font-size:7pt;line-height:3.5mm;color:#4B59C4}
+.pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}
+.more{display:flex;align-items:center;gap:3.4mm}.more b{font-family:Montserrat;font-weight:800;font-size:5.6pt;letter-spacing:.24em;white-space:nowrap}
+.more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
 .f1{font-family:Montserrat;font-weight:800;font-size:9.6pt}.f2{font-size:7.9pt;color:#4B59C4;margin-top:2.2mm}
 .stack{position:absolute;left:8mm;right:8mm;display:flex;flex-direction:column}
@@ -50,10 +57,14 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MORE</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
- <div class="h1 tr" id="fh" style="font-size:16mm;line-height:1.05;margin-left:-.6mm">NEU-<br>ERÖFFNUNG</div>
+ <div class="h1 tr" id="fh" style="font-size:14.5mm;line-height:1.05;margin-left:-.5mm">NEU-<br>ERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="para tr" style="width:118mm">Komm vorbei und lerne unser neues Studio kennen. Kleine Gruppen, persönliche Betreuung, ein Ort zum Wohlfühlen.</div>
- <div class="chips"><span>Reformer Pilates</span><span>Bodyforming</span><span>Yoga</span><span>Matten-Pilates</span><span>Beckenbodentraining</span><span>1:1 Coaching</span></div>
+ <div class="pillars">
+  <div class="pc"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
+  <div class="pc hot"><div class="star tr">★ UNSER HERZSTÜCK</div><div class="pn tr">Bodyforming</div><div class="pd tr">Gezielte Körperformung mit persönlichem Plan.</div></div>
+  <div class="pc"><div class="pn tr">Beckenbodenstuhl</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
+ </div>
+ <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Beckenbodentraining</span><span>1:1 Coaching</span></div></div>
 </div>${footer}</div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
