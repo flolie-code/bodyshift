@@ -15,7 +15,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .abs{position:absolute}.tr{text-box:trim-both cap alphabetic}
 .ey{font-family:Montserrat;font-weight:700;font-size:6.4pt;letter-spacing:.3em}
 .h1{font-family:Montserrat;font-weight:800;letter-spacing:-.04em}
-.pill{background:#1A2DB8;color:#fff;border-radius:6mm;height:10.3mm;display:inline-flex;align-self:flex-start;align-items:center;padding:0 5mm;gap:3.4mm;font-family:Montserrat;font-weight:800;font-size:10.4pt;letter-spacing:.01em;white-space:nowrap}
+.pill{background:transparent;box-shadow:inset 0 0 0 .6mm #1A2DB8;color:#1A2DB8;border-radius:6mm;height:10.3mm;display:inline-flex;align-self:flex-start;align-items:center;padding:0 5mm;gap:3.4mm;font-family:Montserrat;font-weight:800;font-size:10.4pt;letter-spacing:.01em;white-space:nowrap}
 .pill i{width:1mm;height:1mm;border-radius:50%;background:#8C95DD;display:inline-block}
 .para{font-size:8.4pt;line-height:4.72mm;color:#4B59C4}
 .chips{display:flex;flex-wrap:wrap;gap:1.7mm;width:110mm}
@@ -52,8 +52,8 @@ const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,bas
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
 const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left:0;width:154mm" src="${imgF}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
- ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.4" stroke-linejoin="round">ALLES IST</text>
- ${t1} fill="#FBF5EC">ALLES IST</text>
+ <defs><mask id="ai" maskUnits="userSpaceOnUse" x="-10" y="-10" width="170" height="60"><rect x="-10" y="-10" width="170" height="60" fill="#fff"/>${t1} fill="#000">ALLES IST</text></mask></defs>
+ ${t1} fill="none" stroke="#1A2DB8" stroke-width="0.4" stroke-linejoin="round" mask="url(#ai)">ALLES IST</text>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
