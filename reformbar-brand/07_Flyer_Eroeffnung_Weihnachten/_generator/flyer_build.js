@@ -20,14 +20,17 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .para{font-size:8.4pt;line-height:4.72mm;color:#4B59C4}
 .chips{display:flex;flex-wrap:wrap;gap:1.7mm;width:110mm}
 .chips span{height:6.2mm;border:.3mm solid #CCCEE8;background:#FDFBF6;border-radius:3.1mm;padding:0 3.1mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.1pt}
+.more .chips{gap:2mm;flex-wrap:nowrap}.more .chips span{height:7.4mm;border:.4mm solid #1A2DB8;background:#fff;border-radius:3.7mm;padding:0 3.6mm;font-weight:700;font-size:8.2pt;white-space:nowrap}
 .pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3mm;margin-top:0}
 .pc{background:#fff;border-radius:3.2mm;padding:4.6mm 4mm 4mm;display:flex;flex-direction:column;gap:2.4mm;position:relative}
 .pc .pn{font-family:Montserrat;font-weight:800;font-size:8.8pt;letter-spacing:-.02em;white-space:nowrap}
 .pc .pd{font-size:7pt;line-height:3.5mm;color:#4B59C4}
 .pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}.pc.warm{background:#fff;box-shadow:inset 0 0 0 .55mm #1A2DB8}.pc.warm .pd{color:#1A2DB8}
-.more{display:flex;align-items:center;gap:3.4mm}.more b{font-family:Montserrat;font-weight:800;font-size:5.6pt;letter-spacing:.24em;white-space:nowrap}
+.more{display:flex;align-items:center;gap:4mm}.more b{font-family:Montserrat;font-weight:800;font-size:6.4pt;letter-spacing:.22em;white-space:nowrap}
 .more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
+.fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:128mm}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
+.qrf{position:absolute;right:8mm;top:7mm;width:19mm;text-align:center}.qrf div{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 .f1{font-family:Montserrat;font-weight:800;font-size:9.6pt}.f2{font-size:7.9pt;color:#4B59C4;margin-top:2.2mm}
 .stack{position:absolute;left:8mm;right:8mm;display:flex;flex-direction:column}
 .pair{display:flex;flex-direction:column;gap:4.5mm}
@@ -57,15 +60,16 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
- <div class="h1 tr" id="fh" style="font-size:14.5mm;line-height:1.05;margin-left:-.5mm">NEU-<br>ERÖFFNUNG</div>
+ <div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
+ <div class="fest tr"><b>Feier mit uns!</b> Großartige Eröffnungsangebote warten auf dich – für Getränke &amp; kulinarische Schmankerl ist gesorgt.</div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
   <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
  </div>
  <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
-</div>${footer}</div></div>`;
+</div><div class="qrf">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>${footer}</div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
 const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:90.6mm" src="${imgB}"><div class="t">
@@ -115,25 +119,26 @@ if(process.env.POSTER){
  const k=594/148;
  const big='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf_4K.png').toString('base64');
  const gift='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Poster_Geschenkbox_auf_Blau.png').toString('base64');
- const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:6mm 11mm 6.5mm}
- .gb .row{position:relative;z-index:1;display:grid;grid-template-columns:1fr 38mm;gap:6mm;align-items:center}
+ const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:5.5mm 11mm 6mm}
+ .gb .row{position:relative;z-index:1;display:grid;grid-template-columns:1fr 26mm;gap:6mm;align-items:center}
  .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.3em;color:#F8E1C5}
  .gb .tag{background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:6.2pt;letter-spacing:.06em;padding:1.6mm 2.8mm;border-radius:3mm;white-space:nowrap}
  .gb .ti{font-family:Montserrat;font-weight:800;font-size:16pt;letter-spacing:-.03em;margin-top:3.4mm}
  .gb .tx{font-size:7.8pt;line-height:4.1mm;color:#F8E1C5;margin-top:3mm}
  .gb .tx b{color:#fff;font-weight:600}
  .gb .gi{position:absolute;right:0;top:0;height:35mm;width:auto;display:block;z-index:0}
- .gb .hr{position:relative;z-index:1;height:.25mm;background:rgba(255,255,255,.25);margin:4.6mm 0 4mm}
+ .gb .hr{position:relative;z-index:1;height:.25mm;background:rgba(255,255,255,.25);margin:4mm 0 3.8mm}
  .gb .ft{position:relative;z-index:1;display:flex;justify-content:space-between;font-size:7.6pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
- .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:4.4pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
+ .pc{padding:3.9mm 3.6mm 3.5mm} .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:4.4pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
  const poster=`<div class="page" id="front"><img class="abs" id="imgP" style="left:0;width:154mm" src="${big}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
  <image href="data:image/png;base64,${outlinePng}" x="6" y="6" width="64" height="12"/>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="qrp">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
-<div class="stack" id="ps" style="gap:4.6mm">
- <div class="h1 tr" id="ph" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
+<div class="stack" id="ps" style="gap:3.8mm">
+ <div class="h1 tr" id="ph" style="font-size:12mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
+ <div class="fest tr"><b>Feier mit uns!</b> Großartige Eröffnungsangebote warten auf dich – für Getränke &amp; kulinarische Schmankerl ist gesorgt.</div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
@@ -144,7 +149,7 @@ if(process.env.POSTER){
 <div class="gb" id="gb"><div class="row"><div>
   <div class="ey2"><b class="tr">WEIHNACHTEN 2026</b><span class="tag tr">AB 15. DEZEMBER ERHÄLTLICH</span></div>
   <div class="ti tr">Noch ein Geschenk gesucht?</div>
-  <div class="tx tr" style="max-width:88mm">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
+  <div class="tx tr" style="max-width:100mm">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
  </div><div></div></div><img class="gi" src="${gift}">
  <div class="hr"></div>
  <div class="ft"><span class="tr"><b>Ungarstraße 2–4</b> · 8330 Feldbach</span><span class="tr"><b>0676 30 73 860</b> · studio@reformbar.at · <b>reformbar.at</b></span></div>
