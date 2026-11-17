@@ -61,7 +61,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
-  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Gezielte Körperformung &amp; Abnehmen – mit modernster Technologie und persönlichem Plan.</div></div>
+  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
   <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
  </div>
  <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
