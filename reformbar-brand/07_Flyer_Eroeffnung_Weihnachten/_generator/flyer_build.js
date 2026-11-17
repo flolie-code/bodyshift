@@ -29,8 +29,9 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .more{display:flex;align-items:center;gap:4mm}.more b{font-family:Montserrat;font-weight:800;font-size:6.4pt;letter-spacing:.22em;white-space:nowrap}
 .more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
-.fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:132mm}
-.inv{display:flex;flex-direction:column;gap:3.6mm}.inv .ey{font-size:7pt;letter-spacing:.26em}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
+.fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:132mm;display:flex;flex-direction:column;gap:2.6mm}.fest .lp{font-family:Allison,cursive;font-size:34pt;line-height:.62;margin:1.6mm 0 3.4mm -.4mm;white-space:nowrap}
+.inv{display:flex;flex-direction:column;gap:3.8mm}.inv .ey{font-size:8.2pt;letter-spacing:.24em}.inv .h1{margin-top:1.4mm}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
+.prow{display:flex;align-items:center;gap:5.5mm}.fb{display:flex;align-items:baseline;gap:6.5mm;font-family:Montserrat;font-weight:800;font-size:11pt;color:#1A2DB8;white-space:nowrap}.fb>span:first-child{font-family:Allison,cursive;font-weight:400;font-size:24pt}.fbw{position:relative;padding:0 1mm}.ring{position:absolute;left:-4.2mm;right:-4.2mm;top:-4.4mm;bottom:-4mm;width:calc(100% + 8.4mm);height:calc(100% + 8.4mm);overflow:visible}
 .qrf{position:absolute;right:8mm;top:7mm;width:19mm;text-align:center}.qrf div{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 .f1{font-family:Montserrat;font-weight:800;font-size:9.6pt}.f2{font-size:7.9pt;color:#4B59C4;margin-top:2.2mm}
 .stack{position:absolute;left:8mm;right:8mm;display:flex;flex-direction:column}
@@ -43,10 +44,11 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
+.gift{background:#1A2DB8;color:#fff;border-radius:4mm;padding:8.5mm 7mm 7.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:3.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:1.6mm}.gi2{display:flex;flex-direction:column;gap:2.4mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:3mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.4pt}.gi2 span{font-size:8.3pt;line-height:4.3mm;color:#F8E1C5}.gift .star{left:6mm}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
-.qr{position:absolute;right:8mm;top:7.6mm;width:23mm;text-align:center}.qr div{font-family:Montserrat;font-weight:700;font-size:5.2pt;letter-spacing:.2em;margin-top:1.4mm}
+.qr{position:absolute;right:8mm;top:7.6mm;width:23mm;text-align:center}.qr div{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 `;
 const footer=`<div class="abs rule"></div>
 <div class="abs" style="left:8mm;top:194.5mm"><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div>
@@ -59,34 +61,35 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  __ALLESIST__
 
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
-<div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
+<div class="stack" id="fs" style="bottom:11mm;gap:${G}mm">
  <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
- <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="fest tr"><b>Dein neuer Lieblingsplatz in Feldbach</b> – zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div>
+ <div class="prow"><div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="fb"><span class="tr">in</span><span class="fbw"><b class="tr">FELDBACH</b><svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M8 22 C 6 8, 42 2, 70 5 C 96 8, 99 26, 80 33 C 60 40, 18 38, 8 27 C 4 22, 9 13, 24 9" fill="none" stroke="#1A2DB8" stroke-width="1.6" stroke-linecap="round"/></svg></span></div></div>
+ <div class="fest"><div class="lp">Dein neuer Lieblingsplatz</div><div class="tr">Zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
-  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
+  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie und individuellem Plan.</div></div>
   <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
  </div>
  <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
-</div><div class="qrf">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>${footer}</div></div>`;
+</div><div class="qrf">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div></div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
 const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:90.6mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
-<div class="qr">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
+<div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2}mm;height:${190-base2}mm;justify-content:space-evenly">
- <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:13mm;line-height:1.0;margin-left:-.5mm">GESCHENK<br>GESUCHT?</div></div>
- <div class="pair"><div class="ey tr">GESCHENKIDEEN &amp; GESCHENKBOXEN</div><div class="para tr" style="width:68mm">Gutscheine, Kombipakete oder unsere fixfertige Geschenkbox – liebevoll verpackt und individuell auf Wunsch abgestimmt.</div></div>
- <div class="pill" style="position:relative;z-index:2">ERHÄLTLICH AB 15. DEZEMBER</div>
- <div class="cards" id="cards">
-  <div class="card hot"><div class="star tr">★ BELIEBTESTES GESCHENK</div><div class="k tr">GESCHENKBOX</div><div class="n tr">Fixfertig</div><div class="d tr">Schön verpackt mit Trinkflasche, Pilates-Socken &amp; Goodies – bereit zum Verschenken.</div></div>
-  <div class="card"><div class="k tr">GUTSCHEINE</div><div class="n tr">Probetraining</div><div class="d tr">Gutscheine für Probetrainings und Probeeinheiten – Reformer Pilates, Bodyforming, Yoga &amp; mehr.</div></div>
-  <div class="card"><div class="k tr">KOMBIPAKETE</div><div class="n tr">Nach Wunsch</div><div class="d tr">Verschiedene Kombipakete – individuell zusammengestellt für jedes Budget.</div></div>
+ <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:14.5mm;line-height:1.0;margin-left:-.5mm">SCHENK<br>BEWEGUNG.</div></div>
+ <div class="pair"><div class="ey tr">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:72mm;font-size:9.2pt;line-height:5.2mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio. <b style="font-weight:600;color:#1A2DB8">Kontaktdaten siehe unten.</b></div></div>
+ <div class="gift" id="cards"><div class="star tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
+  <div class="k tr">GESCHENKBOXEN &amp; GUTSCHEINE</div>
+  <div class="n tr">Dein Geschenk – ganz nach Wunsch</div>
+  <div class="gl">
+   <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
+   <div class="gi2"><b class="tr">Gutscheine</b><span class="tr">Für all unsere Trainings – vom Probetraining bis zum Kombipaket.</span></div>
+  </div>
  </div>
- <div class="ord"><b class="tr">BESTELLEN</b><span class="tr">telefonisch unter 0676 30 73 860 oder per Mail an studio@reformbar.at</span><b class="tr">ABHOLEN</b><span class="tr">in unserem Studio in der Ungarstraße 2–4, 8330 Feldbach</span></div>
 </div>${footer}</div></div>`;
-const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
+const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&family=Allison&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
 const fix=`<script>
 const mm=v=>v*96/25.4;
 function place(){
@@ -121,38 +124,33 @@ if(process.env.POSTER){
  const gift='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Poster_Geschenkbox_auf_Blau.png').toString('base64');
  const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:5.5mm 11mm 6mm}
  .gb .row{position:relative;z-index:1;display:grid;grid-template-columns:1fr 26mm;gap:6mm;align-items:center}
- .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.3em;color:#F8E1C5}
+ .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:7.5pt;letter-spacing:.3em;color:#F8E1C5}
  .gb .tag{background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:6.2pt;letter-spacing:.06em;padding:1.6mm 2.8mm;border-radius:3mm;white-space:nowrap}
- .gb .ti{font-family:Montserrat;font-weight:800;font-size:16pt;letter-spacing:-.03em;margin-top:3.4mm}
- .gb .tx{font-size:7.8pt;line-height:4.1mm;color:#F8E1C5;margin-top:3mm}
+ .gb .ti{font-family:Montserrat;font-weight:800;font-size:22pt;letter-spacing:-.03em;margin-top:3.4mm}
+ .gb .tx{font-size:10pt;line-height:5mm;color:#F8E1C5;margin-top:3mm}
  .gb .tx b{color:#fff;font-weight:600}
- .gb .gi{position:absolute;right:0;top:0;height:35mm;width:auto;display:block;z-index:0}
+ .gb .gi{position:absolute;right:0;top:0;height:27mm;width:auto;display:block;z-index:0}
  .gb .hr{position:relative;z-index:1;height:.25mm;background:rgba(255,255,255,.25);margin:4mm 0 3.8mm}
- .gb .ft{position:relative;z-index:1;display:flex;justify-content:space-between;font-size:7.6pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
- .pc{padding:3.9mm 3.6mm 3.5mm} .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:4.4pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
+ .gb .ft{position:relative;z-index:1;display:flex;justify-content:space-between;font-size:11pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
+ .pmin{display:flex;align-items:center;gap:4mm;font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.01em;color:#1A2DB8;white-space:nowrap} .pmin i{width:1.6mm;height:1.6mm;border-radius:50%;background:#8C95DD;display:inline-block} .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:5pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
+ const ringP='<svg class="ring" viewBox="0 0 100 40" preserveAspectRatio="none"><path d="M8 22 C 6 8, 42 2, 70 5 C 96 8, 99 26, 80 33 C 60 40, 18 38, 8 27 C 4 22, 9 13, 24 9" fill="none" stroke="#1A2DB8" stroke-width="1.6" stroke-linecap="round"/></svg>';
  const poster=`<div class="page" id="front"><img class="abs" id="imgP" style="left:0;width:154mm" src="${big}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
  <image href="data:image/png;base64,${outlinePng}" x="6" y="6" width="64" height="12"/>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
-<div class="qrp">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
-<div class="stack" id="ps" style="gap:3.8mm">
- <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="ph" style="font-size:12mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
- <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="fest tr"><b>Dein neuer Lieblingsplatz in Feldbach</b> – zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div>
- <div class="pillars">
-  <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
-  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
-  <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
- </div>
- <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
+<div class="qrp">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
+<div class="stack" id="ps" style="gap:6mm">
+ <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="ph" style="font-size:15.5mm;line-height:1.05;margin-left:-.6mm">NEUERÖFFNUNG</div></div>
+ <div class="prow"><div class="pill" style="height:10.6mm;font-size:10.6pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="fb" style="font-size:11pt"><span class="tr">in</span><span class="fbw"><b class="tr">FELDBACH</b>${ringP}</span></div></div>
+ <div class="pmin"><span class="h">Reformer Pilates</span><i></i><span>Bodyforming</span><i></i><span>Beckenboden</span></div>
 </div></div>
 <div class="gb" id="gb"><div class="row"><div>
-  <div class="ey2"><b class="tr">WEIHNACHTEN 2026</b><span class="tag tr">AB 15. DEZEMBER ERHÄLTLICH</span></div>
-  <div class="ti tr">Noch ein Geschenk gesucht?</div>
-  <div class="tx tr" style="max-width:100mm">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
+  <div class="ey2"><b class="tr">AB 15. DEZEMBER</b></div>
+  <div class="ti tr">Schenk Bewegung.</div>
+  <div class="tx tr">Geschenkboxen &amp; Gutscheine – direkt bei uns im Studio.</div>
  </div><div></div></div><img class="gi" src="${gift}">
  <div class="hr"></div>
- <div class="ft"><span class="tr"><b>Ungarstraße 2–4</b> · 8330 Feldbach</span><span class="tr"><b>0676 30 73 860</b> · studio@reformbar.at · <b>reformbar.at</b></span></div>
+ <div class="ft"><span class="tr"><b>reformbar.at</b></span><span class="tr"><b>0676 30 73 860</b></span></div>
 </div></div>`;
  const pfix=`<script>const mm=v=>v*96/25.4;function placeP(G){const P=id=>document.getElementById(id);
   const pg=P('front').getBoundingClientRect(),gb=P('gb').getBoundingClientRect(),st=P('ps');
