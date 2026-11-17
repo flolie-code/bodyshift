@@ -110,4 +110,17 @@ const dsf=1789/(148/25.4*96);const v=await br.newPage({deviceScaleFactor:dsf,vie
 await v.setContent(html,{waitUntil:'networkidle'});await v.evaluate(()=>document.fonts.ready);await v.evaluate(()=>place());
 for(const [id,name] of [['front','Vorderseite'],['back','Rueckseite']]){const r=await v.evaluate(id=>{const b=document.getElementById(id).getBoundingClientRect();return {x:b.left+b.width*0+3*96/25.4,y:b.top+window.scrollY+3*96/25.4}},id);
  await v.screenshot({path:`${OUT}/Reformbar_Flyer_${name}_digital.png`,clip:{x:r.x,y:r.y,width:148*96/25.4,height:210*96/25.4},fullPage:true});}
+// --- A1-Poster (594 x 841 mm + 3 mm Beschnitt): Vorderseite 1:1 hochskaliert
+if(process.env.POSTER){
+ const k=594/148;
+ const big='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf_4K.png').toString('base64');
+ const pp=await br.newPage();
+ await pp.setContent(html.replace(imgF,big).replace('@page{size:154mm 216mm;margin:0}','@page{size:600mm 847mm;margin:0}'),{waitUntil:'networkidle'});
+ await pp.evaluate(()=>document.fonts.ready);await pp.evaluate(()=>place());
+ await pp.evaluate(k=>{document.getElementById('back').remove();const f=document.getElementById('front');
+  const w=document.createElement('div');w.style.cssText='width:600mm;height:847mm;overflow:hidden;position:relative;background:#FBF5EC';
+  f.parentNode.insertBefore(w,f);w.appendChild(f);f.style.position='absolute';f.style.left=(3-3*k)+'mm';f.style.top=(3-3*k)+'mm';
+  f.style.transformOrigin='0 0';f.style.transform='scale('+k+')';f.style.pageBreakAfter='auto';},k);
+ await pp.pdf({path:OUT+'/Reformbar_Poster_A1_DRUCK_3mm-Beschnitt.pdf',width:'600mm',height:'847mm',printBackground:true});
+}
 await br.close();})();
