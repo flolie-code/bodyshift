@@ -6,7 +6,7 @@ const tones = ['blue', 'white', 'sand', 'white'];
 ---
 <div class="cards">
   <article class="card photo" data-reveal data-tilt>
-    <img src={first.image} alt="Reformer-Pilates-Einheit in der Reformbar Feldbach" loading="lazy" width="1200" height="1500" />
+    <img src={first.image} alt="Frau beim Reformer Pilates im hellen Studio der Reformbar Feldbach" loading="lazy" width="1200" height="1500" />
     <div class="c-top"><span class="num">01</span><span class="live">Online anfragbar</span></div>
     <div>
       <h3 class="display big"><a href={`/${first.slug}/`}>Reformer<br />Pilates</a></h3>
@@ -53,7 +53,7 @@ const tones = ['blue', 'white', 'sand', 'white'];
   .card.blue { background: var(--blue); color: #fff; }
   .card.sand { background: var(--sand); }
   .card.photo { grid-row: span 2; color: #fff; }
-  .card.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+  .card.photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transition: transform 1.2s var(--ease); }
   .card.photo:hover img { transform: scale(1.06); }
   .card.photo::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(16, 28, 133, 0.25) 0%, rgba(16, 28, 133, 0.05) 35%, rgba(16, 28, 133, 0.88) 100%); }
   .card.photo > div { position: relative; z-index: 2; }
