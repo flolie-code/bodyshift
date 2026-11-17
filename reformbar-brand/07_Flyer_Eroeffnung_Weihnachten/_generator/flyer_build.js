@@ -29,7 +29,8 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .more{display:flex;align-items:center;gap:4mm}.more b{font-family:Montserrat;font-weight:800;font-size:6.4pt;letter-spacing:.22em;white-space:nowrap}
 .more .chips{width:auto}
 .rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:190mm}
-.fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:128mm}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
+.fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:132mm}
+.inv{display:flex;flex-direction:column;gap:3.6mm}.inv .ey{font-size:7pt;letter-spacing:.26em}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
 .qrf{position:absolute;right:8mm;top:7mm;width:19mm;text-align:center}.qrf div{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 .f1{font-family:Montserrat;font-weight:800;font-size:9.6pt}.f2{font-size:7.9pt;color:#4B59C4;margin-top:2.2mm}
 .stack{position:absolute;left:8mm;right:8mm;display:flex;flex-direction:column}
@@ -58,11 +59,10 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  __ALLESIST__
 
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
-<div class="abs ey tr" style="left:8mm;top:${base1+6}mm">REFORMER PILATES · BODYFORMING &amp; MEHR</div>
 <div class="stack" id="fs" style="bottom:${210-190+G}mm;gap:${G}mm">
- <div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
+ <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="fest tr"><b>Feier mit uns!</b> Großartige Eröffnungsangebote warten auf dich – für Getränke &amp; kulinarische Schmankerl ist gesorgt.</div>
+ <div class="fest tr"><b>Dein neuer Lieblingsplatz in Feldbach</b> – zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
@@ -91,7 +91,7 @@ const fix=`<script>
 const mm=v=>v*96/25.4;
 function place(){
  const P=id=>document.getElementById(id);
- const fh=P('fh').getBoundingClientRect(), fp=P('front').getBoundingClientRect();
+ const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
  P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
  const iw=mm(90.6), k=iw/1792; const ib=P('imgB');
@@ -136,9 +136,9 @@ if(process.env.POSTER){
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="qrp">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
 <div class="stack" id="ps" style="gap:3.8mm">
- <div class="h1 tr" id="ph" style="font-size:12mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
+ <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="ph" style="font-size:12mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
  <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="fest tr"><b>Feier mit uns!</b> Großartige Eröffnungsangebote warten auf dich – für Getränke &amp; kulinarische Schmankerl ist gesorgt.</div>
+ <div class="fest tr"><b>Dein neuer Lieblingsplatz in Feldbach</b> – zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
