@@ -82,7 +82,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
  </div>
  <div class="ord"><b class="tr">BESTELLEN</b><span class="tr">telefonisch unter 0676 30 73 860 oder per Mail an studio@reformbar.at</span><b class="tr">ABHOLEN</b><span class="tr">in unserem Studio in der Ungarstraße 2–4, 8330 Feldbach</span></div>
 </div>${footer}</div></div>`;
-const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
+const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
 const fix=`<script>
 const mm=v=>v*96/25.4;
 function place(){
@@ -110,14 +110,60 @@ const dsf=1789/(148/25.4*96);const v=await br.newPage({deviceScaleFactor:dsf,vie
 await v.setContent(html,{waitUntil:'networkidle'});await v.evaluate(()=>document.fonts.ready);await v.evaluate(()=>place());
 for(const [id,name] of [['front','Vorderseite'],['back','Rueckseite']]){const r=await v.evaluate(id=>{const b=document.getElementById(id).getBoundingClientRect();return {x:b.left+b.width*0+3*96/25.4,y:b.top+window.scrollY+3*96/25.4}},id);
  await v.screenshot({path:`${OUT}/Reformbar_Flyer_${name}_digital.png`,clip:{x:r.x,y:r.y,width:148*96/25.4,height:210*96/25.4},fullPage:true});}
-// --- A1-Poster (594 x 841 mm + 3 mm Beschnitt): Vorderseite 1:1 hochskaliert
+// --- A1-Poster: eigene, verdichtete Einseiter-Version (Eröffnung + Angebote + Geschenke), gesetzt in A5-Einheiten, dann x4 skaliert
 if(process.env.POSTER){
  const k=594/148;
  const big='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf_4K.png').toString('base64');
+ const gift='data:image/jpeg;base64,'+fs.readFileSync(D+'/Bilder/Rueckseite_Geschenkbox_original.jpg').toString('base64');
+ const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:6mm 11mm 6.5mm}
+ .gb .row{display:grid;grid-template-columns:1fr 25mm;gap:6mm;align-items:center}
+ .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.3em;color:#F8E1C5}
+ .gb .tag{background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:6.2pt;letter-spacing:.06em;padding:1.6mm 2.8mm;border-radius:3mm;white-space:nowrap}
+ .gb .ti{font-family:Montserrat;font-weight:800;font-size:16pt;letter-spacing:-.03em;margin-top:3.4mm}
+ .gb .tx{font-size:7.8pt;line-height:4.1mm;color:#F8E1C5;margin-top:3mm}
+ .gb .tx b{color:#fff;font-weight:600}
+ .gb img{width:25mm;height:25mm;object-fit:cover;object-position:62% 62%;border-radius:3mm;display:block}
+ .gb .hr{height:.25mm;background:rgba(255,255,255,.25);margin:4.6mm 0 4mm}
+ .gb .ft{display:flex;justify-content:space-between;font-size:7.6pt;font-weight:500}.gb .ft b{font-family:Montserrat;font-weight:800}
+ .qrp{position:absolute;right:8mm;top:7mm;width:21mm;text-align:center}.qrp div{font-family:Montserrat;font-weight:700;font-size:4.4pt;letter-spacing:.1em;margin-top:1.8mm;white-space:nowrap}`;
+ const poster=`<div class="page" id="front"><img class="abs" id="imgP" style="left:0;width:154mm" src="${big}"><div class="t">
+<svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40">
+ <image href="data:image/png;base64,${outlinePng}" x="6" y="6" width="64" height="12"/>
+ <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
+<div class="qrp">${qr}<div class="tr">SCANNEN &amp; MEHR</div></div>
+<div class="stack" id="ps" style="gap:4.6mm">
+ <div class="h1 tr" id="ph" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div>
+ <div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
+ <div class="pillars">
+  <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
+  <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie.</div></div>
+  <div class="pc"><div class="pn tr">Beckenbodentraining</div><div class="pd tr">Beckenboden stärken – entspannt im Sitzen.</div></div>
+ </div>
+ <div class="more"><b class="tr">AUSSERDEM</b><div class="chips"><span>Yoga</span><span>Matten-Pilates</span><span>Gruppenkurse</span><span>1:1 Coaching</span></div></div>
+</div></div>
+<div class="gb" id="gb"><div class="row"><div>
+  <div class="ey2"><b class="tr">WEIHNACHTEN 2026</b><span class="tag tr">AB 15. DEZEMBER ERHÄLTLICH</span></div>
+  <div class="ti tr">Schenk Bewegung.</div>
+  <div class="tx tr">Gutscheine für Probetrainings, Kombipakete &amp; fixfertige Geschenkboxen. <b>Erhältlich telefonisch, per Mail oder direkt im Studio.</b></div>
+ </div><img src="${gift}"></div>
+ <div class="hr"></div>
+ <div class="ft"><span class="tr"><b>Ungarstraße 2–4</b> · 8330 Feldbach</span><span class="tr"><b>0676 30 73 860</b> · studio@reformbar.at · <b>reformbar.at</b></span></div>
+</div></div>`;
+ const pfix=`<script>const mm=v=>v*96/25.4;function placeP(G){const P=id=>document.getElementById(id);
+  const pg=P('front').getBoundingClientRect(),gb=P('gb').getBoundingClientRect(),st=P('ps');
+  st.style.bottom=(pg.bottom-gb.top+mm(G)-mm(3))+'px';
+  const ph=P('ph').getBoundingClientRect();
+  P('imgP').style.top=(ph.top-pg.top-mm(3+((0.88-0.10)/0.90)*154*2781/4096))+'px';
+  return {gbTop:(gb.top-pg.top)/96*25.4-3, capTop:(ph.top-pg.top)/96*25.4-3};}</script>`;
+ const phtml=(head.replace('</style>',pcss+'</style>')+poster+pfix+'</body></html>');
+ fs.writeFileSync(OUT+'/poster.html',phtml);
+ const pv=await br.newPage({deviceScaleFactor:1789/(148/25.4*96)});await pv.setContent(phtml,{waitUntil:'networkidle'});await pv.evaluate(()=>document.fonts.ready);
+ console.log('poster',JSON.stringify(await pv.evaluate(()=>placeP(5.5))));
+ await pv.setViewportSize({width:600,height:900});await pv.screenshot({path:OUT+'/poster_preview.png',fullPage:true,clip:{x:3*96/25.4,y:3*96/25.4,width:148*96/25.4,height:210*96/25.4}});
  const pp=await br.newPage();
- await pp.setContent(html.replace(imgF,big).replace('@page{size:154mm 216mm;margin:0}','@page{size:600mm 847mm;margin:0}'),{waitUntil:'networkidle'});
- await pp.evaluate(()=>document.fonts.ready);await pp.evaluate(()=>place());
- await pp.evaluate(k=>{document.getElementById('back').remove();const f=document.getElementById('front');
+ await pp.setContent(phtml.replace('@page{size:154mm 216mm;margin:0}','@page{size:600mm 847mm;margin:0}'),{waitUntil:'networkidle'});
+ await pp.evaluate(()=>document.fonts.ready);await pp.evaluate(()=>placeP(5.5));
+ await pp.evaluate(k=>{const f=document.getElementById('front');
   const w=document.createElement('div');w.style.cssText='width:600mm;height:847mm;overflow:hidden;position:relative;background:#FBF5EC';
   f.parentNode.insertBefore(w,f);w.appendChild(f);f.style.position='absolute';f.style.left=(3-3*k)+'mm';f.style.top=(3-3*k)+'mm';
   f.style.transformOrigin='0 0';f.style.transform='scale('+k+')';f.style.pageBreakAfter='auto';},k);
