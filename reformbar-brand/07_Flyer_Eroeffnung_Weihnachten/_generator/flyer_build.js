@@ -28,12 +28,12 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pc.hot{background:#1A2DB8;color:#fff}.pc.hot .pd{color:#F8E1C5}.pc.warm{background:#fff;box-shadow:inset 0 0 0 .55mm #1A2DB8}.pc.warm .pd{color:#1A2DB8}
 .more{display:flex;align-items:center;gap:4mm}.more b{font-family:Montserrat;font-weight:800;font-size:6.4pt;letter-spacing:.22em;white-space:nowrap}
 .more .chips{width:auto}
-.rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:187mm}
+.rule{left:8mm;right:8mm;height:.25mm;background:#CCCEE8;top:184mm}
 .fest{font-size:8.4pt;line-height:4.5mm;color:#1A2DB8;max-width:132mm;display:flex;flex-direction:column;gap:2.6mm}.fest .lp{font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.02em}
 .inv{display:flex;flex-direction:column;gap:3.8mm}.inv .ey{font-size:8.2pt;letter-spacing:.24em}.inv .h1{margin-top:1.4mm}.fest b{font-family:Montserrat;font-weight:800;margin-right:.6mm}
 .prow{display:flex;align-items:center;gap:5.5mm}.fb{display:flex;align-items:baseline;gap:6.5mm;font-family:Montserrat;font-weight:800;font-size:11pt;color:#1A2DB8;white-space:nowrap}.fbw{position:relative;padding:0 1mm}.ring{position:absolute;left:-4.2mm;right:-4.2mm;top:-4.4mm;bottom:-4mm;width:calc(100% + 8.4mm);height:calc(100% + 8.4mm);overflow:visible}
 .qrf{position:absolute;right:8mm;top:7mm;width:19mm;display:flex;flex-direction:column;align-items:center}.qrf div{font-family:Montserrat;font-weight:700;font-size:4.2pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
-.fgrid{display:grid;grid-template-columns:1fr 1fr 1fr}.f0{font-family:Montserrat;font-weight:700;font-size:5.4pt;letter-spacing:.24em;color:#4B59C4;margin-bottom:2.6mm}.f1{font-family:Montserrat;font-weight:800;font-size:10.6pt}.f2{font-size:8.6pt;color:#1A2DB8;margin-top:2.4mm}
+.fgrid{display:grid;grid-template-columns:1fr 1fr 1fr}.f0{font-family:Montserrat;font-weight:700;font-size:5.4pt;letter-spacing:.24em;color:#4B59C4;margin-bottom:2.6mm}.f1{font-family:Montserrat;font-weight:800;font-size:11.4pt}.f2{font-size:9pt;color:#1A2DB8;margin-top:2.4mm}
 .stack{position:absolute;left:8mm;right:8mm;display:flex;flex-direction:column}
 .pair{display:flex;flex-direction:column;gap:4.5mm}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:3.2mm;position:relative;z-index:2}
@@ -44,14 +44,14 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
-.gift{background:#1A2DB8;color:#fff;border-radius:4mm;padding:8.5mm 7mm 7.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:3.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:1.6mm}.gi2{display:flex;flex-direction:column;gap:2.4mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:3mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.4pt}.gi2 span{font-size:8.3pt;line-height:4.3mm;color:#F8E1C5}.gift .star{left:6mm}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.gift{background:#1A2DB8;color:#fff;border-radius:4mm;padding:8.5mm 7mm 7.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:3.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:1.6mm}.gi2{display:flex;flex-direction:column;gap:2.4mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:3mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.4pt}.gi2 span{font-size:8.3pt;line-height:4.3mm;color:#F8E1C5}.gift .star{left:6mm}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
 .qr{position:absolute;right:8mm;top:7.6mm;width:23mm;display:flex;flex-direction:column;align-items:center}.qr div{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 `;
 const footer=`<div class="abs rule"></div>
-<div class="abs fgrid" style="left:8mm;right:8mm;top:194mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 30 73 860</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div><div class="f2 tr">Termine &amp; Angebote</div></div></div>`;
+<div class="abs fgrid" style="left:8mm;right:8mm;top:191mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 30 73 860</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div><div class="f2 tr">Termine &amp; Angebote</div></div></div>`;
 // --- Vorderseite: Claim-Logo
 const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,base1=rt1+cap1;
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
@@ -60,10 +60,10 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  __ALLESIST__
 
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
-<div class="stack" id="fs" style="bottom:11mm;gap:${G}mm">
+<div class="stack" id="fs" style="bottom:15mm;gap:6mm">
  <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
  <div class="prow"><div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="fb"><span class="tr">IN FELDBACH</span></div></div>
- <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Zum Bewegen, Ankommen und Zusammensein. Komm vorbei, lern uns kennen und feier mit uns: Eröffnungsangebote, Getränke &amp; kulinarische Schmankerl warten auf dich!</div></div>
+ <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Zum Bewegen, Ankommen und Zusammensein. Feier mit uns – Eröffnungsangebote, Getränke &amp; Schmankerl warten auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie und individuellem Plan.</div></div>
@@ -73,12 +73,12 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 </div><div class="qrf">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div></div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
-const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:90.6mm" src="${imgB}"><div class="t">
+const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:78mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
-<div class="stack" id="bs" style="top:${base2+4}mm;bottom:${210-187+2}mm;justify-content:space-evenly">
- <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:14.5mm;line-height:1.0;margin-left:-.5mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair"><div class="ey tr">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:72mm;font-size:9.2pt;line-height:5.2mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio. <b style="font-weight:600;color:#1A2DB8">Kontaktdaten siehe unten.</b></div></div>
+<div class="stack" id="bs" style="top:${base2+9}mm;bottom:${210-184+7}mm;justify-content:space-between">
+ <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
+ <div class="pair"><div class="ey tr">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio. <b style="font-weight:600;color:#1A2DB8">Kontaktdaten siehe unten.</b></div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="k tr">GESCHENKBOXEN &amp; GUTSCHEINE</div>
   <div class="n tr">Dein Geschenk – ganz nach Wunsch</div>
@@ -86,6 +86,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
    <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
    <div class="gi2"><b class="tr">Gutscheine</b><span class="tr">Für all unsere Trainings – vom Probetraining bis zum Kombipaket.</span></div>
   </div>
+  <div class="gch"><span>Reformer Pilates</span><span>Bodyforming</span><span>Beckenboden</span><span>Yoga</span><span>Matten-Pilates</span><span>1:1 Coaching</span></div>
  </div>
 </div>${footer}</div></div>`;
 const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
@@ -96,8 +97,8 @@ function place(){
  const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
  P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
- const iw=mm(90.6), k=iw/1792; const ib=P('imgB');
- ib.style.left=(mm(3+73.6))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
+ const iw=mm(78), k=iw/1792; const ib=P('imgB');
+ ib.style.left=(mm(3+90))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
 }
 </script>`;
 (async()=>{const br=await chromium.launch();
@@ -138,7 +139,7 @@ if(process.env.POSTER){
  <image href="data:image/png;base64,${outlinePng}" x="6" y="6" width="64" height="12"/>
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="qrp">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
-<div class="stack" id="ps" style="gap:9mm">
+<div class="stack" id="ps" style="gap:11.5mm">
  <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="ph" style="font-size:15.5mm;line-height:1.05;margin-left:-.6mm;margin-top:2.2mm">NEUERÖFFNUNG</div></div>
  <div class="prow"><div class="pill" style="height:10.6mm;font-size:10.6pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="fb" style="font-size:11pt"><span class="tr">IN FELDBACH</span></div></div>
  <div class="pmin"><span class="h">Reformer Pilates</span><i></i><span>Bodyforming</span><i></i><span>Beckenboden</span></div>
@@ -160,11 +161,11 @@ if(process.env.POSTER){
  const phtml=(head.replace('</style>',pcss+'</style>')+poster+pfix+'</body></html>');
  fs.writeFileSync(OUT+'/poster.html',phtml);
  const pv=await br.newPage({deviceScaleFactor:1789/(148/25.4*96)});await pv.setContent(phtml,{waitUntil:'networkidle'});await pv.evaluate(()=>document.fonts.ready);
- console.log('poster',JSON.stringify(await pv.evaluate(()=>placeP(9))));
+ console.log('poster',JSON.stringify(await pv.evaluate(()=>placeP(11.5))));
  await pv.setViewportSize({width:600,height:900});await pv.screenshot({path:OUT+'/poster_preview.png',fullPage:true,clip:{x:3*96/25.4,y:3*96/25.4,width:148*96/25.4,height:210*96/25.4}});
  const pp=await br.newPage();
  await pp.setContent(phtml.replace('@page{size:154mm 216mm;margin:0}','@page{size:600mm 847mm;margin:0}'),{waitUntil:'networkidle'});
- await pp.evaluate(()=>document.fonts.ready);await pp.evaluate(()=>placeP(9));
+ await pp.evaluate(()=>document.fonts.ready);await pp.evaluate(()=>placeP(11.5));
  await pp.evaluate(k=>{const f=document.getElementById('front');
   const w=document.createElement('div');w.style.cssText='width:600mm;height:847mm;overflow:hidden;position:relative;background:#FBF5EC';
   f.parentNode.insertBefore(w,f);w.appendChild(f);f.style.position='absolute';f.style.left=(3-3*k)+'mm';f.style.top=(3-3*k)+'mm';
