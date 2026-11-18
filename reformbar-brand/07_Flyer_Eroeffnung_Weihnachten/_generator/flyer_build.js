@@ -51,7 +51,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .qr{position:absolute;right:8mm;top:7.6mm;width:23mm;display:flex;flex-direction:column;align-items:center}.qr div{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 `;
 const footer=`<div class="abs rule"></div>
-<div class="abs fgrid" style="left:8mm;right:8mm;top:191mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 30 73 860</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div><div class="f2 tr">Termine &amp; Angebote</div></div></div>`;
+<div class="abs fgrid" style="left:8mm;right:8mm;top:191mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 380 62 22</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div><div class="f2 tr">Termine &amp; Angebote</div></div></div>`;
 // --- Vorderseite: Claim-Logo
 const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,base1=rt1+cap1;
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
@@ -61,8 +61,8 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="stack" id="fs" style="bottom:9mm;gap:7.6mm">
- <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div></div>
- <div class="prow"><div class="pill">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="fb"><span class="tr">IN FELDBACH</span></div></div>
+ <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.2mm;letter-spacing:-.02em;margin-left:-.3mm;margin-top:1mm">IN FELDBACH</div></div>
+ <div class="pill" style="align-self:stretch;justify-content:center;gap:7mm;font-size:11pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
  <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Zum Bewegen, Ankommen und Zusammensein. Feier mit uns – Eröffnungsangebote, Getränke &amp; Schmankerl warten auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
@@ -95,7 +95,7 @@ const mm=v=>v*96/25.4;
 function place(){
  const P=id=>document.getElementById(id);
  const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
- P('imgF').style.top=(fh.top-fp.top-mm(3+((0.88-0.10)/0.90)*154*1629/2400))+'px';
+ P('imgF').style.top=(fh.top-fp.top-mm(3+((0.81-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
  const iw=mm(78), k=iw/1792; const ib=P('imgB');
  ib.style.left=(mm(3+90))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
@@ -122,7 +122,7 @@ if(process.env.POSTER){
  const k=594/148;
  const big='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Vorderseite_Reformer_mit_Verlauf_4K.png').toString('base64');
  const gift='data:image/png;base64,'+fs.readFileSync(D+'/Bilder/Poster_Geschenkbox_auf_Blau.png').toString('base64');
- const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:7mm 11mm 6.5mm}
+ const pcss=`.gb{position:absolute;left:0;right:0;bottom:0;background:#1A2DB8;color:#fff;padding:7mm 11mm 10mm}
  .gb .row{position:relative;z-index:1;display:grid;grid-template-columns:1fr 34mm;gap:6mm;align-items:center}
  .gb .ey2{display:flex;align-items:center;gap:3mm}.gb .ey2 b{font-family:Montserrat;font-weight:700;font-size:7.5pt;letter-spacing:.3em;color:#F8E1C5}
  .gb .tag{display:inline-block;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:8pt;letter-spacing:.08em;padding:2.2mm 3.6mm;border-radius:4mm;white-space:nowrap}
@@ -140,7 +140,7 @@ if(process.env.POSTER){
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="qrp">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="ps" style="gap:8.5mm">
- <div class="inv" style="gap:4.6mm"><div class="h1 tr" id="ph" style="font-size:15mm;line-height:1.05;margin-left:-.6mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:8.6mm;letter-spacing:-.02em;color:#1A2DB8;margin-left:-.3mm">IN FELDBACH</div></div>
+ <div class="inv" style="gap:4.6mm"><div class="h1 tr" id="ph" style="font-size:15mm;line-height:1.05;margin-left:-.6mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.8mm;letter-spacing:-.02em;color:#1A2DB8;margin-left:-.3mm">IN FELDBACH</div></div>
  <div class="pill" style="height:11.8mm;font-size:12.4pt;padding:0 6mm">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
  <div class="pmin"><span class="h">Reformer Pilates</span><i></i><span>Bodyforming</span><i></i><span>Beckenboden</span></div>
 </div></div>
@@ -150,7 +150,7 @@ if(process.env.POSTER){
   <div class="tx tr">Geschenkboxen &amp; Gutscheine – individuell zusammengestellt, direkt bei uns im Studio.</div>
  </div><div></div></div><img class="gi" src="${gift}">
  <div class="hr"></div>
- <div class="ft"><span class="tr"><b>reformbar.at</b></span><span class="tr">studio@reformbar.at</span><span class="tr"><b>0676 30 73 860</b></span></div>
+ <div class="ft"><span class="tr"><b>reformbar.at</b></span><span class="tr">studio@reformbar.at</span><span class="tr"><b>0676 380 62 22</b></span></div>
 </div></div>`;
  const pfix=`<script>const mm=v=>v*96/25.4;function placeP(G){const P=id=>document.getElementById(id);
   const pg=P('front').getBoundingClientRect(),gb=P('gb').getBoundingClientRect(),st=P('ps');
