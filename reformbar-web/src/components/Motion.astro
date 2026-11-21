@@ -1,0 +1,198 @@
+---
+// Bewegungs-Ebene der Website: Seitenwechsel, Scroll-Fortschritt, Cursor, Wort-Animationen,
+// Bild-Freilegung, Zähler, Hero-Parallax und Laufband-Neigung.
+// Alles nur als Verfeinerung: ohne JavaScript oder bei "Bewegung reduzieren" bleibt die Seite ruhig und vollständig.
+---
+<div class="progress" aria-hidden="true" data-progress></div>
+<div class="cursor" aria-hidden="true" data-cursor><span class="c-dot"></span><span class="c-ring"></span></div>
+
+<script>
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const root = document.documentElement;
+
+  // ---------- Scroll-Fortschritt ----------
+  const bar = document.querySelector<HTMLElement>('[data-progress]');
+  let lastY = window.scrollY, vel = 0, ticking = false;
+
+  // ---------- Hero: Zeilen gleiten beim Scrollen auseinander, Foto folgt der Maus ----------
+  const lines = [...document.querySelectorAll<HTMLElement>('.hero-h .line')];
+  const heroPic = document.querySelector<HTMLElement>('.hero-pics .a1');
+  const marq = document.querySelector<HTMLElement>('[data-marq]');
+
+  const onFrame = () => {
+    ticking = false;
+    const y = window.scrollY;
+    const max = root.scrollHeight - window.innerHeight;
+    if (bar) bar.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+    vel = vel * 0.8 + (y - lastY) * 0.2;
+    lastY = y;
+    if (!calm) {
+      if (lines.length && y < window.innerHeight * 1.2) {
+        lines[0].style.transform = `translate3d(${-y * 0.18}px,0,0)`;
+        if (lines[1]) lines[1].style.transform = `translate3d(${y * 0.12}px,0,0)`;
+      }
+      if (marq) marq.style.transform = `skewX(${Math.max(-8, Math.min(8, -vel * 0.35))}deg)`;
+    }
+    if (Math.abs(vel) > 0.1) request();
+  };
+  const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(onFrame); } };
+  window.addEventListener('scroll', request, { passive: true });
+  onFrame();
+
+  if (heroPic && fine && !calm) {
+    const hero = heroPic.closest('section')!;
+    hero.addEventListener('pointermove', (e) => {
+      const x = e.clientX / window.innerWidth - 0.5;
+      const yy = e.clientY / window.innerHeight - 0.5;
+      heroPic.style.transform = `translate3d(${x * -18}px, ${yy * -12}px, 0) rotate(${x * -1.2}deg)`;
+    });
+    hero.addEventListener('pointerleave', () => (heroPic.style.transform = ''));
+  }
+
+  // ---------- Überschriften Wort für Wort ----------
+  const heads = document.querySelectorAll<HTMLElement>('main h2.display, .page-hero h1, .rev-title');
+  const wordIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (e.isIntersecting) { e.target.classList.add('words-in'); wordIO.unobserve(e.target); }
+  }), { threshold: 0.3 });
+  heads.forEach((h) => {
+    if (calm) return;
+    let i = 0;
+    const wrap = (node: Node) => {
+      [...node.childNodes].forEach((c) => {
+        if (c.nodeType === 3) {
+          const parts = (c.textContent || '').split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach((p) => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+            const o = document.createElement('span'); o.className = 'w';
+            const inner = document.createElement('span'); inner.textContent = p; inner.style.setProperty('--i', String(i++));
+            o.appendChild(inner); frag.appendChild(o);
+          });
+          c.replaceWith(frag);
+        } else if (c.nodeType === 1 && (c as Element).tagName !== 'BR') {
+          const el = c as HTMLElement;
+          if (el.matches('.script, svg, .bar-svg')) {
+            el.classList.add('w-solo'); el.style.setProperty('--i', String(i++));
+          } else wrap(el);
+        }
+      });
+    };
+    wrap(h);
+    h.removeAttribute('data-reveal');
+    h.classList.add('split');
+    wordIO.observe(h);
+  });
+
+  // ---------- Bilder von unten freilegen ----------
+  const imgs = document.querySelectorAll<HTMLElement>('.card.photo, .about-pics .arch, .gal-item, .sh-arch, .story-pic, .prod .pic');
+  // Beobachtet wird der umgebende Container (ein komplett abgedecktes Element gilt sonst als unsichtbar)
+  const owners = new Map<Element, HTMLElement[]>();
+  const imgIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    (owners.get(e.target) || []).forEach((el, k) => setTimeout(() => el.classList.add('img-in'), k * 90));
+    imgIO.unobserve(e.target);
+  }), { threshold: 0.12 });
+  if (!calm) imgs.forEach((el) => {
+    el.classList.add('img-reveal');
+    const owner = el.parentElement!;
+    if (!owners.has(owner)) { owners.set(owner, []); imgIO.observe(owner); }
+    owners.get(owner)!.push(el);
+  });
+
+  // ---------- Zahlen hochzählen ----------
+  const nums = document.querySelectorAll<HTMLElement>('.facts strong');
+  const numIO = new IntersectionObserver((entries) => entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    numIO.unobserve(e.target);
+    const el = e.target as HTMLElement;
+    const m = (el.textContent || '').match(/^(\d+)(.*)$/s);
+    if (!m || calm) return;
+    const end = Number(m[1]), rest = m[2], t0 = performance.now(), dur = 1400;
+    const step = (t: number) => {
+      const p = Math.min(1, (t - t0) / dur), ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * ease) + rest;
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }), { threshold: 0.6 });
+  nums.forEach((n) => numIO.observe(n));
+
+  // ---------- Eigener Cursor ----------
+  const cur = document.querySelector<HTMLElement>('[data-cursor]');
+  if (cur && fine && !calm) {
+    root.classList.add('has-cursor');
+    let x = -100, y = -100, rx = -100, ry = -100;
+    const dot = cur.querySelector<HTMLElement>('.c-dot')!, ring = cur.querySelector<HTMLElement>('.c-ring')!;
+    window.addEventListener('pointermove', (e) => { x = e.clientX; y = e.clientY; cur.classList.add('on'); }, { passive: true });
+    document.addEventListener('pointerleave', () => cur.classList.remove('on'));
+    document.addEventListener('pointerover', (e) => {
+      const t = (e.target as HTMLElement).closest('a, button, [data-tilt], label, summary');
+      cur.classList.toggle('hover', !!t);
+    });
+    document.addEventListener('pointerdown', () => cur.classList.add('down'));
+    document.addEventListener('pointerup', () => cur.classList.remove('down'));
+    const loop = () => {
+      rx += (x - rx) * 0.18; ry += (y - ry) * 0.18;
+      dot.style.transform = `translate3d(${x}px,${y}px,0)`;
+      ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
+      requestAnimationFrame(loop);
+    };
+    loop();
+  }
+</script>
+
+<style is:global>
+  /* Weicher Seitenwechsel (Browser mit View-Transitions, z. B. Chrome, Edge, Safari) */
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out 0.35s cubic-bezier(0.4, 0, 1, 1) both; }
+  ::view-transition-new(root) { animation: vt-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .nav { view-transition-name: site-nav; }
+  @keyframes vt-out { to { opacity: 0; transform: translateY(-24px) scale(0.985); } }
+  @keyframes vt-in { from { opacity: 0; transform: translateY(40px); } }
+
+  /* Scroll-Fortschritt */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--champ); transform-origin: 0 50%; transform: scaleX(0); z-index: 200; pointer-events: none; }
+
+  /* Hero: Foto öffnet sich wie ein Vorhang, leichter Zoom */
+  .hero-pics .a1 { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
+  .js .hero-pics .a1.wide { animation: curtain 1.6s 0.35s cubic-bezier(0.77, 0, 0.18, 1) both; }
+  .js .hero-pics .a1.wide img { animation: settle 2.6s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  @keyframes curtain { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+  @keyframes settle { from { scale: 1.18; } to { scale: 1; } }
+  .hero-h .line { will-change: transform; }
+  [data-marq] { transition: transform 0.25s ease-out; }
+
+  /* Überschriften Wort für Wort */
+  .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .split .w > span { display: inline-block; transform: translateY(105%); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--i) * 70ms); }
+  .split .w-solo { opacity: 0; transform: translateY(30%) rotate(-8deg); transition: opacity 0.8s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--i) * 70ms + 120ms); }
+  .split.words-in .w > span { transform: none; }
+  .split.words-in .w-solo { opacity: 1; transform: none; }
+  .hero-h .w-solo, .hero-h.split .w-solo { opacity: 1; transform: none; }
+
+  /* Bilder freilegen */
+  .img-reveal { clip-path: inset(100% 0 0 0 round 26px); transition: clip-path 1.3s cubic-bezier(0.77, 0, 0.18, 1); }
+  .img-reveal.img-in { clip-path: inset(0 0 0 0 round 26px); }
+  .about-pics .arch.img-reveal, .story-pic.img-reveal, .sh-arch.img-reveal, .gal-item.img-reveal { clip-path: inset(100% 0 0 0); }
+  .about-pics .arch.img-in, .story-pic.img-in, .sh-arch.img-in, .gal-item.img-in { clip-path: inset(0 0 0 0); }
+  .img-reveal img { scale: 1.15; transition: scale 1.8s cubic-bezier(0.22, 1, 0.36, 1); }
+  .img-reveal.img-in img { scale: 1; }
+
+  /* Cursor */
+  .cursor { position: fixed; inset: 0; pointer-events: none; z-index: 300; opacity: 0; transition: opacity 0.3s; mix-blend-mode: difference; }
+  .cursor.on { opacity: 1; }
+  .c-dot, .c-ring { position: absolute; top: 0; left: 0; border-radius: 50%; }
+  .c-dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; background: #fff; }
+  .c-ring { width: 38px; height: 38px; margin: -19px 0 0 -19px; border: 1.5px solid #fff; transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1), height 0.35s cubic-bezier(0.22, 1, 0.36, 1), margin 0.35s cubic-bezier(0.22, 1, 0.36, 1), background 0.35s; }
+  .cursor.hover .c-ring { width: 72px; height: 72px; margin: -36px 0 0 -36px; background: rgba(255, 255, 255, 0.95); }
+  .cursor.down .c-ring { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+  .has-cursor, .has-cursor a, .has-cursor button { cursor: none; }
+  .has-cursor input, .has-cursor textarea { cursor: text; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .progress, .cursor { display: none; }
+    .js .hero-pics .a1.wide, .js .hero-pics .a1.wide img { animation: none; }
+  }
+</style>

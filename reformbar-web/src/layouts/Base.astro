@@ -5,6 +5,7 @@ import '@fontsource-variable/inter';
 import '../styles/global.css';
 import { site, services } from '../data/site';
 import Logo from '../components/Logo.astro';
+import Motion from '../components/Motion.astro';
 import Bar from '../components/Bar.astro';
 
 interface Props {
@@ -111,6 +112,7 @@ const year = new Date().getFullYear();
     </div>
 
     <main id="inhalt"><slot /></main>
+    <Motion />
 
     <footer class="footer">
       <div class="wrap">
