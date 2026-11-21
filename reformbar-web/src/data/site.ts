@@ -214,9 +214,9 @@ export const reviews = [
 // status: 'bald' = in Vorbereitung, 'verfuegbar' = im Studio erhältlich
 export type Product = { slug: string; name: string; category: string; text: string; image: string; price: string; status: 'bald' | 'verfuegbar' };
 export const products: Product[] = [
-  { slug: 'yogamatte', name: 'Yogamatte', category: 'Yoga & Matte', text: 'Unsere Reformbar-Matte mit weicher Wildleder-Optik, rutschfester Unterseite und Logo – für Yoga, Matten-Pilates und zuhause.', image: '/img/shop/yogamatte.webp', price: '39,90 €', status: 'bald' },
+  { slug: 'yogamatte', name: 'Yogamatte', category: 'Yoga & Matte', text: 'Unsere Reformbar-Matte in Milk Tea – 5 mm stark, mit weicher Wildleder-Optik, rutschfester Unterseite und Logo. Für Yoga, Matten-Pilates und zuhause.', image: '/img/shop/yogamatte.webp', price: '39,90 €', status: 'bald' },
   { slug: 'yoga-bloecke', name: 'Yoga-Block', category: 'Yoga & Matte', text: 'Natürlicher Kork-Block mit eingraviertem Reformbar-Logo – stabil, griffig und nachhaltig.', image: '/img/shop/yoga-bloecke.webp', price: '9,90 €', status: 'bald' },
-  { slug: 'eiweisspulver', name: 'Protein Vanille', category: 'Ernährung', text: 'Reformbar Proteinpulver im 500-g-Beutel – für Regeneration und Muskelaufbau. Weitere Sorten folgen.', image: '/img/shop/eiweisspulver.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'eiweisspulver', name: 'Protein Vanille', category: 'Ernährung', text: 'Reformbar Proteinpulver im 500-g-Beutel – für Regeneration und Muskelaufbau. Weitere Sorten folgen.', image: '/img/shop/eiweisspulver.webp', price: '39,90 €', status: 'bald' },
   { slug: 'grip-socken', name: 'Grip-Socken', category: 'Reformbar Essentials', text: 'Rutschfeste Socken für sicheren Stand am Reformer – im Reformbar-Look.', image: '/img/shop/grip-socken.webp', price: 'Preis folgt', status: 'bald' },
   { slug: 'trinkflasche', name: 'Trinkflasche', category: 'Reformbar Essentials', text: 'Isolierte Trinkflasche in Weiß mit königsblauem Reformbar-Logo – hält kalt und warm.', image: '/img/shop/trinkflasche.webp', price: '29,90 €', status: 'bald' },
   { slug: 'handtuch', name: 'Handtuch', category: 'Reformbar Essentials', text: 'Weiches Sporthandtuch in Königsblau – perfekt für jede Einheit.', image: '/img/shop/handtuch.webp', price: 'Preis folgt', status: 'bald' },
