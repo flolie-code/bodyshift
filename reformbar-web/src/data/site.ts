@@ -207,3 +207,18 @@ export const reviews = [
   { name: 'Isabella', text: 'Ich bin total Überrascht wie Erfolgreich diese Behandlungen wirken (natürlich in Kombination von Essensumstellung). Nach 6 Behandlung über 10 cm Bauchumfang verloren.' },
   { name: 'Marion', text: 'Ich bin super zufrieden mit diesem Studio. Man fühlt sich in einem angenehmen Ambiente sehr wohl und man wird von den Mitarbeitern nett umsorgt. Bereits nach dem 5. Mal schon ersichtliche Abnahme. Kann ich nur empfehlen.👍' },
 ];
+
+// Shop – Produkte im Studio (Platzhalter: Preise und Details folgen)
+// status: 'bald' = in Vorbereitung, 'verfuegbar' = im Studio erhältlich
+export type Product = { slug: string; name: string; category: string; text: string; image: string; price: string; status: 'bald' | 'verfuegbar' };
+export const products: Product[] = [
+  { slug: 'yogamatte', name: 'Yogamatte', category: 'Yoga & Matte', text: 'Rutschfeste, gut gedämpfte Matte in Königsblau – für Yoga, Matten-Pilates und zuhause.', image: '/img/shop/yogamatte.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'yoga-bloecke', name: 'Yoga-Blöcke', category: 'Yoga & Matte', text: 'Stabile Blöcke aus Kork und Schaum – für mehr Halt und sichere Ausrichtung.', image: '/img/shop/yoga-bloecke.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'eiweisspulver', name: 'Eiweißpulver', category: 'Ernährung', text: 'Hochwertiges Protein für Regeneration und Muskelaufbau – ausgewählte Sorten im Studio.', image: '/img/shop/eiweisspulver.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'grip-socken', name: 'Grip-Socken', category: 'Reformbar Essentials', text: 'Rutschfeste Socken für sicheren Stand am Reformer – im Reformbar-Look.', image: '/img/shop/grip-socken.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'trinkflasche', name: 'Trinkflasche', category: 'Reformbar Essentials', text: 'Isolierte Trinkflasche mit Reformbar-Logo – hält kalt und warm.', image: '/img/shop/trinkflasche.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'handtuch', name: 'Handtuch', category: 'Reformbar Essentials', text: 'Weiches Sporthandtuch in Königsblau – perfekt für jede Einheit.', image: '/img/shop/handtuch.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'tasche', name: 'Tote Bag', category: 'Reformbar Essentials', text: 'Robuste Baumwolltasche für Matte, Flasche und alles, was du mitnimmst.', image: '/img/shop/tasche.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'trainingszubehoer', name: 'Ball & Band', category: 'Training zuhause', text: 'Pilates-Ball und Widerstandsband – kleine Helfer für dein Training zuhause.', image: '/img/shop/ball-band.webp', price: 'Preis folgt', status: 'bald' },
+  { slug: 'gutschein', name: 'Gutschein', category: 'Geschenke', text: 'Einheiten oder Wertgutschein zum Verschenken – liebevoll verpackt.', image: '/img/shop/gutschein.webp', price: 'Wert frei wählbar', status: 'verfuegbar' },
+];

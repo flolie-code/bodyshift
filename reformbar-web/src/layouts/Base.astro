@@ -92,6 +92,7 @@ const year = new Date().getFullYear();
           </div>
         </div>
         <a href="/das-sind-wir/">Das sind wir</a>
+        <a href="/shop/">Shop</a>
         <a href="/#stimmen">Stimmen</a>
         <a href="/kontakt/">Kontakt</a>
       </nav>
@@ -103,7 +104,8 @@ const year = new Date().getFullYear();
       <nav aria-label="Mobile Navigation">
         {services.map((s, i) => <a href={`/${s.slug}/`} style={`--i:${i}`}>{s.name}</a>)}
         <a href="/das-sind-wir/" style="--i:6">Das sind wir</a>
-        <a href="/kontakt/" style="--i:7">Kontakt</a>
+        <a href="/shop/" style="--i:7">Shop</a>
+        <a href="/kontakt/" style="--i:8">Kontakt</a>
       </nav>
       <a href="/buchen/" class="btn white" style="--i:8">Termin buchen <span class="arr">→</span></a>
     </div>
@@ -125,6 +127,7 @@ const year = new Date().getFullYear();
             <div>
               <p class="eyebrow">Studio</p>
               <a href="/das-sind-wir/">Das sind wir</a>
+              <a href="/shop/">Shop</a>
               <a href="/buchen/">Termin buchen</a>
               <a href="/kontakt/">Kontakt</a>
             </div>
