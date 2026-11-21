@@ -18,7 +18,10 @@ import { site } from '../data/site';
         <span class="eyebrow">WhatsApp</span><strong class="display">Nachricht senden</strong><span class="arr">→</span>
       </a>
       <a class="kt-card blue" href={`tel:${site.phoneHref}`} data-reveal data-tilt style="--d:.07s">
-        <span class="eyebrow">Telefon</span><strong class="display">{site.phone}</strong><span class="arr">→</span>
+        <span class="eyebrow">Telefon allgemein</span><strong class="display">{site.phone}</strong><span class="arr">→</span>
+      </a>
+      <a class="kt-card" href={`tel:${site.studioPhoneHref}`} data-reveal data-tilt style="--d:.1s">
+        <span class="eyebrow">Studio direkt</span><strong class="display">{site.studioPhone}</strong><span class="arr">→</span>
       </a>
       <a class="kt-card sand" href={`mailto:${site.email}`} data-reveal data-tilt style="--d:.14s">
         <span class="eyebrow">E-Mail</span><strong class="display">{site.email}</strong><span class="arr">→</span>
@@ -42,10 +45,12 @@ import { site } from '../data/site';
 </Base>
 
 <style>
-  .kt { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .kt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  @media (max-width: 1100px) { .kt { grid-template-columns: 1fr 1fr; } }
   .kt-card { background: #fff; border-radius: 26px; padding: 30px; min-height: 230px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.5s var(--ease), box-shadow 0.5s, opacity 0.9s var(--ease); }
   .kt-card:hover { box-shadow: 0 30px 60px -30px rgba(16, 28, 133, 0.45); }
   .kt-card.blue { background: var(--blue); color: #fff; } .kt-card.sand { background: var(--sand); }
+  .kt-card.sand strong { font-size: clamp(17px, 1.45vw, 22px); overflow-wrap: normal; word-break: keep-all; }
   .kt-card strong { font-size: clamp(20px, 2vw, 28px); overflow-wrap: anywhere; }
   .kt-card .arr { font-size: 22px; transition: transform 0.4s var(--ease); }
   .kt-card:hover .arr { transform: translateX(8px); }

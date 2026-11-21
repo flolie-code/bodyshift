@@ -26,7 +26,7 @@ const business = {
   description: site.tagline,
   url: site.url,
   image: ogImage,
-  telephone: '+43 676 3073860',
+  telephone: '+43 676 3806222',
   email: site.email,
   priceRange: '€€',
   address: {
@@ -135,6 +135,7 @@ const year = new Date().getFullYear();
               <p class="eyebrow">Kontakt</p>
               <span>Reformbar<br />{site.street}<br />{site.zip} {site.city}</span>
               <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+              <a href={`tel:${site.studioPhoneHref}`}>Studio direkt: {site.studioPhone}</a>
               <a href={`mailto:${site.email}`}>{site.email}</a>
             </div>
           </div>
