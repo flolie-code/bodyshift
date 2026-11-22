@@ -1,36 +1,67 @@
 ---
+import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
-import { site } from '../data/site';
+import { site, services } from '../data/site';
+const topics = [...services.map((s) => s.name), 'Shop & Produkte', 'Gutscheine & Geschenke', 'Sonstiges'];
+// Formular-Versand über FormSubmit (an studio@reformbar.at)
+const formEndpoint = `https://formsubmit.co/ajax/${site.email}`;
 ---
 <Base
   title="Kontakt – Reformbar Feldbach"
-  description="Kontakt zur Reformbar in Feldbach: Telefon, WhatsApp und E-Mail. Wir beantworten deine Fragen zu Reformer Pilates, Bodyforming, Yoga und Terminen."
+  description="Kontakt zur Reformbar in Feldbach: Kontaktformular, Telefon, WhatsApp und E-Mail. Wir beantworten deine Fragen zu Reformer Pilates, Bodyforming, Yoga und Terminen."
 >
   <section class="page-hero">
     <div class="wrap">
       <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Kontakt</p>
-      <h1 class="display">Schreib uns.<br />Wir sind erreich<span class="script">bar.</span></h1>
+      <h1 class="display">Schreib uns.<br />Wir sind erreich<Bar class="ib" /></h1>
     </div>
   </section>
+
   <section class="section">
-    <div class="wrap kt">
-      <a class="kt-card" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" data-reveal data-tilt>
-        <span class="eyebrow">WhatsApp</span><strong class="display">Nachricht senden</strong><span class="arr">→</span>
-      </a>
-      <a class="kt-card blue" href={`tel:${site.phoneHref}`} data-reveal data-tilt style="--d:.07s">
-        <span class="eyebrow">Telefon allgemein</span><strong class="display">{site.phone}</strong><span class="arr">→</span>
-      </a>
-      <a class="kt-card" href={`tel:${site.studioPhoneHref}`} data-reveal data-tilt style="--d:.1s">
-        <span class="eyebrow">Studio direkt</span><strong class="display">{site.studioPhone}</strong><span class="arr">→</span>
-      </a>
-      <a class="kt-card sand" href={`mailto:${site.email}`} data-reveal data-tilt style="--d:.14s">
-        <span class="eyebrow">E-Mail</span><strong class="display">{site.email}</strong><span class="arr">→</span>
-      </a>
+    <div class="wrap kt-grid">
+      <form class="kf" data-kf novalidate>
+        <h2 class="display">Deine Anfrage</h2>
+        <p class="kf-lead">Schreib uns direkt hier – wir melden uns so schnell wie möglich bei dir.</p>
+        <div class="row">
+          <label class="fld">Name *<input id="kf-name" name="Name" type="text" autocomplete="name" required /></label>
+          <label class="fld">Telefon<input id="kf-tel" name="Telefon" type="tel" autocomplete="tel" /></label>
+        </div>
+        <div class="row">
+          <label class="fld">E-Mail *<input id="kf-mail" name="E-Mail" type="email" autocomplete="email" required /></label>
+          <label class="fld">Ich interessiere mich für
+            <span class="sel">
+              <select id="kf-topic" name="Bereich">
+                <option value="">Bitte wählen</option>
+                {topics.map((t) => <option value={t}>{t}</option>)}
+              </select>
+            </span>
+          </label>
+        </div>
+        <label class="fld">Nachricht *<textarea id="kf-msg" name="Nachricht" rows="5" required></textarea></label>
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <label class="consent"><input id="kf-ok" type="checkbox" required /> <span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung meiner Anfrage verwendet werden. Mehr in der <a href="/datenschutz/">Datenschutzerklärung</a>.</span></label>
+        <p class="kf-msg" data-kf-msg role="status" aria-live="polite" hidden></p>
+        <button type="submit" class="btn" data-kf-btn>Anfrage senden <span class="arr">→</span></button>
+      </form>
+
+      <aside class="kt-side">
+        <a class="kt-card blue" href={`tel:${site.phoneHref}`} data-reveal data-tilt>
+          <span class="eyebrow">Studio direkt</span><strong class="display">{site.phone}</strong><span class="arr">→</span>
+        </a>
+        <a class="kt-card" href={`https://wa.me/${site.whatsapp}`} target="_blank" rel="noopener" data-reveal data-tilt style="--d:.07s">
+          <span class="eyebrow">WhatsApp</span><strong class="display">Nachricht senden</strong><span class="arr">→</span>
+        </a>
+        <a class="kt-card sand" href={`mailto:${site.email}`} data-reveal data-tilt style="--d:.14s">
+          <span class="eyebrow">E-Mail</span><strong class="display">{site.email}</strong><span class="arr">→</span>
+        </a>
+        <p class="central">Zentrale (Body Shift): <a href={`tel:${site.centralPhoneHref}`}>{site.centralPhone}</a></p>
+      </aside>
     </div>
+
     <div class="wrap kt-info">
       <div data-reveal>
         <h2 class="display">Studio</h2>
-        <p>Reformbar<br />{site.street && <>{site.street}<br /></>}{site.zip} {site.city}<br />Steiermark, Österreich</p>
+        <p>Reformbar<br />{site.street}<br />{site.zip} {site.city}<br />Steiermark, Österreich</p>
       </div>
       <div data-reveal>
         <h2 class="display">Zeiten</h2>
@@ -42,21 +73,75 @@ import { site } from '../data/site';
       </div>
     </div>
   </section>
+  <script type="application/json" id="kf-cfg" set:html={JSON.stringify({ url: formEndpoint, phone: site.phone })} />
 </Base>
 
+<script>
+  const cfg = JSON.parse(document.getElementById('kf-cfg')!.textContent!);
+  const form = document.querySelector<HTMLFormElement>('[data-kf]')!;
+  const msg = form.querySelector<HTMLElement>('[data-kf-msg]')!;
+  const btn = form.querySelector<HTMLButtonElement>('[data-kf-btn]')!;
+  const show = (text: string, ok: boolean) => { msg.textContent = text; msg.hidden = false; msg.classList.toggle('ok', ok); };
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const v = (id: string) => (form.querySelector<HTMLInputElement>('#' + id)!.value || '').trim();
+    const missing = [!v('kf-name') && 'Name', !/^\S+@\S+\.\S+$/.test(v('kf-mail')) && 'gültige E-Mail', !v('kf-msg') && 'Nachricht'].filter(Boolean);
+    if (missing.length) return show('Bitte noch ergänzen: ' + missing.join(', ') + '.', false);
+    if (!(form.querySelector<HTMLInputElement>('#kf-ok')!.checked)) return show('Bitte bestätige noch die Datenschutz-Einwilligung.', false);
+    const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+    data._subject = `Neue Anfrage über reformbar.at${data.Bereich ? ' – ' + data.Bereich : ''}`;
+    data._replyto = data['E-Mail'];
+    data._template = 'table';
+    data._captcha = 'false';
+    btn.disabled = true; btn.textContent = 'Wird gesendet …';
+    try {
+      const r = await fetch(cfg.url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || j.success === 'false' || j.success === false) throw new Error();
+      form.reset();
+      show('Danke! Deine Anfrage ist bei uns angekommen – wir melden uns bald bei dir.', true);
+    } catch {
+      show(`Das hat leider nicht geklappt. Bitte versuch es nochmal oder ruf uns direkt an: ${cfg.phone}.`, false);
+    } finally {
+      btn.disabled = false; btn.innerHTML = 'Anfrage senden <span class="arr">→</span>';
+    }
+  });
+</script>
+
 <style>
-  .kt { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
-  @media (max-width: 1100px) { .kt { grid-template-columns: 1fr 1fr; } }
-  .kt-card { background: #fff; border-radius: 26px; padding: 30px; min-height: 230px; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.5s var(--ease), box-shadow 0.5s, opacity 0.9s var(--ease); }
+  .kt-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; align-items: start; }
+  .kf { background: #fff; border-radius: 28px; padding: clamp(24px, 3.4vw, 44px); display: flex; flex-direction: column; gap: 16px; box-shadow: 0 40px 80px -60px rgba(16, 28, 133, 0.5); }
+  .kf h2 { color: var(--blue); font-size: clamp(26px, 2.6vw, 36px); }
+  .kf-lead { color: var(--mute); margin-top: -6px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .fld { display: flex; flex-direction: column; gap: 7px; font-size: 13px; font-weight: 600; color: var(--ink); }
+  .fld input, .fld textarea, .fld select { font: inherit; font-weight: 400; font-size: 16px; padding: 14px 16px; border-radius: 14px; border: 1.5px solid rgba(22, 23, 28, 0.12); background: var(--cream); color: var(--ink); width: 100%; transition: border-color 0.2s, background 0.2s; }
+  .fld textarea { resize: vertical; min-height: 130px; }
+  .fld input:focus, .fld textarea:focus, .fld select:focus { outline: none; border-color: var(--blue); background: #fff; }
+  .sel { position: relative; display: block; }
+  .sel::after { content: '▾'; position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--blue); pointer-events: none; }
+  .fld select { appearance: none; -webkit-appearance: none; padding-right: 40px; cursor: pointer; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--mute); line-height: 1.5; }
+  .consent input { margin-top: 3px; accent-color: var(--blue); width: 18px; height: 18px; flex: none; }
+  .consent a { color: var(--blue); text-decoration: underline; }
+  .kf-msg { border-radius: 12px; padding: 12px 16px; font-size: 14px; background: #fde8e7; color: #9b1c14; }
+  .kf-msg.ok { background: #e7f6ec; color: #17633a; }
+  .kf .btn { align-self: flex-start; }
+  .kf .btn:disabled { opacity: 0.6; }
+  .kt-side { display: flex; flex-direction: column; gap: 18px; }
+  .kt-card { background: #fff; border-radius: 26px; padding: 28px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; transition: transform 0.5s var(--ease), box-shadow 0.5s, opacity 0.9s var(--ease); }
   .kt-card:hover { box-shadow: 0 30px 60px -30px rgba(16, 28, 133, 0.45); }
   .kt-card.blue { background: var(--blue); color: #fff; } .kt-card.sand { background: var(--sand); }
-  .kt-card.sand strong { font-size: clamp(17px, 1.45vw, 22px); overflow-wrap: normal; word-break: keep-all; }
-  .kt-card strong { font-size: clamp(20px, 2vw, 28px); overflow-wrap: anywhere; }
+  .kt-card strong { font-size: clamp(20px, 2vw, 28px); }
+  .kt-card.sand strong { font-size: clamp(17px, 1.5vw, 22px); word-break: keep-all; }
   .kt-card .arr { font-size: 22px; transition: transform 0.4s var(--ease); }
   .kt-card:hover .arr { transform: translateX(8px); }
+  .central { font-size: 13px; color: var(--mute); padding: 0 6px; }
+  .central a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
   .kt-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: clamp(48px, 6vw, 80px); }
   .kt-info h2 { color: var(--blue); font-size: 26px; margin-bottom: 12px; }
   .kt-info p { color: #3d3a35; }
   .kt-info a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
-  @media (max-width: 800px) { .kt, .kt-info { grid-template-columns: 1fr; } .kt-card { min-height: 170px; } }
+  @media (max-width: 900px) { .kt-grid, .kt-info, .row { grid-template-columns: 1fr; } .kt-card { min-height: 130px; } }
 </style>

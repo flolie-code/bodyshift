@@ -1,4 +1,5 @@
 ---
+import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
 import { services } from '../data/site';
 const values = [
@@ -14,7 +15,7 @@ const values = [
   <section class="page-hero">
     <div class="wrap">
       <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Das sind wir</p>
-      <h1 class="display">Ein Studio wie<br />ein Lieblings<span class="script">ort.</span></h1>
+      <h1 class="display">Ein Studio wie<br />ein <span class="ol">Lieblingsort.</span></h1>
     </div>
   </section>
 
@@ -22,7 +23,7 @@ const values = [
     <div class="wrap story">
       <div class="story-pic"><img data-parallax="40" src="/img/studio-raum.webp" alt="Reformer-Raum der Reformbar in Feldbach im Abendlicht" width="1600" height="905" /></div>
       <div>
-        <h2 class="display h2" data-reveal>Warum es die<br />Reform<span class="script">bar</span> gibt</h2>
+        <h2 class="display h2" data-reveal>Warum es die<br /><span class="rb">REFORM<Bar class="ib" /></span> gibt</h2>
         <p class="lead" data-reveal>Wir wollten einen Ort schaffen, den es in Feldbach so noch nicht gab: ein Studio, das sich nach Boutique anfühlt statt nach Fitnesskette. Ruhig, hochwertig, königsblau – und mit einem Training, das wirklich etwas verändert.</p>
         <p class="lead" data-reveal>Der Name ist Programm: Wir sind überzeugt, dass alles <strong>reformbar</strong> ist – Haltung, Kraft, Beweglichkeit und das eigene Körpergefühl. Dafür braucht es keine Extreme, sondern gute Anleitung, Regelmäßigkeit und einen Ort, an den man gerne kommt.</p>
         <p class="lead" data-reveal>Hinter der Reformbar steht ein kleines Team, das seit Jahren Menschen in der Steiermark auf ihrem Weg zu einem besseren Körpergefühl begleitet.</p>
@@ -32,7 +33,7 @@ const values = [
 
   <section class="vals">
     <div class="wrap">
-      <h2 class="display" data-reveal>Wofür wir <span class="script">stehen</span></h2>
+      <h2 class="display" data-reveal>Wofür wir <span class="ol">stehen</span></h2>
       <ul>
         {values.map((v, i) => <li data-reveal style={`--d:${i * 0.08}s`}><h3 class="display">{v.t}</h3><p>{v.d}</p></li>)}
       </ul>
@@ -41,7 +42,7 @@ const values = [
 
   <section class="section">
     <div class="wrap">
-      <h2 class="display h2" data-reveal>Unser <span class="script">Angebot</span></h2>
+      <h2 class="display h2" data-reveal>Unser <span class="ol">Angebot</span></h2>
       <div class="offer">
         {services.map((s, i) => (
           <div class="offer-row" data-reveal>

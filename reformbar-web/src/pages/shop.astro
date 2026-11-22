@@ -1,4 +1,5 @@
 ---
+import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
 import { products, site } from '../data/site';
 const cats = [...new Set(products.map((p) => p.category))];
@@ -16,7 +17,7 @@ const schema = [{
   <section class="page-hero">
     <div class="wrap">
       <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Shop</p>
-      <h1 class="display">Alles für dein<br />Training an der <span class="script">bar.</span></h1>
+      <h1 class="display">Alles für dein<br />Training an der <Bar class="ib" /></h1>
       <p class="lead sh-lead">Ausgewählte Produkte für Studio und Zuhause – direkt bei uns in Feldbach erhältlich. Unser Sortiment wächst gerade, schau bald wieder vorbei.</p>
     </div>
   </section>

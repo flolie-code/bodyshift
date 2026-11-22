@@ -1,4 +1,5 @@
 ---
+import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
 import { services, site } from '../data/site';
 export function getStaticPaths() {
@@ -30,7 +31,7 @@ const schema = [
     <div class="wrap sh">
       <div>
         <p class="eyebrow crumb"><a href="/">Reformbar</a> &nbsp;/&nbsp; Angebot</p>
-        <h1 class="display">{s.name}<br /><span class="in-feld">in Feld<span class="script">bach</span></span></h1>
+        <h1 class="display">{s.name}<br /><span class="in-feld">in Feldbach</span></h1>
         <p class="lead sh-lead">{s.short}</p>
         <a href={`/buchen/?angebot=${s.slug}`} class="btn white" data-magnetic>{cta} <span class="arr">→</span></a>
       </div>
@@ -54,7 +55,7 @@ const schema = [
 
   <section class="for">
     <div class="wrap for-in">
-      <h2 class="display" data-reveal>Das passt zu dir, <span class="script">wenn …</span></h2>
+      <h2 class="display" data-reveal>Das passt zu dir, <span class="ol">wenn …</span></h2>
       <ul>
         {s.forWhom.map((f, i) => <li data-reveal style={`--d:${i * 0.08}s`}>{f}</li>)}
       </ul>
@@ -63,7 +64,7 @@ const schema = [
 
   <section class="section">
     <div class="wrap faq-in">
-      <h2 class="display h2" data-reveal>Häufige <span class="script">Fragen</span></h2>
+      <h2 class="display h2" data-reveal>Häufige <span class="ol">Fragen</span></h2>
       <div>
         {s.faq.map((f) => (
           <details data-reveal>

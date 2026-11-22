@@ -82,3 +82,15 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* ---- Marken-Typo: "bar" immer als Logo-Schriftzug, Hervorhebungen als Kontur wie "ALLES IST" ---- */
+.ib { display: inline-block; height: 1.12em; width: auto; vertical-align: -0.34em; margin-left: 0.03em; overflow: visible; }
+.page-hero .ib, .rev .ib, .for .ib, .vals .ib { color: var(--champ); }
+.rb { white-space: nowrap; }
+.rb .ib { margin-left: -0.05em; }
+.ol { --ol-bg: var(--cream); -webkit-text-fill-color: var(--ol-bg); -webkit-text-stroke: 0.06em currentColor; paint-order: stroke fill; }
+.page-hero .ol, .rev .ol, .vals .ol, .for .ol { --ol-bg: var(--blue); }
+.about .ol { --ol-bg: #fbf8f3; }
+@supports not (-webkit-text-stroke: 1px black) { .ol { -webkit-text-fill-color: currentColor; } }
+/* Platz für den letzten Buchstaben bei negativer Laufweite (verhindert abgeschnittene Kanten) */
+.display { padding-right: 0.06em; }

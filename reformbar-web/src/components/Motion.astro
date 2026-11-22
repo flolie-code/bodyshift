@@ -165,7 +165,8 @@
   [data-marq] { transition: transform 0.25s ease-out; }
 
   /* Überschriften Wort für Wort */
-  .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+  .split .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 0.1em 0.1em 0.02em; margin: 0 -0.1em -0.1em -0.02em; }
+  .split .w-solo.ib { vertical-align: -0.34em; }
   .split .w > span { display: inline-block; transform: translateY(105%); transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--i) * 70ms); }
   .split .w-solo { opacity: 0; transform: translateY(30%) rotate(-8deg); transition: opacity 0.8s ease, transform 1s cubic-bezier(0.22, 1, 0.36, 1); transition-delay: calc(var(--i) * 70ms + 120ms); }
   .split.words-in .w > span { transform: none; }

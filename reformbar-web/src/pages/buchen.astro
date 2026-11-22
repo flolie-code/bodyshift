@@ -1,4 +1,5 @@
 ---
+import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
 import { services, site } from '../data/site';
 const cfg = {
@@ -16,7 +17,7 @@ const cfg = {
   <section class="page-hero bk-hero">
     <div class="wrap">
       <p class="eyebrow" style="opacity:.75;margin-bottom:22px">Termin buchen</p>
-      <h1 class="display">Dein Platz an<br />der <span class="script">bar.</span></h1>
+      <h1 class="display">Dein Platz an<br />der <Bar class="ib" /></h1>
     </div>
   </section>
 
