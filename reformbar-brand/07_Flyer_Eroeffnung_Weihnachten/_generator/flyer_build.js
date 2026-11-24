@@ -78,7 +78,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+12}mm;bottom:${210-184+9}mm;justify-content:space-between">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair" style="gap:6mm"><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
+ <div class="pair" style="gap:6mm"><div class="pill" style="height:10.6mm;font-size:11pt">GESCHENKBOXEN AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="n tr">Geschenke &amp; Gutscheine</div>
   <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
