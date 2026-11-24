@@ -78,7 +78,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+9}mm;bottom:${210-184+7}mm;justify-content:space-between">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair" style="gap:6mm"><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio. <b style="font-weight:600;color:#1A2DB8">Kontaktdaten siehe unten.</b></div></div>
+ <div class="pair" style="gap:6mm"><div class="tr" style="font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.01em">Geschenke &amp; Gutscheine</div><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="k tr">GESCHENKBOXEN &amp; GUTSCHEINE</div>
   <div class="n tr">Dein Geschenk – ganz nach Wunsch</div>
@@ -86,10 +86,11 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
    <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
    <div class="gi2"><b class="tr">Gutscheine</b><span class="tr">Für all unsere Trainings – vom Probetraining bis zum Kombipaket.</span></div>
   </div>
-  <div class="gch"><span>Reformer Pilates</span><span>Bodyforming</span><span>Beckenboden</span><span>Yoga</span><span>Matten-Pilates</span><span>1:1 Coaching</span></div>
  </div>
 </div>${footer}</div></div>`;
-const head=`<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&display=block" rel="stylesheet"><style>${css}</style></head><body>`;
+const F=(n,fam,w,fmt)=>`@font-face{font-family:${fam};font-weight:${w};src:url(data:font/${fmt};base64,${fs.readFileSync(__dirname+'/fnt/'+n).toString('base64')}) format("${fmt==='otf'?'opentype':'truetype'}")}`;
+const FONTS='<style>'+F('m600.ttf','Montserrat',600,'ttf')+F('m700.ttf','Montserrat',700,'ttf')+F('m800.ttf','Montserrat',800,'ttf')+F('i400.ttf','Inter',400,'ttf')+F('i500.ttf','Inter',500,'ttf')+F('i600.ttf','Inter',600,'ttf')+'</style>';
+const head=`<!doctype html><html><head><meta charset="utf-8">${FONTS}<style>${css}</style></head><body>`;
 const fix=`<script>
 const mm=v=>v*96/25.4;
 function place(){
