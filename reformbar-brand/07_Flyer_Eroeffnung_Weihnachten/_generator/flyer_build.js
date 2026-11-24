@@ -58,6 +58,8 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .tk-s1{font-family:Montserrat;font-weight:700;font-size:6.8pt;letter-spacing:.2em}
 .tk-s2{font-family:Montserrat;font-weight:800;font-size:14.5pt;letter-spacing:-.02em}
 .tk-s3{font-family:Montserrat;font-weight:700;font-size:5.2pt;letter-spacing:.14em}
+.when{display:flex;flex-direction:column;gap:3.6mm}.addr{display:flex;align-items:center;justify-content:center;gap:1.6mm;font-family:Montserrat;font-weight:700;font-size:9.4pt;color:#1A2DB8}.addr .pin{width:3.4mm;height:3.4mm}
+.tk-lead{font-family:Montserrat;font-weight:700;font-size:9.6pt;line-height:5.2mm;color:#1A2DB8;white-space:nowrap}
 .tk-note{font-size:9pt;line-height:5mm;color:#4B59C4;white-space:nowrap}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
@@ -76,7 +78,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="stack" id="fs" style="bottom:9mm;gap:7.6mm">
  <div class="inv"><div class="ey tr">WIR LADEN DICH EIN</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.2mm;letter-spacing:-.02em;margin-left:-.3mm;margin-top:1mm">IN FELDBACH</div></div>
- <div class="pill" style="align-self:stretch;justify-content:center;gap:7mm;font-size:11pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
+ <div class="when"><div class="pill" style="align-self:stretch;justify-content:center;gap:7mm;font-size:11pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="addr"><svg viewBox="0 0 24 24" class="pin"><path d="M12 22s-7-6.1-7-12a7 7 0 0 1 14 0c0 5.9-7 12-7 12z" fill="#1A2DB8"/><circle cx="12" cy="10" r="2.6" fill="#FBF5EC"/></svg><span class="tr">Ungarstraße 2–4, 8330 Feldbach</span></div></div>
  <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Komm vorbei, lern uns kennen – wir freuen uns auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
@@ -95,7 +97,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
  <div class="tk-wrap"><div class="ticket">
   <div class="tk-main"><div class="tk-ey tr">GUTSCHEIN</div><div class="tk-txt tr">Reformer Pilates · Bodyforming · Yoga</div></div>
   <div class="tk-stub"><div class="tk-s1 tr">AB</div><div class="tk-s2 tr">15.12.</div><div class="tk-s3 tr">ERHÄLTLICH</div></div>
- </div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
+ </div><div style="display:flex;flex-direction:column;gap:2.4mm"><div class="tk-lead tr">Stell deine Geschenkbox selbst zusammen<br>oder verschenke ein Training.</div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="n tr">Geschenke &amp; Gutscheine</div>
   <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
