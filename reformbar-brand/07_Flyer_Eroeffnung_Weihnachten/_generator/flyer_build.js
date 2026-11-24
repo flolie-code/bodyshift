@@ -44,21 +44,21 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
-.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:9.5mm 7mm 8.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
-.tk-wrap{display:flex;flex-direction:column;gap:6.5mm;width:88mm}
-.ticket{display:grid;grid-template-columns:1fr 23mm;background:#F8E1C5;color:#1A2DB8;border-radius:3mm;transform:rotate(-3.5deg);transform-origin:left center;border:.3mm solid rgba(26,45,184,.18);z-index:3;position:relative;margin:2mm 0 1mm 1mm}
-.ticket:before,.ticket:after{content:"";position:absolute;left:calc(100% - 23mm - 2.6mm);width:4.8mm;height:4.8mm;border-radius:50%;background:#FBF5EC}
+.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:9.5mm 7mm 8.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub2{font-size:11pt;line-height:6.2mm;color:#F8E1C5;margin-top:1mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.tk-wrap{display:flex;flex-direction:column;align-items:center;gap:7mm;width:100%}.tk-wrap .ticket{width:108mm}
+.ticket{display:grid;grid-template-columns:1fr 27mm;background:#F8E1C5;color:#1A2DB8;border-radius:3mm;transform:rotate(-3deg);transform-origin:center;border:.3mm solid rgba(26,45,184,.18);z-index:3;position:relative;margin:0}
+.ticket:before,.ticket:after{content:"";position:absolute;left:calc(100% - 27mm - 2.6mm);width:4.8mm;height:4.8mm;border-radius:50%;background:#FBF5EC}
 .ticket:before{top:-2.4mm}.ticket:after{bottom:-2.4mm}
-.tk-main{padding:6.4mm 6mm 6mm;display:flex;flex-direction:column;gap:3.6mm}
-.tk-ey{font-family:Montserrat;font-weight:800;font-size:16pt;letter-spacing:.12em}
+.tk-main{padding:8mm 7mm 7.4mm;display:flex;flex-direction:column;gap:4.2mm}
+.tk-ey{font-family:Montserrat;font-weight:800;font-size:20pt;letter-spacing:.12em}
 .tk-for{font-family:Montserrat;font-weight:600;font-size:8pt;letter-spacing:.04em}
 .tk-line{height:.3mm;background:rgba(26,45,184,.35);margin-top:3.4mm}
-.tk-txt{font-size:7.8pt;font-weight:500;color:#4B59C4;white-space:nowrap}
+.tk-txt{font-size:9pt;font-weight:500;color:#4B59C4;white-space:nowrap}
 .tk-stub{border-left:.45mm dashed rgba(26,45,184,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8mm}
-.tk-s1{font-family:Montserrat;font-weight:700;font-size:6.8pt;letter-spacing:.2em}
-.tk-s2{font-family:Montserrat;font-weight:800;font-size:14.5pt;letter-spacing:-.02em}
-.tk-s3{font-family:Montserrat;font-weight:700;font-size:5.2pt;letter-spacing:.14em}
-.when{display:flex;flex-direction:column;gap:3.6mm}.addr{display:flex;align-items:center;justify-content:center;gap:1.6mm;font-family:Montserrat;font-weight:700;font-size:9.4pt;color:#1A2DB8}.addr .pin{width:3.4mm;height:3.4mm}
+.tk-s1{font-family:Montserrat;font-weight:700;font-size:8pt;letter-spacing:.2em}
+.tk-s2{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}
+.tk-s3{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.14em}
+.when{align-self:stretch;border:.6mm solid #1A2DB8;border-radius:5mm;padding:4.4mm 0 4.2mm;display:flex;flex-direction:column;align-items:center;gap:2.6mm;color:#1A2DB8}.w1{display:flex;align-items:center;gap:6mm;font-family:Montserrat;font-weight:800;font-size:11pt}.w1 i{width:1mm;height:1mm;border-radius:50%;background:#8C95DD;display:inline-block}.w2{font-family:Montserrat;font-weight:600;font-size:9pt;letter-spacing:.02em}
 .tk-lead{font-family:Montserrat;font-weight:700;font-size:9.6pt;line-height:5.2mm;color:#1A2DB8;white-space:nowrap}
 .tk-note{font-size:9pt;line-height:5mm;color:#4B59C4;white-space:nowrap}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
@@ -78,7 +78,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="stack" id="fs" style="bottom:9mm;gap:7.6mm">
  <div class="inv"><div class="ey tr">WIR LADEN DICH EIN</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.2mm;letter-spacing:-.02em;margin-left:-.3mm;margin-top:1mm">IN FELDBACH</div></div>
- <div class="when"><div class="pill" style="align-self:stretch;justify-content:center;gap:7mm;font-size:11pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="addr"><svg viewBox="0 0 24 24" class="pin"><path d="M12 22s-7-6.1-7-12a7 7 0 0 1 14 0c0 5.9-7 12-7 12z" fill="#1A2DB8"/><circle cx="12" cy="10" r="2.6" fill="#FBF5EC"/></svg><span class="tr">Ungarstraße 2–4, 8330 Feldbach</span></div></div>
+ <div class="when"><div class="w1 tr">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div><div class="w2 tr">Ungarstraße 2–4 · 8330 Feldbach</div></div>
  <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Komm vorbei, lern uns kennen – wir freuen uns auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
@@ -89,7 +89,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 </div><div class="qrf">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div></div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
-const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:78mm" src="${imgB}"><div class="t">
+const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:70mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+12}mm;bottom:${210-184+9}mm;justify-content:space-between">
@@ -97,14 +97,10 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
  <div class="tk-wrap"><div class="ticket">
   <div class="tk-main"><div class="tk-ey tr">GUTSCHEIN</div><div class="tk-txt tr">Reformer Pilates · Bodyforming · Yoga</div></div>
   <div class="tk-stub"><div class="tk-s1 tr">AB</div><div class="tk-s2 tr">15.12.</div><div class="tk-s3 tr">ERHÄLTLICH</div></div>
- </div><div style="display:flex;flex-direction:column;gap:2.4mm"><div class="tk-lead tr">Stell deine Geschenkbox selbst zusammen<br>oder verschenke ein Training.</div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div></div>
+ </div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="n tr">Geschenke &amp; Gutscheine</div>
-  <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
-  <div class="gl">
-   <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
-   <div class="gi2"><b class="tr">Gutscheine</b><span class="tr">Für all unsere Trainings – vom Probetraining bis zum Kombipaket.</span></div>
-  </div>
+  <div class="sub2 tr">Stell deine Geschenkbox selbst zusammen<br>oder verschenke ein Training.</div>
  </div>
 </div>${footer}</div></div>`;
 const F=(n,fam,w,fmt)=>`@font-face{font-family:${fam};font-weight:${w};src:url(data:font/${fmt};base64,${fs.readFileSync(__dirname+'/fnt/'+n).toString('base64')}) format("${fmt==='otf'?'opentype':'truetype'}")}`;
@@ -117,8 +113,8 @@ function place(){
  const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
  P('imgF').style.top=(fh.top-fp.top-mm(3+((0.90-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
- const iw=mm(78), k=iw/1792; const ib=P('imgB');
- ib.style.left=(mm(3+90))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
+ const iw=mm(70), k=iw/1792; const ib=P('imgB');
+ const tk=document.querySelector('.ticket').getBoundingClientRect(); ib.style.left=(mm(3+92))+'px'; ib.style.top=((tk.top+tk.bottom)/2-bp.top-1893*k+mm(4))+'px';
 }
 </script>`;
 (async()=>{const br=await chromium.launch();
