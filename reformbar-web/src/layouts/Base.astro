@@ -1,6 +1,5 @@
 ---
 import '@fontsource/montserrat/800.css';
-import '@fontsource/allison/400.css';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
 import { site, services } from '../data/site';
@@ -13,11 +12,13 @@ interface Props {
   description: string;
   schema?: object[];
   noindex?: boolean;
+  image?: string;
   hideCta?: boolean;
 }
-const { title, description, schema = [], noindex = false, hideCta = false } = Astro.props;
+const { title, description, schema = [], noindex = false, hideCta = false, image } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
-const ogImage = new URL('/og.jpg', site.url).href;
+const ogImage = new URL(image || '/og.jpg', site.url).href;
+const towns = ['Feldbach', 'Fehring', 'Bad Gleichenberg', 'Riegersburg', 'Kirchberg an der Raab', 'Paldau', 'Gnas', 'Kapfenstein', 'Gleisdorf', 'Südoststeiermark'];
 
 const business = {
   '@context': 'https://schema.org',
@@ -26,7 +27,10 @@ const business = {
   name: site.name,
   description: site.tagline,
   url: site.url,
-  image: ogImage,
+  image: new URL('/og.jpg', site.url).href,
+  logo: new URL('/apple-touch-icon.png', site.url).href,
+  hasMap: 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(`Reformbar ${site.street}, ${site.zip} ${site.city}`),
+  contactPoint: [{ '@type': 'ContactPoint', telephone: '+43 676 3073860', contactType: 'customer service', availableLanguage: 'German' }],
   telephone: '+43 676 3073860',
   email: site.email,
   priceRange: '€€',
@@ -38,7 +42,7 @@ const business = {
     addressRegion: site.region,
     addressCountry: 'AT',
   },
-  areaServed: ['Feldbach', 'Südoststeiermark', 'Steiermark'],
+  areaServed: [...towns, 'Steiermark'].map((name) => ({ '@type': 'Place', name })),
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Angebote',
@@ -142,6 +146,7 @@ const year = new Date().getFullYear();
             </div>
           </div>
         </div>
+        <p class="f-area">Boutique Studio für Reformer Pilates, Bodyforming, Yoga, Matten-Pilates, Beckenbodentraining und Personal Training – für Feldbach, Fehring, Bad Gleichenberg, Riegersburg, Kirchberg an der Raab, Paldau, Gnas und die ganze Südoststeiermark.</p>
         <div class="f-bottom">
           <span>© {year} {site.company.name}</span>
           <span class="f-legal">
@@ -286,6 +291,7 @@ const year = new Date().getFullYear();
   .f-cols .eyebrow { color: var(--mute); margin-bottom: 16px; }
   .f-cols a, .f-cols span { display: block; padding: 4px 0; }
   .f-cols a:hover, .f-legal a:hover { color: var(--blue); }
+  .f-area { margin-top: 56px; max-width: 760px; font-size: 13px; line-height: 1.6; color: var(--mute); }
   .f-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 72px; padding-top: 22px; border-top: 1px solid rgba(22, 23, 28, 0.12); font-size: 13px; color: var(--mute); }
   .f-legal { display: flex; gap: 22px; }
 

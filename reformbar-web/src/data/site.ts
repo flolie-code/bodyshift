@@ -71,7 +71,7 @@ export const services: Service[] = [
     ],
     calendar: true,
     image: '/img/reformer-klasse.webp',
-    seoTitle: 'Reformer Pilates in Feldbach – Kleingruppen im Boutique Studio',
+    seoTitle: 'Reformer Pilates Feldbach – Kleingruppen',
     seoDescription:
       'Reformer Pilates in Feldbach: Ganzkörpertraining in kleinen Gruppen, persönlich angeleitet. Jetzt Wunschtermin im Kalender der Reformbar anfragen.',
   },
@@ -96,7 +96,7 @@ export const services: Service[] = [
     ],
     calendar: true,
     image: '/img/bodyforming.webp',
-    seoTitle: 'Bodyforming in Feldbach – gezielte Körperformung mit Plan',
+    seoTitle: 'Bodyforming Feldbach – Körperformung mit Plan',
     seoDescription:
       'Bodyforming in Feldbach: das neue Konzept der Reformbar für gezielte Körperformung – persönlich betreut und individuell abgestimmt. Jetzt Termin anfragen.',
   },
@@ -119,7 +119,7 @@ export const services: Service[] = [
     ],
     calendar: false,
     image: '/img/yoga-flow.webp',
-    seoTitle: 'Yoga in Feldbach – ruhige Flows im Boutique Studio',
+    seoTitle: 'Yoga Feldbach – ruhige Flows im Boutique Studio',
     seoDescription:
       'Yoga in Feldbach: fließende Einheiten für Beweglichkeit, Atem und Ruhe – in kleinen Gruppen in der Reformbar. Jetzt Platz anfragen.',
   },
@@ -142,7 +142,7 @@ export const services: Service[] = [
     ],
     calendar: false,
     image: '/img/matten-pilates.webp',
-    seoTitle: 'Matten-Pilates in Feldbach – starke Mitte, bessere Haltung',
+    seoTitle: 'Matten-Pilates Feldbach – starke Mitte',
     seoDescription:
       'Matten-Pilates in Feldbach: Training für tiefe Rumpfmuskulatur und aufrechte Haltung in der Reformbar. Jetzt Platz anfragen.',
   },
@@ -165,7 +165,7 @@ export const services: Service[] = [
     ],
     calendar: false,
     image: '/img/beckenboden.webp',
-    seoTitle: 'Beckenbodentraining in Feldbach – Stabilität von innen',
+    seoTitle: 'Beckenbodentraining Feldbach – Kraft von innen',
     seoDescription:
       'Beckenbodentraining in Feldbach: sanfter, gezielter Aufbau der Körpermitte in der Reformbar – diskret und persönlich. Jetzt Termin anfragen.',
   },
@@ -188,7 +188,7 @@ export const services: Service[] = [
     ],
     calendar: false,
     image: '/img/coaching.webp',
-    seoTitle: '1:1 Coaching in Feldbach – Personal Training in der Reformbar',
+    seoTitle: 'Personal Training & 1:1 Coaching Feldbach',
     seoDescription:
       '1:1 Coaching in Feldbach: persönliches Training am Reformer, auf der Matte oder im Yoga – ganz auf dein Ziel abgestimmt. Jetzt anfragen.',
   },
