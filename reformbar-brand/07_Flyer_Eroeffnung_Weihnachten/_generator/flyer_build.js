@@ -44,7 +44,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
-.gift{background:#1A2DB8;color:#fff;border-radius:4mm;padding:8.5mm 7mm 7.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:3.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:1.6mm}.gi2{display:flex;flex-direction:column;gap:2.4mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:3mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.4pt}.gi2 span{font-size:8.3pt;line-height:4.3mm;color:#F8E1C5}.gift .star{left:6mm}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.gift{background:#1A2DB8;color:#fff;border-radius:4mm;padding:8.5mm 7mm 7.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:3.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:1.6mm}.gi2{display:flex;flex-direction:column;gap:2.4mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:3mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.4pt}.gi2 span{font-size:8.3pt;line-height:4.3mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:-.6mm}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
@@ -76,12 +76,12 @@ const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
 const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:78mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
-<div class="stack" id="bs" style="top:${base2+9}mm;bottom:${210-184+7}mm;justify-content:space-between">
+<div class="stack" id="bs" style="top:${base2+12}mm;bottom:${210-184+9}mm;justify-content:space-between">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair" style="gap:6mm"><div class="tr" style="font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.01em">Geschenke &amp; Gutscheine</div><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
+ <div class="pair" style="gap:6mm"><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
-  
-  <div class="n tr">Dein Geschenk – ganz nach Wunsch</div>
+  <div class="n tr">Geschenke &amp; Gutscheine</div>
+  <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
   <div class="gl">
    <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
    <div class="gi2"><b class="tr">Gutscheine</b><span class="tr">Für all unsere Trainings – vom Probetraining bis zum Kombipaket.</span></div>
@@ -96,7 +96,7 @@ const mm=v=>v*96/25.4;
 function place(){
  const P=id=>document.getElementById(id);
  const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
- P('imgF').style.top=(fh.top-fp.top-mm(3+((0.81-0.10)/0.90)*154*1629/2400))+'px';
+ P('imgF').style.top=(fh.top-fp.top-mm(3+((0.90-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
  const iw=mm(78), k=iw/1792; const ib=P('imgB');
  ib.style.left=(mm(3+90))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
