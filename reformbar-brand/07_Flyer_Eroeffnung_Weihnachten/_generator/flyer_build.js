@@ -44,7 +44,21 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
-.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:11mm 7mm 10mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:9.5mm 7mm 8.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.tk-wrap{display:flex;flex-direction:column;gap:6mm;width:76mm}
+.ticket{display:grid;grid-template-columns:1fr 20mm;background:#F8E1C5;color:#1A2DB8;border-radius:3mm;transform:rotate(-3.5deg);transform-origin:left center;box-shadow:0 2.4mm 5mm rgba(26,45,184,.16);position:relative;margin:2mm 0 1mm 1mm}
+.ticket:before,.ticket:after{content:"";position:absolute;left:calc(100% - 20mm - 2.4mm);width:4.8mm;height:4.8mm;border-radius:50%;background:#FBF5EC}
+.ticket:before{top:-2.4mm}.ticket:after{bottom:-2.4mm}
+.tk-main{padding:5mm 5mm 4.6mm;display:flex;flex-direction:column;gap:3mm}
+.tk-ey{font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:.12em}
+.tk-for{font-family:Montserrat;font-weight:600;font-size:8pt;letter-spacing:.04em}
+.tk-line{height:.3mm;background:rgba(26,45,184,.35);margin-top:3.4mm}
+.tk-txt{font-size:6.8pt;font-weight:500;color:#4B59C4;white-space:nowrap}
+.tk-stub{border-left:.45mm dashed rgba(26,45,184,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8mm}
+.tk-s1{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.2em}
+.tk-s2{font-family:Montserrat;font-weight:800;font-size:12pt;letter-spacing:-.02em}
+.tk-s3{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.14em}
+.tk-note{font-size:9pt;line-height:5mm;color:#4B59C4;white-space:nowrap}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
@@ -78,7 +92,10 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+12}mm;bottom:${210-184+9}mm;justify-content:space-between">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair" style="gap:6mm"><div class="pill" style="height:10.6mm;font-size:11pt">GESCHENKBOXEN AB 15. DEZEMBER</div><div class="para tr" style="width:86mm;font-size:10pt;line-height:5.6mm;white-space:nowrap">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
+ <div class="tk-wrap"><div class="ticket">
+  <div class="tk-main"><div class="tk-ey tr">GUTSCHEIN</div><div class="tk-txt tr">Reformer Pilates · Bodyforming · Yoga</div></div>
+  <div class="tk-stub"><div class="tk-s1 tr">AB</div><div class="tk-s2 tr">15.12.</div><div class="tk-s3 tr">ERHÄLTLICH</div></div>
+ </div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="n tr">Geschenke &amp; Gutscheine</div>
   <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
