@@ -44,23 +44,23 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card .l{height:.25mm;background:#CCCEE8;margin:4mm 0}
 .card.hot{background:#1A2DB8;color:#fff;position:relative}.card.hot .d{color:#F8E1C5}.card.hot .k{color:#F8E1C5}
 .star{position:absolute;top:-2.6mm;left:4.6mm;background:#F8E1C5;color:#1A2DB8;font-family:Montserrat;font-weight:800;font-size:5.4pt;letter-spacing:.12em;padding:1.4mm 2.4mm;border-radius:2mm;white-space:nowrap}
-.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:9.5mm 7mm 8.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub2{font-size:11pt;line-height:6.2mm;color:#F8E1C5;margin-top:1mm}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
-.tk-wrap{display:flex;flex-direction:column;align-items:center;gap:7mm;width:100%}.tk-wrap .ticket{width:108mm}
-.ticket{display:grid;grid-template-columns:1fr 27mm;background:#F8E1C5;color:#1A2DB8;border-radius:3mm;transform:rotate(-3deg);transform-origin:center;border:.3mm solid rgba(26,45,184,.18);z-index:3;position:relative;margin:0}
-.ticket:before,.ticket:after{content:"";position:absolute;left:calc(100% - 27mm - 2.6mm);width:4.8mm;height:4.8mm;border-radius:50%;background:#FBF5EC}
+.gift{margin-top:3.6mm;background:#1A2DB8;color:#fff;border-radius:4mm;padding:9.5mm 7mm 8.5mm;position:relative;z-index:2;display:flex;flex-direction:column;gap:4.4mm}.gift .k{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.26em;color:#F8E1C5}.gift .n{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}.gift .gl{display:grid;grid-template-columns:1fr 1fr;gap:5mm;margin-top:4mm}.gi2{display:flex;flex-direction:column;gap:3.2mm;border-top:.3mm solid rgba(248,225,197,.5);padding-top:4.6mm}.gi2 b{font-family:Montserrat;font-weight:800;font-size:9.2pt;white-space:nowrap}.gi2 span{font-size:8.3pt;line-height:4.9mm;color:#F8E1C5}.gift .star{left:6mm}.gift .sub2{font-size:10pt;line-height:5.6mm;color:#fff;font-weight:600;margin-top:3mm;padding-top:4.4mm;border-top:.3mm solid rgba(248,225,197,.5)}.gift .sub{font-size:9pt;color:#F8E1C5;margin-top:0}.gch{display:flex;flex-wrap:wrap;gap:1.8mm;margin-top:1.6mm}.gch span{border:.3mm solid rgba(248,225,197,.7);color:#F8E1C5;border-radius:3mm;height:6mm;padding:0 2.8mm;display:flex;align-items:center;font-family:Montserrat;font-weight:600;font-size:7.2pt}.star.big{font-size:7.2pt;padding:2mm 3.4mm;top:-3.6mm;border-radius:2.6mm}
+.tk-wrap{display:flex;flex-direction:column;align-items:flex-start;gap:7mm;width:100%}.tk-wrap .ticket{width:84mm;margin-left:1mm!important}
+.ticket{display:grid;grid-template-columns:1fr 24mm;background:#F8E1C5;color:#1A2DB8;border-radius:3mm;transform:rotate(-3.5deg);transform-origin:left center;border:.3mm solid rgba(26,45,184,.18);z-index:3;position:relative;margin:0}
+.ticket:before,.ticket:after{content:"";position:absolute;left:calc(100% - 24mm - 2.6mm);width:4.8mm;height:4.8mm;border-radius:50%;background:#FBF5EC}
 .ticket:before{top:-2.4mm}.ticket:after{bottom:-2.4mm}
-.tk-main{padding:8mm 7mm 7.4mm;display:flex;flex-direction:column;gap:4.2mm}
-.tk-ey{font-family:Montserrat;font-weight:800;font-size:20pt;letter-spacing:.12em}
+.tk-main{padding:7mm 6mm 6.4mm;display:flex;flex-direction:column;gap:3.8mm}
+.tk-ey{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:.12em}
 .tk-for{font-family:Montserrat;font-weight:600;font-size:8pt;letter-spacing:.04em}
 .tk-line{height:.3mm;background:rgba(26,45,184,.35);margin-top:3.4mm}
-.tk-txt{font-size:9pt;font-weight:500;color:#4B59C4;white-space:nowrap}
+.tk-txt{font-size:8pt;font-weight:500;color:#4B59C4;white-space:nowrap}
 .tk-stub{border-left:.45mm dashed rgba(26,45,184,.45);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.8mm}
 .tk-s1{font-family:Montserrat;font-weight:700;font-size:8pt;letter-spacing:.2em}
-.tk-s2{font-family:Montserrat;font-weight:800;font-size:17pt;letter-spacing:-.02em}
-.tk-s3{font-family:Montserrat;font-weight:700;font-size:6pt;letter-spacing:.14em}
+.tk-s2{font-family:Montserrat;font-weight:800;font-size:15pt;letter-spacing:-.02em}
+.tk-s3{font-family:Montserrat;font-weight:700;font-size:5.4pt;letter-spacing:.08em}
 .when{align-self:stretch;border:.6mm solid #1A2DB8;border-radius:5mm;padding:4.4mm 0 4.2mm;display:flex;flex-direction:column;align-items:center;gap:2.6mm;color:#1A2DB8}.w1{display:flex;align-items:center;gap:6mm;font-family:Montserrat;font-weight:800;font-size:11pt}.w1 i{width:1mm;height:1mm;border-radius:50%;background:#8C95DD;display:inline-block}.w2{font-family:Montserrat;font-weight:600;font-size:9pt;letter-spacing:.02em}
 .tk-lead{font-family:Montserrat;font-weight:700;font-size:9.6pt;line-height:5.2mm;color:#1A2DB8;white-space:nowrap}
-.tk-note{font-size:9pt;line-height:5mm;color:#4B59C4;white-space:nowrap}
+.tk-note{font-size:9pt;line-height:5mm;color:#4B59C4;width:74mm}
 .card .p{font-family:Montserrat;font-weight:800;font-size:8pt}
 .ord{display:grid;grid-template-columns:22mm 1fr;row-gap:3.4mm;align-items:baseline}
 .ord b{font-family:Montserrat;font-weight:800;font-size:6pt;letter-spacing:.28em}.ord span{font-size:8.4pt;color:#4B59C4}
@@ -89,7 +89,7 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 </div><div class="qrf">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div></div></div>`;
 // --- Rückseite: nur Logo + QR
 const s2=50/8368,cap2=1000*s2,CAP2=8.9,base2=CAP2+cap2;
-const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:70mm" src="${imgB}"><div class="t">
+const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:84mm" src="${imgB}"><div class="t">
 <svg class="abs" style="left:0;top:0;width:148mm;height:40mm;overflow:visible" viewBox="0 0 148 40"><g transform="translate(${8-523*s2} ${CAP2-733.5*s2}) scale(${s2})">${logo}</g></svg>
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+12}mm;bottom:${210-184+9}mm;justify-content:space-between">
@@ -100,6 +100,7 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
  </div><div class="tk-note tr">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
   <div class="n tr">Geschenke &amp; Gutscheine</div>
+  <div class="sub tr">Ganz nach deinem Wunsch zusammengestellt.</div>
   <div class="sub2 tr">Stell deine Geschenkbox selbst zusammen<br>oder verschenke ein Training.</div>
  </div>
 </div>${footer}</div></div>`;
@@ -113,8 +114,8 @@ function place(){
  const fh=P('fh').parentNode.getBoundingClientRect(), fp=P('front').getBoundingClientRect();
  P('imgF').style.top=(fh.top-fp.top-mm(3+((0.90-0.10)/0.90)*154*1629/2400))+'px';
  const c=P('cards').getBoundingClientRect(), bp=P('back').getBoundingClientRect();
- const iw=mm(70), k=iw/1792; const ib=P('imgB');
- const tk=document.querySelector('.ticket').getBoundingClientRect(); ib.style.left=(mm(3+92))+'px'; ib.style.top=((tk.top+tk.bottom)/2-bp.top-1893*k+mm(4))+'px';
+ const iw=mm(84), k=iw/1792; const ib=P('imgB');
+ ib.style.left=(mm(3+88))+'px'; ib.style.top=(c.top-bp.top-1893*k+mm(1))+'px';
 }
 </script>`;
 (async()=>{const br=await chromium.launch();
