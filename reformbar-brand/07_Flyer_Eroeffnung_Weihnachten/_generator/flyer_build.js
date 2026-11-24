@@ -51,7 +51,7 @@ html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .qr{position:absolute;right:8mm;top:7.6mm;width:23mm;display:flex;flex-direction:column;align-items:center}.qr div{font-family:Montserrat;font-weight:700;font-size:4.6pt;letter-spacing:.1em;margin-top:1.6mm;white-space:nowrap}
 `;
 const footer=`<div class="abs rule"></div>
-<div class="abs fgrid" style="left:8mm;right:8mm;top:191mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 380 62 22</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div><div class="f2 tr">Termine &amp; Angebote</div></div></div>`;
+<div class="abs fgrid" style="left:8mm;right:8mm;top:191mm"><div><div class="f0 tr">STUDIO</div><div class="f1 tr">Ungarstraße 2–4</div><div class="f2 tr">8330 Feldbach</div></div><div><div class="f0 tr">KONTAKT</div><div class="f1 tr">0676 380 62 22</div><div class="f2 tr">studio@reformbar.at</div></div><div style="text-align:right"><div class="f0 tr">ONLINE</div><div class="f1 tr">reformbar.at</div></div></div>`;
 // --- Vorderseite: Claim-Logo
 const s1=58/8368,X0=8,CAP1=9,cap1=1000*s1,fs1=cap1/.7,rt1=CAP1+cap1+.32*cap1,base1=rt1+cap1;
 const t1=`<text x="${X0}" y="${CAP1+cap1}" font-family="Montserrat" font-weight="800" font-size="${fs1}" letter-spacing="${-.02*fs1}"`;
@@ -61,9 +61,9 @@ const front=`<div class="page" id="front"><img class="abs" id="imgF" style="left
 
  <g transform="translate(${X0-523*s1} ${rt1-733.5*s1}) scale(${s1})">${logo}</g></svg>
 <div class="stack" id="fs" style="bottom:9mm;gap:7.6mm">
- <div class="inv"><div class="ey tr">HERZLICHE EINLADUNG ZUR</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.2mm;letter-spacing:-.02em;margin-left:-.3mm;margin-top:1mm">IN FELDBACH</div></div>
+ <div class="inv"><div class="ey tr">WIR LADEN DICH EIN</div><div class="h1 tr" id="fh" style="font-size:12.6mm;line-height:1.05;margin-left:-.5mm">NEUERÖFFNUNG</div><div class="h1 tr" style="font-size:7.2mm;letter-spacing:-.02em;margin-left:-.3mm;margin-top:1mm">IN FELDBACH</div></div>
  <div class="pill" style="align-self:stretch;justify-content:center;gap:7mm;font-size:11pt">FREITAG<i></i>15. JÄNNER 2027<i></i>18 UHR</div>
- <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Zum Bewegen, Ankommen und Zusammensein. Feier mit uns – Eröffnungsangebote, Getränke &amp; Schmankerl warten auf dich!</div></div>
+ <div class="fest"><div class="lp tr">Dein neuer Lieblingsplatz.</div><div class="tr">Komm vorbei, lern uns kennen – wir freuen uns auf dich!</div></div>
  <div class="pillars">
   <div class="pc hot"><div class="pn tr">Reformer Pilates</div><div class="pd tr">Ganzkörpertraining in kleinen Gruppen.</div></div>
   <div class="pc warm"><div class="pn tr">Bodyforming</div><div class="pd tr">Formen &amp; Abnehmen mit modernster Technologie und individuellem Plan.</div></div>
@@ -78,9 +78,9 @@ const back=`<div class="page" id="back"><img class="abs" id="imgB" style="width:
 <div class="qr">${qr}<div class="tr">WEBSITE &amp; ANGEBOTE</div></div>
 <div class="stack" id="bs" style="top:${base2+9}mm;bottom:${210-184+7}mm;justify-content:space-between">
  <div class="pair"><div class="ey tr">WEIHNACHTEN 2026</div><div class="h1 tr" style="font-size:15mm;line-height:1.0;margin-left:-.6mm">SCHENK<br>BEWEGUNG.</div></div>
- <div class="pair" style="gap:6mm"><div class="tr" style="font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.01em">Geschenke &amp; Gutscheine</div><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Ganz einfach bestellen – telefonisch, per Mail oder direkt bei uns im Studio.</div></div>
+ <div class="pair" style="gap:6mm"><div class="tr" style="font-family:Montserrat;font-weight:800;font-size:13pt;letter-spacing:-.01em">Geschenke &amp; Gutscheine</div><div class="pill" style="height:10.6mm;font-size:11.4pt">ERHÄLTLICH AB 15. DEZEMBER</div><div class="para tr" style="width:76mm;font-size:10pt;line-height:5.6mm">Einfach anrufen, schreiben oder vorbeikommen.</div></div>
  <div class="gift" id="cards"><div class="star big tr">★ ZUM SELBST ZUSAMMENSTELLEN</div>
-  <div class="k tr">GESCHENKBOXEN &amp; GUTSCHEINE</div>
+  
   <div class="n tr">Dein Geschenk – ganz nach Wunsch</div>
   <div class="gl">
    <div class="gi2"><b class="tr">Geschenkboxen &amp; Kombipakete</b><span class="tr">Schön verpackt mit Trinkflasche, Pilates-Socken, Goodies &amp; vielem mehr.</span></div>
