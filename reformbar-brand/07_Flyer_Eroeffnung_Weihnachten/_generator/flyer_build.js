@@ -157,7 +157,7 @@ if(process.env.POSTER){
   const pg=P('front').getBoundingClientRect(),gb=P('gb').getBoundingClientRect(),st=P('ps');
   st.style.bottom=(pg.bottom-gb.top+mm(G)-mm(3))+'px';
   const ph=P('ph').getBoundingClientRect();
-  P('imgP').style.top=(ph.top-pg.top-mm(3+((0.845-0.10)/0.90)*154*2781/4096))+'px';
+  P('imgP').style.top=(ph.top-pg.top-mm(3+((0.885-0.10)/0.90)*154*2781/4096))+'px';
   return {gbTop:(gb.top-pg.top)/96*25.4-3, capTop:(ph.top-pg.top)/96*25.4-3};}</script>`;
  const phtml=(head.replace('</style>',pcss+'</style>')+poster+pfix+'</body></html>');
  fs.writeFileSync(OUT+'/poster.html',phtml);
