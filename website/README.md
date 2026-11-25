@@ -39,17 +39,19 @@ grep -n 'class="todo"\|\[' website/*.html
 
 | Feld | Bedeutung |
 |---|---|
-| `formEndpoint` | URL, an die das Rückruf-Formular als JSON gesendet wird, z. B. ein LeadConnector "Inbound Webhook" (Automation → Trigger "Inbound Webhook"). Leer = Formular sendet nicht. |
-| `calendars` | Buchungs-Widget-URL je Standort und Behandlung. Leer = statt Kalender erscheinen Telefon und Rückruf. Beckenboden-Kalender sind noch leer. |
-| `locations` | Name und Telefon je Standort (für die Kalender-Überschrift und den Telefon-Fallback). |
-| `tracking.ga4` / `tracking.metaPixel` | Mess-IDs. Werden nur nach Zustimmung geladen. Leer = kein Tracking und kein Cookie-Hinweis. |
+| `formEndpoint` | Ziel für **beide** Anfrageformulare (oben im Hero und unten bei Kontakt). Empfehlung: LeadConnector-Workflow mit Trigger "Inbound Webhook" → Kontakt anlegen, Tag `website-lead`, interne Benachrichtigungs-Mail an euch, optional SMS/Mail an die Kundin. Leer = Formular sendet nicht. |
+| `calendars` | Online-Kalender für die Kennenlernbehandlung Abnehmen im Liegen, je Studio (Feldbach, Leibnitz). Beckenboden hat bewusst keinen Kalender: Anfrage läuft über das Formular, ihr ruft zurück. |
+| `locations` | Name und Telefon je Studio. |
+| `tracking.ga4` / `tracking.metaPixel` | Mess-IDs. Werden nur nach Zustimmung geladen. Bei erfolgreicher Anfrage feuern `Lead` (Meta) und `generate_lead` (GA4). Leer = kein Tracking und kein Cookie-Hinweis. |
+
+Gesendete Felder: `name`, `phone`, `email`, `location`, `interest` (Abnehmen im Liegen / Beckenboden / Beides), `message`, `source` (website-hero / website-kontakt), `page`, `consent`, `submittedAt`.
 
 ## Livegang-Checkliste
 
 1. Offene Punkte (gelbe Markierungen) klären, `class="draft"` entfernen.
 2. Domain in `index.html` eintragen (canonical, og:url, og:image, JSON-LD).
-3. `formEndpoint` setzen, Testanfrage schicken, Eingang im CRM prüfen.
-4. Je Standort eine Testbuchung über den eingebetteten Kalender.
+3. `formEndpoint` setzen, aus beiden Formularen je eine Testanfrage schicken, Eingang im CRM und Benachrichtigungs-Mail prüfen.
+4. Je Studio (Feldbach, Leibnitz) eine Testbuchung über den eingebetteten Kalender.
 5. Impressum und Datenschutz final, juristisch gegenlesen lassen.
 6. Bei Vercel (oder Netlify) deployen, Ordner `website/` als Projekt-Root.
 7. Domain umstellen. Wenn die alte Domain bleibt: `vercel.json` leitet alle alten Unterseiten weiter. Wenn eine neue Domain kommt: alte Domain zusätzlich im selben Projekt hinterlegen und per 301 auf die neue leiten.
