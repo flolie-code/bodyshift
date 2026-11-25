@@ -16,10 +16,10 @@
 <meta property="og:image" content="https://www.bodyshift.at/assets/img/og-image.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta name="theme-color" content="#F5F0E7">
+<meta name="theme-color" content="#F4EEE8">
 <link rel="icon" href="assets/img/logo.png" type="image/png">
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/fraunces-latin.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/cormorant-garamond-normal.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="assets/fonts/jost-normal.woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/styles.css">
 <script type="application/ld+json">
 {
@@ -89,27 +89,23 @@
 
 <main id="inhalt">
 
-<!-- ============ HERO mit Anfrageformular ============ -->
+<!-- ============ HERO: Bogenfoto + Anfrageformular ============ -->
 <section class="hero" id="top">
   <div class="inner hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow">BODYSHIFT Studios in Feldbach &amp; Leibnitz</p>
-      <h1>Abnehmen im Liegen.<br><em>Entspannt Zentimeter verlieren.</em></h1>
-      <p class="lead">Du liegst 40 Minuten bequem, während Ultraschall, Low-Level-Laser und sanfte Muskelstimulation an Bauch, Beinen und Po arbeiten. Ohne Diät, ohne Vertragsbindung.</p>
-      <ul class="proof">
-        <li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg><span><strong>2–5 cm weniger Umfang</strong> nach der ersten Behandlung, sonst Geld zurück</span></li>
-        <li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg><span>Keine Bindung, kein Abo</span></li>
-        <li><svg aria-hidden="true" viewBox="0 0 20 20"><path d="M4 10.5l4 4 8-9"/></svg><span>Auch für den Beckenboden: Probesitzung um €19,90</span></li>
-      </ul>
+    <figure class="hero-arch">
+      <img src="assets/img/hero-900.webp" srcset="assets/img/hero-900.webp 900w, assets/img/hero-1600.webp 1600w" sizes="(min-width: 960px) 460px, 100vw" width="1600" height="1067" alt="Kundin liegt entspannt auf der Behandlungsliege, eine Mitarbeiterin legt die Pads an" fetchpriority="high">
+      <figcaption class="seal"><span><b>2–5 cm</b>oder Geld<br>zurück</span></figcaption>
       <p class="rating">
         <span class="stars" aria-hidden="true">★★★★★</span>
         <span><strong>[Schnitt]</strong> aus <strong>[Anzahl]</strong> Google-Bewertungen</span>
         <span class="todo">Echte Google-Werte eintragen</span>
       </p>
-    </div>
+    </figure>
 
-    <div class="hero-side">
-      <img class="hero-photo" src="assets/img/hero-900.webp" srcset="assets/img/hero-900.webp 900w, assets/img/hero-1600.webp 1600w" sizes="(min-width: 960px) 460px, 100vw" width="1600" height="1067" alt="Kundin liegt entspannt auf der Behandlungsliege, eine Mitarbeiterin legt die Pads an" fetchpriority="high">
+    <div class="hero-copy">
+      <p class="eyebrow">Feldbach · Leibnitz</p>
+      <h1>Abnehmen<br>im Liegen.<em>Entspannt Zentimeter verlieren.</em></h1>
+      <p class="lead">Du liegst 40 Minuten bequem, während Ultraschall, Low-Level-Laser und sanfte Muskelstimulation an Bauch, Beinen und Po arbeiten. Ohne Diät, ohne Bindung.</p>
       <div class="lead-card" id="anfrage">
         <h2 class="lead-title">Sichere dir dein Kennenlernangebot</h2>
         <form class="lead-form" novalidate data-source="hero">
@@ -123,11 +119,11 @@
             <label><input type="radio" name="location" value="Feldbach" required><span>Feldbach</span></label>
             <label><input type="radio" name="location" value="Leibnitz"><span>Leibnitz</span></label>
           </fieldset>
-          <div class="field">
-            <label for="h-name">Vor- und Nachname</label>
-            <input id="h-name" name="name" type="text" autocomplete="name" required>
-          </div>
-          <div class="row">
+          <div class="row row-3">
+            <div class="field">
+              <label for="h-name">Vor- und Nachname</label>
+              <input id="h-name" name="name" type="text" autocomplete="name" required>
+            </div>
             <div class="field">
               <label for="h-phone">Telefon</label>
               <input id="h-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required>

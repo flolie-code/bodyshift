@@ -30,11 +30,6 @@
     try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); } catch (e) { return null; }
   }
 
-  /* Farbwelt zum Vergleichen: ?farbe=lila */
-  try {
-    if (new URLSearchParams(location.search).get('farbe') === 'lila') document.documentElement.setAttribute('data-palette', 'lila');
-  } catch (e) {}
-
   var y = $('#year'); if (y) y.textContent = String(new Date().getFullYear());
 
   /* Navigation mobil */

@@ -15,7 +15,7 @@ website/
 └── assets/
     ├── css/styles.css  Farben und Schriften oben als Variablen
     ├── js/main.js      CONFIG: Formular-Ziel, Kalender, Tracking
-    ├── fonts/          Fraunces + Inter, lokal gehostet (kein Google-Fonts-Abruf)
+    ├── fonts/          Cormorant Garamond + Jost, lokal gehostet (kein Google-Fonts-Abruf)
     └── img/            Optimierte Bilder (WebP)
 ```
 
@@ -25,7 +25,9 @@ website/
 cd website && python3 -m http.server 8000
 ```
 
-Dann http://localhost:8000 öffnen. Lila-Farbwelt zum Vergleich: http://localhost:8000/?farbe=lila
+Dann http://localhost:8000 öffnen.
+
+Design: Richtung "Nude & Bogen" (Cormorant Garamond + Jost, Nude-Creme, Espresso, Rosé). Farben und Schriften stehen oben in `assets/css/styles.css` als Variablen.
 
 ## Entwurfsmodus
 
