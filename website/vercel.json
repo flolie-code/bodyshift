@@ -1,0 +1,36 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/willkommen", "destination": "/", "permanent": true },
+    { "source": "/abnehmen-im-liegen", "destination": "/#abnehmen", "permanent": true },
+    { "source": "/behandlung", "destination": "/#abnehmen", "permanent": true },
+    { "source": "/so-funktionierts", "destination": "/#abnehmen", "permanent": true },
+    { "source": "/mya-7", "destination": "/#abnehmen", "permanent": true },
+    { "source": "/galerie", "destination": "/#ergebnisse", "permanent": true },
+    { "source": "/beckenboden-staerken", "destination": "/#beckenboden", "permanent": true },
+    { "source": "/beckenboden-staerken/danke", "destination": "/#beckenboden", "permanent": true },
+    { "source": "/preise--aktionen", "destination": "/#preise", "permanent": true },
+    { "source": "/ratenzahlung", "destination": "/#preise", "permanent": true },
+    { "source": "/buchen", "destination": "/#buchen", "permanent": true },
+    { "source": "/buchen2", "destination": "/#buchen", "permanent": true },
+    { "source": "/kontakt", "destination": "/#kontakt", "permanent": true },
+    { "source": "/kontakt/danke-", "destination": "/#kontakt", "permanent": true },
+    { "source": "/datenschutzerklarung", "destination": "/datenschutz", "permanent": true }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    }
+  ]
+}
