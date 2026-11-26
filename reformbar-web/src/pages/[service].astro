@@ -1,5 +1,6 @@
 ---
 import Bar from '../components/Bar.astro';
+import Eversports from '../components/Eversports.astro';
 import Base from '../layouts/Base.astro';
 import { services, site } from '../data/site';
 export function getStaticPaths() {
@@ -33,7 +34,7 @@ const schema = [
         <p class="eyebrow crumb"><a href="/">Reformbar</a> &nbsp;/&nbsp; Angebot</p>
         <h1 class="display">{s.name}<br /><span class="in-feld">in Feldbach</span></h1>
         <p class="lead sh-lead">{s.short}</p>
-        <a href={`/buchen/?angebot=${s.slug}`} class="btn white" data-magnetic>{cta} <span class="arr">→</span></a>
+        <a href={s.slug === 'reformer-pilates' ? '#reformer-kurse' : `/buchen/?angebot=${s.slug}`} class="btn white" data-magnetic>{cta} <span class="arr">→</span></a>
       </div>
       <div class="sh-arch"><img data-parallax="50" src={s.image} alt={`${s.name} in der Reformbar Feldbach`} width="800" height="900" fetchpriority="high" /></div>
     </div>
@@ -52,6 +53,8 @@ const schema = [
       </ul>
     </div>
   </section>
+
+  {s.slug === 'reformer-pilates' && <Eversports title="Kursplan & freie Plätze" />}
 
   <section class="for">
     <div class="wrap for-in">
@@ -72,7 +75,7 @@ const schema = [
             <p>{f.a}</p>
           </details>
         ))}
-        <a href={`/buchen/?angebot=${s.slug}`} class="btn" style="margin-top:32px" data-magnetic>{cta} <span class="arr">→</span></a>
+        <a href={s.slug === 'reformer-pilates' ? '#reformer-kurse' : `/buchen/?angebot=${s.slug}`} class="btn" style="margin-top:32px" data-magnetic>{cta} <span class="arr">→</span></a>
       </div>
     </div>
   </section>

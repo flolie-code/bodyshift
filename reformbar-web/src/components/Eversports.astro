@@ -1,0 +1,29 @@
+---
+// Eversports-Buchungswidget (Kursplan Reformer Pilates). Widget-ID aus dem Eversports Manager.
+import { site } from '../data/site';
+interface Props { id?: string; title?: string; lead?: string }
+const { id = 'reformer-kurse', title = 'Reformer Pilates live buchen', lead = 'Freie Plätze sehen, Kurs wählen und direkt über Eversports buchen.' } = Astro.props;
+---
+<section class="section ev" id={id}>
+  <div class="wrap">
+    <div class="ev-head">
+      <p class="eyebrow">Online-Buchung · Eversports</p>
+      <h2 class="display h2">{title}</h2>
+      <p class="lead">{lead}</p>
+    </div>
+    <div class="ev-box">
+      <div data-eversports-widget-id={site.eversportsWidgetId}></div>
+      <p class="ev-fallback">Der Kursplan lädt nicht? <a href={`tel:${site.phoneHref}`}>Ruf uns an: {site.phone}</a></p>
+    </div>
+  </div>
+</section>
+<script type="module" src="https://widget-static.eversports.io/loader.js" async defer is:inline></script>
+
+<style>
+  .ev-head { max-width: 760px; margin-bottom: 32px; }
+  .ev-head .eyebrow { color: var(--blue); margin-bottom: 14px; }
+  .ev-head .lead { color: #3d3a35; margin-top: 16px; }
+  .ev-box { background: #fff; border-radius: 28px; padding: clamp(12px, 2vw, 28px); min-height: 420px; box-shadow: 0 40px 80px -60px rgba(16, 28, 133, 0.5); }
+  .ev-fallback { font-size: 13px; color: var(--mute); margin-top: 14px; text-align: center; }
+  .ev-fallback a { color: var(--blue); text-decoration: underline; }
+</style>

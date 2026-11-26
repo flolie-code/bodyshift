@@ -13,6 +13,7 @@ export const site = {
   phoneHref: '+436763073860',
   centralPhone: '0676 380 62 22',
   centralPhoneHref: '+436763806222',
+  eversportsWidgetId: '203d1836-1d13-41e2-9a66-fad7f5098ab5',
   whatsapp: '436763073860',
   email: 'studio@reformbar.at',
   hours: 'Termine nach Vereinbarung',

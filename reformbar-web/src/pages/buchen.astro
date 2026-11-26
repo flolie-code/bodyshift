@@ -1,17 +1,18 @@
 ---
 import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
+import Eversports from '../components/Eversports.astro';
 import { services, site } from '../data/site';
 const cfg = {
   wa: site.whatsapp,
   mail: site.email,
   days: site.bookableWeekdays,
-  services: services.map((s) => ({ slug: s.slug, name: s.name, calendar: s.calendar })),
+  services: services.filter((s) => s.slug !== 'reformer-pilates').map((s) => ({ slug: s.slug, name: s.name, calendar: s.calendar })),
 };
 ---
 <Base
   title="Termin buchen – Reformer Pilates & Bodyforming | Reformbar"
-  description="Wunschtermin für Reformer Pilates, Bodyforming, Yoga und mehr in der Reformbar Feldbach anfragen: Tag im Kalender wählen, Zeitfenster angeben, abschicken."
+  description="Reformer Pilates in Feldbach direkt online über Eversports buchen. Bodyforming, Yoga und Coaching: Wunschtermin im Kalender der Reformbar anfragen."
   hideCta
 >
   <section class="page-hero bk-hero">
@@ -21,14 +22,20 @@ const cfg = {
     </div>
   </section>
 
-  <section class="section bk-sec">
+  <Eversports />
+
+  <section class="section bk-sec" id="anfrage">
     <div class="wrap">
+      <div class="bk-intro">
+        <p class="eyebrow">Bodyforming, Yoga, Coaching & mehr</p>
+        <h2 class="display h2">Wunschtermin anfragen</h2>
+      </div>
       <form class="bk" data-bk novalidate>
         <div class="bk-main">
           <fieldset>
             <legend><span>1</span> Angebot wählen</legend>
             <div class="chips" data-services>
-              {services.map((s) => (
+              {services.filter((s) => s.slug !== 'reformer-pilates').map((s) => (
                 <label>
                   <input type="radio" name="angebot" value={s.slug} />
                   <span>{s.name}{s.calendar && <em>Kalender</em>}</span>
@@ -129,7 +136,8 @@ const cfg = {
   });
 
   // Vorauswahl über ?angebot=…
-  const pre = new URLSearchParams(location.search).get('angebot') || 'reformer-pilates';
+  const pre = new URLSearchParams(location.search).get('angebot') || 'bodyforming';
+  if (pre === 'reformer-pilates' && !location.hash) document.getElementById('reformer-kurse')?.scrollIntoView();
   const radio = form.querySelector<HTMLInputElement>(`input[name="angebot"][value="${CSS.escape(pre)}"]`) || form.querySelector<HTMLInputElement>('input[name="angebot"]')!;
   radio.checked = true;
   out('angebot', serviceName());
@@ -159,7 +167,9 @@ const cfg = {
 
 <style>
   .bk-hero { padding-bottom: clamp(90px, 10vw, 140px); }
-  .bk-sec { padding-top: 0; margin-top: clamp(-70px, -6vw, -40px); position: relative; }
+  .bk-sec { padding-top: 0; position: relative; }
+  .bk-intro { margin-bottom: 28px; }
+  .bk-intro .eyebrow { color: var(--blue); margin-bottom: 14px; }
   .bk { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: start; }
   .bk-main { background: #fff; border-radius: 28px; padding: clamp(22px, 3vw, 40px); box-shadow: 0 40px 80px -50px rgba(16, 28, 133, 0.5); }
   fieldset { border: 0; margin-bottom: 38px; min-width: 0; }
