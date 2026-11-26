@@ -4,6 +4,7 @@ import ServiceGrid from '../components/ServiceGrid.astro';
 import Reviews from '../components/Reviews.astro';
 import Bar from '../components/Bar.astro';
 import Gallery from '../components/Gallery.astro';
+import ScrollFilm from '../components/ScrollFilm.astro';
 import { services, site } from '../data/site';
 const marquee = ['Reformer Pilates', 'Bodyforming', 'Yoga', 'Matten-Pilates', 'Beckenboden', '1:1 Coaching'];
 const schema = [
@@ -15,26 +16,45 @@ const schema = [
   description="Reformbar ist das Boutique Studio in Feldbach für Reformer Pilates, Bodyforming, Yoga, Matten-Pilates, Beckenbodentraining und 1:1 Coaching. Jetzt Termin buchen."
   schema={schema}
 >
-  <section class="hero">
-    <div class="wrap hero-in">
-      <h1 class="display hero-h" aria-label="Alles ist reformbar.">
-        <span class="line" aria-hidden="true"><span class="mask"><span>ALLES IST</span></span></span>
-        <span class="line l2" aria-hidden="true"><span class="mask"><span>REFORM</span></span><Bar /></span>
-      </h1>
-      <div class="hero-bottom">
+  <ScrollFilm
+    id="start"
+    base="/film/hero"
+    count={149}
+    poster="/film/hero/poster.webp"
+    posterAlt="Frau und Mann beim Reformer Pilates im hellen Studio der Reformbar Feldbach"
+    height={6}
+    intro={0.14}
+    chapters={[
+      { at: 0.12, to: 0.27, eyebrow: 'Feldbach · Südoststeiermark', text: 'Mitten im<br />Vulkanland.' },
+      { at: 0.4, to: 0.58, eyebrow: 'Dein Boutique Studio', text: 'Ein Ort zum<br />Ankommen.', align: 'right' },
+      { at: 0.64, to: 0.8, eyebrow: 'Reformer · Bodyforming · Yoga', text: 'Kleine Gruppen.<br />Großer Unterschied.' },
+    ]}
+  >
+    <div class="hero" aria-labelledby="hero-h">
+      <div class="wrap hero-in">
+        <h1 class="display hero-h" id="hero-h" aria-label="Alles ist reformbar.">
+          <span class="line" aria-hidden="true"><span class="mask"><span>ALLES IST</span></span></span>
+          <span class="line l2" aria-hidden="true"><span class="mask"><span>REFORM</span></span><Bar /></span>
+        </h1>
         <div class="hero-sub">
           <p class="lead">Das Boutique Studio in Feldbach für Reformer Pilates, Bodyforming &amp; Yoga. Kleine Gruppen. Großer Unterschied.</p>
           <div class="hero-btns">
             <a href="/buchen/" class="btn white" data-magnetic>Termin buchen <span class="arr">→</span></a>
             <a href="#angebot" class="btn line-w">Angebot entdecken</a>
           </div>
-        </div>
-        <div class="hero-pics">
-          <div class="arch a1 wide"><img data-parallax="60" src="/img/hero-reformer.webp" alt="Frau und Mann beim Reformer Pilates im hellen Studio der Reformbar Feldbach" width="1800" height="1357" fetchpriority="high" /></div>
+          <p class="scroll-hint" aria-hidden="true"><span></span>Scrollen &amp; eintauchen</p>
         </div>
       </div>
     </div>
-  </section>
+    <div class="fin" data-at="0.86" data-to="2">
+      <p class="eyebrow">Willkommen in der Reformbar</p>
+      <p class="display fin-h">Dein Platz an der <Bar class="ib" /></p>
+      <div class="hero-btns">
+        <a href="/buchen/" class="btn white" data-magnetic>Termin buchen <span class="arr">→</span></a>
+        <a href="#angebot" class="btn line-w">Angebot entdecken</a>
+      </div>
+    </div>
+  </ScrollFilm>
 
   <p class="opening"><span class="dot" aria-hidden="true"></span>{site.opening} · Pakete schon jetzt als Weihnachtsgeschenk sichern – <a href="/kontakt/">anfragen</a></p>
 
@@ -118,7 +138,19 @@ const schema = [
 </script>
 
 <style>
-  .hero { background: var(--blue); color: #fff; min-height: 100svh; display: flex; padding-top: clamp(96px, 9vw, 130px); overflow: hidden; }
+  .hero { position: absolute; inset: 0; color: #fff; display: flex; padding-top: clamp(96px, 9vw, 130px); pointer-events: none; opacity: calc(1 - var(--e) * 1.6); transform: translateY(calc(var(--e) * -60px)); }
+  .hero a { pointer-events: auto; }
+  .hero-in { position: relative; }
+  .hero-sub { position: absolute; left: var(--pad); bottom: clamp(32px, 6vh, 64px); }
+  .film .hero-h { font-size: min(16.2vw, 22svh); }
+  .scroll-hint { display: flex; align-items: center; gap: 12px; margin-top: 34px; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.7; }
+  .scroll-hint span { width: 1px; height: 38px; background: currentColor; transform-origin: top; animation: hint 2s var(--ease) infinite; }
+  @keyframes hint { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+  .fin { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(60px, 11vh, 130px); color: #fff; opacity: 0; transform: translateY(40px); transition: opacity 0.8s var(--ease), transform 1s var(--ease); pointer-events: none; }
+  .fin.on { opacity: 1; transform: none; pointer-events: auto; }
+  .fin .eyebrow { margin-bottom: 16px; opacity: 0.85; }
+  .fin-h { font-size: clamp(42px, 7vw, 120px); margin-bottom: 30px; text-shadow: 0 2px 30px rgba(10, 16, 70, 0.35); }
+  .fin-h :global(.ib) { color: var(--champ); }
   .hero-in { display: flex; flex-direction: column; justify-content: space-between; width: 100%; }
   .hero-h { font-size: clamp(58px, 16.2vw, 250px); line-height: 0.84; letter-spacing: -0.05em; }
   .line { display: block; position: relative; }
@@ -130,7 +162,7 @@ const schema = [
   @keyframes write { from { clip-path: inset(0 100% 0 0); opacity: 0; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
 
   .hero-bottom { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; margin-top: clamp(24px, 3vw, 40px); }
-  .hero-sub { max-width: 440px; padding-bottom: clamp(40px, 6vw, 84px); animation: fade 1s 0.9s var(--ease) both; }
+  .hero-sub { max-width: 440px; padding-bottom: 0; animation: fade 1s 0.9s var(--ease) both; }
   .hero-sub p { opacity: 0.9; margin-bottom: 28px; }
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
   @keyframes fade { from { opacity: 0; transform: translateY(20px); } }
@@ -183,6 +215,12 @@ const schema = [
 
   @media (max-width: 900px) {
     .hero { min-height: 0; }
+    .hero-in { justify-content: flex-start; }
+    .hero-sub { position: static; margin-top: 26px; }
+    .hero-sub p { font-size: 15px; margin-bottom: 18px; }
+    .hero .btn.line-w, .fin .btn.line-w { display: none; }
+    .fin { bottom: 110px; }
+    .scroll-hint { display: none; }
     .hero-bottom { flex-direction: column; align-items: stretch; margin-top: 68px; gap: 36px; }
     .hero-sub { padding-bottom: 0; }
     .hero-pics { justify-content: flex-end; }

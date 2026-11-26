@@ -1,0 +1,158 @@
+---
+// Scroll-gesteuerter Film: Einzelbilder werden beim Scrollen auf ein Canvas gezeichnet (wie ein Video, das dem Finger folgt).
+// Ohne JavaScript oder bei "Bewegung reduzieren" bleibt ein ruhiges Standbild.
+interface Chapter { at: number; to: number; eyebrow?: string; text: string; align?: 'left' | 'right' | 'center' }
+interface Props {
+  base: string;        // Ordner der Einzelbilder, z. B. /film/hero
+  count: number;       // Anzahl der Bilder
+  poster: string;      // Standbild (letztes Bild) für ruhige Darstellung
+  posterAlt: string;
+  height?: number;     // Scrolllänge in Bildschirmhöhen
+  chapters?: Chapter[];
+  id?: string;
+  intro?: number;
+  split?: boolean;    // quadratisches Bild rechts, Text links (z. B. Produkt)     // Anteil der Scrollstrecke, in dem sich das Bild vom Bogenfenster zum Vollbild öffnet
+}
+const { base, count, poster, posterAlt, height = 5, chapters = [], id, intro = 0, split = false } = Astro.props;
+---
+<section class={`film${intro ? ' film-intro' : ''}${split ? ' film-split' : ''}`} id={id} data-film={base} data-count={count} data-intro={intro} style={`--len:${height * 100}svh`}>
+  <div class="film-stage">
+    <div class="film-media" data-film-media>
+      <img class="film-poster" src={poster} alt={posterAlt} loading="lazy" decoding="async" />
+      <canvas data-film-canvas aria-hidden="true"></canvas>
+      <div class="film-shade" aria-hidden="true"></div>
+    </div>
+    <slot />
+    {chapters.map((c) => (
+      <div class={`film-ch ${c.align ?? 'left'}`} data-at={c.at} data-to={c.to}>
+        {c.eyebrow && <p class="eyebrow">{c.eyebrow}</p>}
+        <p class="display" set:html={c.text} />
+      </div>
+    ))}
+    <div class="film-load" aria-hidden="true"><span data-film-load></span></div>
+  </div>
+</section>
+
+<script>
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLElement>('[data-film]').forEach((sec) => {
+    if (calm) { sec.classList.add('film-calm'); return; }
+    const count = Number(sec.dataset.count);
+    const small = window.matchMedia('(max-width: 760px)').matches;
+    const dir = `${sec.dataset.film}/${small ? 'm' : 'd'}`;
+    const canvas = sec.querySelector<HTMLCanvasElement>('[data-film-canvas]')!;
+    const ctx = canvas.getContext('2d')!;
+    const load = sec.querySelector<HTMLElement>('[data-film-load]');
+    const chs = [...sec.querySelectorAll<HTMLElement>('[data-at]')];
+    const frames: (HTMLImageElement | null)[] = new Array(count).fill(null);
+    let loaded = 0, current = -1, want = 0, started = false;
+    sec.classList.add('film-js');
+
+    const src = (i: number) => `${dir}/${String(i + 1).padStart(3, '0')}.webp`;
+    const fit = () => {
+      const r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr); canvas.height = Math.round(r.height * dpr);
+      current = -1; draw();
+    };
+    // nächstes bereits geladenes Bild finden (solange noch nicht alle da sind)
+    const nearest = (i: number) => {
+      for (let d = 0; d < count; d++) {
+        if (frames[i - d]) return frames[i - d];
+        if (frames[i + d]) return frames[i + d];
+      }
+      return null;
+    };
+    const draw = () => {
+      const img = nearest(want);
+      if (!img || (current === want && frames[want])) return;
+      current = want;
+      const cw = canvas.width, ch = canvas.height, s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const w = img.naturalWidth * s, h = img.naturalHeight * s;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+    };
+    const fetchFrame = (i: number) => new Promise<void>((res) => {
+      if (frames[i]) return res();
+      const im = new Image(); im.decoding = 'async'; im.src = src(i);
+      im.onload = () => { frames[i] = im; loaded++; if (load) load.style.transform = `scaleX(${loaded / count})`; if (loaded === count) sec.classList.add('film-ready'); if (Math.abs(i - want) < 3) draw(); res(); };
+      im.onerror = () => res();
+    });
+    // grobe Reihenfolge zuerst (jedes 8. Bild), dann auffüllen – so ist der Film sofort scrubbar
+    const order: number[] = [];
+    for (const step of [16, 8, 4, 2, 1]) for (let i = 0; i < count; i += step) if (!order.includes(i)) order.push(i);
+    const start = async () => {
+      if (started) return; started = true;
+      await fetchFrame(0); fit();
+      for (let k = 0; k < order.length; k += 6) await Promise.all(order.slice(k, k + 6).map(fetchFrame));
+    };
+
+    const update = () => {
+      const r = sec.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      sec.style.setProperty('--p', p.toFixed(4));
+      const intro = Number(sec.dataset.intro || 0);
+      sec.style.setProperty('--e', intro ? Math.min(1, p / intro).toFixed(4) : '1');
+      want = Math.min(count - 1, Math.round(p * (count - 1)));
+      draw();
+      chs.forEach((c) => {
+        const a = Number(c.dataset.at), b = Number(c.dataset.to);
+        c.classList.toggle('on', p >= a && p < b);
+      });
+    };
+    let raf = 0;
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); };
+    new IntersectionObserver((e) => { if (e[0].isIntersecting) start(); }, { rootMargin: '100% 0px' }).observe(sec);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', () => { fit(); update(); });
+    update();
+  });
+</script>
+
+<style>
+  .film { position: relative; height: var(--len); }
+  .film-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+  .film-media { position: absolute; inset: 0; background: #e9dccb; }
+  /* Bogenfenster, das sich zum Vollbild öffnet (--e: 0 → 1) */
+  .film-intro .film-stage { background: var(--blue); }
+  .film-intro { --e: 0; --aw: min(46vw, 680px); --at: calc(100svh - min(33vw, 480px)); --ar: var(--pad); --al: calc(100vw - var(--pad) - var(--aw)); --rad: calc(var(--aw) / 2); }
+  .film-intro .film-media { clip-path: inset(calc(var(--at) * (1 - var(--e))) calc(var(--ar) * (1 - var(--e))) 0 calc(var(--al) * (1 - var(--e))) round calc(var(--rad) * (1 - var(--e))) calc(var(--rad) * (1 - var(--e))) 0 0); }
+  .film-intro .film-shade { opacity: var(--e); }
+  @media (max-width: 760px) { .film-intro { --at: 63svh; --al: var(--pad); --rad: calc(50vw - var(--pad)); } }
+  .film-media canvas, .film-poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .film-js .film-poster { opacity: 0; }
+  .film-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10, 16, 70, 0.28) 0%, rgba(10, 16, 70, 0) 30%, rgba(10, 16, 70, 0) 55%, rgba(10, 16, 70, 0.5) 100%); pointer-events: none; }
+
+  .film-ch { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(70px, 12vh, 140px); color: #fff; max-width: 880px; opacity: 0; transform: translateY(40px); transition: opacity 0.7s var(--ease), transform 0.9s var(--ease); pointer-events: none; text-shadow: 0 2px 30px rgba(10, 16, 70, 0.35); }
+  .film-ch.right { left: auto; text-align: right; }
+  .film-ch.center { left: 50%; right: auto; transform: translate(-50%, 40px); text-align: center; width: min(900px, 90vw); }
+  .film-ch.on { opacity: 1; transform: none; }
+  .film-ch.center.on { transform: translate(-50%, 0); }
+  .film-ch .eyebrow { margin-bottom: 16px; opacity: 0.85; }
+  .film-ch .display { font-size: clamp(38px, 6.4vw, 104px); line-height: 0.95; }
+  .film-ch :global(.ol) { --ol-bg: transparent; -webkit-text-fill-color: transparent; }
+
+  .film-load { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(255, 255, 255, 0.15); opacity: 1; transition: opacity 0.6s; }
+  .film-load span { display: block; height: 100%; background: var(--champ); transform-origin: 0 50%; transform: scaleX(0); transition: transform 0.3s; }
+  .film-ready .film-load { opacity: 0; }
+
+  /* Split: quadratisches Produktbild rechts */
+  .film-split .film-stage { background: var(--cream); display: flex; align-items: center; }
+  .film-split .film-media { inset: auto; right: var(--pad); top: 50%; width: min(78svh, 50vw); aspect-ratio: 1; transform: translateY(-50%); border-radius: 28px; overflow: hidden; box-shadow: 0 50px 90px -60px rgba(16, 28, 133, 0.55); }
+  .film-split .film-shade { display: none; }
+  .film-split .film-ch { color: var(--ink); text-shadow: none; left: var(--pad); right: auto; bottom: auto; top: 50%; transform: translateY(calc(-50% + 40px)); max-width: min(520px, 40vw); }
+  .film-split .film-ch.on { transform: translateY(-50%); }
+  .film-split .film-ch .display { font-size: clamp(34px, 4.4vw, 68px); color: var(--blue); }
+  .film-split .film-ch .eyebrow { color: var(--blue); }
+  .film-split .film-load { background: rgba(26, 45, 184, 0.1); }
+  .film-split .film-load span { background: var(--blue); }
+  @media (max-width: 760px) {
+    .film-split .film-stage { align-items: flex-start; }
+    .film-split .film-media { left: var(--pad); right: var(--pad); top: 84px; width: auto; transform: none; }
+    .film-split .film-ch { top: auto; bottom: 40px; max-width: none; right: var(--pad); transform: translateY(40px); }
+    .film-split .film-ch.on { transform: none; }
+    .film-split .film-ch .display { font-size: 34px; }
+  }
+  .film-calm { height: auto; }
+  .film-calm .film-stage { position: relative; height: 100svh; }
+  .film-calm canvas, .film-calm .film-load, .film-calm .film-ch { display: none; }
+</style>
