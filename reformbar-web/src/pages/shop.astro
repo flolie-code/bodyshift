@@ -1,6 +1,7 @@
 ---
 import Bar from '../components/Bar.astro';
 import Base from '../layouts/Base.astro';
+import ScrollFilm from '../components/ScrollFilm.astro';
 import { products, site } from '../data/site';
 const cats = [...new Set(products.map((p) => p.category))];
 const wa = (p: string) => `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(`Hallo Reformbar-Team! Ich interessiere mich für: ${p}`)}`;
@@ -28,6 +29,21 @@ const schema = [{
       <p class="lead sh-lead">Ausgewählte Produkte für Studio und Zuhause – direkt bei uns in Feldbach erhältlich. Unser Sortiment wächst gerade, schau bald wieder vorbei.</p>
     </div>
   </section>
+
+  <ScrollFilm
+    id="matte"
+    base="/film/matte"
+    count={76}
+    poster="/film/matte/poster.webp"
+    posterAlt="Reformbar Yogamatte in Milk Tea mit eingelasertem Logo, ausgerollt auf Holzboden"
+    height={3.2}
+    split
+    chapters={[
+      { at: 0, to: 0.34, eyebrow: 'Neu im Studio', text: 'Die Reformbar<br />Yogamatte.' },
+      { at: 0.34, to: 0.68, eyebrow: 'Milk Tea · 5 mm', text: 'Weiche Wildleder-Optik, schwarze rutschfeste Unterseite.' },
+      { at: 0.68, to: 2, eyebrow: '39,90 €', text: 'Logo eingelasert.<br />Nicht gedruckt.' },
+    ]}
+  />
 
   <section class="section">
     <div class="wrap">

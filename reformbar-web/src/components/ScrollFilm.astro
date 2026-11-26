@@ -148,9 +148,9 @@ const { base, count, poster, posterAlt, height = 5, chapters = [], id, intro = 0
   @media (max-width: 760px) {
     .film-split .film-stage { align-items: flex-start; }
     .film-split .film-media { left: var(--pad); right: var(--pad); top: 84px; width: auto; transform: none; }
-    .film-split .film-ch { top: auto; bottom: 40px; max-width: none; right: var(--pad); transform: translateY(40px); }
+    .film-split .film-ch { top: calc(84px + 100vw - 2 * var(--pad) + 28px); bottom: auto; max-width: none; right: var(--pad); transform: translateY(40px); }
     .film-split .film-ch.on { transform: none; }
-    .film-split .film-ch .display { font-size: 34px; }
+    .film-split .film-ch .display { font-size: 30px; }
   }
   .film-calm { height: auto; }
   .film-calm .film-stage { position: relative; height: 100svh; }
