@@ -46,6 +46,7 @@ export type Service = {
   faq: { q: string; a: string }[];
   calendar: boolean;
   image: string;
+  gallery?: { src: string; alt: string; w: number; h: number }[];
   seoTitle: string;
   seoDescription: string;
 };
@@ -82,7 +83,7 @@ export const services: Service[] = [
     short: 'Unser neues Konzept für gezielte Körperformung – individuell auf dich abgestimmt.',
     claim: 'Form, die bleibt.',
     intro:
-      'Bodyforming in der Reformbar ist ein neu gedachtes Konzept für alle, die ihren Körper gezielt formen und straffen möchten. Wir starten mit einem persönlichen Gespräch, legen gemeinsam dein Ziel fest und begleiten dich Schritt für Schritt – mit einem Programm, das zu deinem Alltag passt.',
+      'Bodyforming in der Reformbar ist ein neu gedachtes Konzept für alle, die ihren Körper gezielt formen und straffen möchten. Wir starten mit einem persönlichen Gespräch und einer Messung, legen gemeinsam dein Ziel fest und begleiten dich Schritt für Schritt. Während der Anwendung liegst du entspannt zugedeckt auf der Liege – wir legen dir Gurte mit Pads an deinen Zielzonen an, du darfst einfach durchatmen.',
     benefits: [
       { title: 'Persönlicher Plan', text: 'Dein Programm richtet sich nach deinem Ziel und deinem Ausgangspunkt – nicht umgekehrt.' },
       { title: 'Gezielt statt pauschal', text: 'Wir arbeiten an den Zonen, die dir wichtig sind.' },
@@ -96,7 +97,14 @@ export const services: Service[] = [
       { q: 'Wie buche ich Bodyforming?', a: 'Wähle im Kalender deinen Wunschtag aus und sende uns deine Anfrage – wir melden uns mit einer Bestätigung.' },
     ],
     calendar: true,
-    image: '/img/bodyforming.webp',
+    image: '/img/bodyforming/entspannt.webp',
+    gallery: [
+      { src: '/img/bodyforming/beratung.webp', alt: 'Persönliches Erstgespräch mit Fragebogen in der Reformbar', w: 896, h: 1120 },
+      { src: '/img/bodyforming/messen.webp', alt: 'Messung des Bauchumfangs mit dem Maßband', w: 880, h: 1168 },
+      { src: '/img/bodyforming/anlegen.webp', alt: 'Die Gurte mit Pads werden an der Zielzone angelegt', w: 880, h: 1168 },
+      { src: '/img/bodyforming/gurte.webp', alt: 'Detail: Gurte mit Pads am Bauch', w: 1168, h: 880 },
+      { src: '/img/bodyforming/entspannt.webp', alt: 'Kundin liegt entspannt zugedeckt während der Bodyforming-Anwendung', w: 896, h: 1120 },
+    ],
     seoTitle: 'Bodyforming Feldbach – Körperformung mit Plan',
     seoDescription:
       'Bodyforming in Feldbach: das neue Konzept der Reformbar für gezielte Körperformung – persönlich betreut und individuell abgestimmt. Jetzt Termin anfragen.',
@@ -153,19 +161,28 @@ export const services: Service[] = [
     short: 'Sanft und wirksam – Stabilität von innen heraus.',
     claim: 'Stabil von innen.',
     intro:
-      'Ein kräftiger Beckenboden gibt Halt, entlastet den Rücken und sorgt für ein sicheres Körpergefühl. In unserem Beckenbodentraining lernst du, diese oft vergessene Muskulatur wahrzunehmen und gezielt zu stärken – diskret, ruhig und ohne Leistungsdruck.',
+      'Ein kräftiger Beckenboden gibt Halt, entlastet den Rücken und sorgt für ein sicheres Körpergefühl. Auf unserem Beckenbodenstuhl sitzt du ganz entspannt und bekleidet, während moderne Magnetfeld-Impulse deine Beckenbodenmuskulatur gezielt aktivieren – 28 Minuten pro Sitzung, diskret und ohne Leistungsdruck.',
     benefits: [
-      { title: 'Mehr Stabilität', text: 'Der Beckenboden ist das Fundament deiner Körpermitte.' },
-      { title: 'Diskret & persönlich', text: 'Wir nehmen uns Zeit für deine Fragen und dein Tempo.' },
-      { title: 'Alltagstauglich', text: 'Du lernst Übungen, die du jederzeit selbst anwenden kannst.' },
+      { title: '28 Minuten', text: 'Eine Sitzung dauert 28 Minuten – du sitzt einfach bequem auf dem Stuhl.' },
+      { title: 'Bekleidet & diskret', text: 'Du bleibst in deiner Alltagskleidung, nichts muss ausgezogen werden.' },
+      { title: 'Nicht-invasiv', text: 'Magnetfeld-Impulse aktivieren die Muskulatur – ganz ohne Sonden oder Elektroden.' },
+      { title: 'Für Frauen & Männer', text: 'Ob nach der Schwangerschaft, zur Vorbeugung oder für mehr Kontrolle im Alltag.' },
     ],
     forWhom: ['Du möchtest deine Körpermitte stärken', 'Du willst nach einer Schwangerschaft wieder Stabilität aufbauen', 'Du möchtest vorbeugen und dich sicher fühlen'],
     faq: [
       { q: 'Für wen ist Beckenbodentraining sinnvoll?', a: 'Für Frauen und Männer jeden Alters – zur Vorbeugung genauso wie zum gezielten Aufbau.' },
+      { q: 'Wie läuft eine Sitzung ab?', a: 'Du setzt dich bekleidet auf den Beckenbodenstuhl und entspannst. Die Impulse aktivieren deine Beckenbodenmuskulatur – nach 28 Minuten ist die Sitzung vorbei.' },
+      { q: 'Kann ich eine Probesitzung machen?', a: 'Ja. Nach einem kurzen Gespräch kannst du den Stuhl bei uns ganz unverbindlich ausprobieren.' },
       { q: 'Ersetzt das Training eine ärztliche Behandlung?', a: 'Nein. Bei Beschwerden sprich bitte zuerst mit deiner Ärztin oder deinem Arzt. Unser Training ist eine sinnvolle Ergänzung.' },
     ],
     calendar: false,
-    image: '/img/beckenboden.webp',
+    image: '/img/beckenboden/stuhl-sitzen.webp',
+    gallery: [
+      { src: '/img/beckenboden/stuhl.webp', alt: 'Der Beckenbodenstuhl in der Reformbar', w: 880, h: 1168 },
+      { src: '/img/beckenboden/beratung.webp', alt: 'Beratung am Beckenmodell: wo der Beckenboden sitzt', w: 1024, h: 688 },
+      { src: '/img/beckenboden/lachen.webp', alt: 'Kundin sitzt entspannt auf dem Beckenbodenstuhl', w: 752, h: 1344 },
+      { src: '/img/beckenboden/stuhl-sitzen.webp', alt: 'Training auf dem Beckenbodenstuhl in Alltagskleidung', w: 1024, h: 688 },
+    ],
     seoTitle: 'Beckenbodentraining Feldbach – Kraft von innen',
     seoDescription:
       'Beckenbodentraining in Feldbach: sanfter, gezielter Aufbau der Körpermitte in der Reformbar – diskret und persönlich. Jetzt Termin anfragen.',
