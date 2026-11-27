@@ -73,6 +73,13 @@ export const services: Service[] = [
     ],
     calendar: true,
     image: '/img/reformer-klasse.webp',
+    gallery: [
+      { src: '/img/reformer/gruppe.webp', alt: 'Kleingruppe beim Reformer Pilates in der Reformbar', w: 1024, h: 688 },
+      { src: '/img/reformer/korrektur.webp', alt: 'Trainerin korrigiert die Haltung am Reformer', w: 880, h: 1168 },
+      { src: '/img/reformer/fuesse.webp', alt: 'Füße in Grip-Socken an der Fußstange des Reformers', w: 896, h: 1120 },
+      { src: '/img/reformer/federn.webp', alt: 'Federn am Reformer werden eingestellt', w: 896, h: 1120 },
+      { src: '/img/reformer/pause.webp', alt: 'Kundin macht nach der Einheit eine Trinkpause am Reformer', w: 880, h: 1168 },
+    ],
     seoTitle: 'Reformer Pilates Feldbach – Kleingruppen',
     seoDescription:
       'Reformer Pilates in Feldbach: Ganzkörpertraining in kleinen Gruppen, persönlich angeleitet. Jetzt Wunschtermin im Kalender der Reformbar anfragen.',
